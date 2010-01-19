@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{club.name}} Swingers Club & Sex Club{% endblock %}
+
+{% block description %}{{club.description}}{% endblock %}
+
+
+{% block breadcrumbs %}&gt; <a href="{{ club.state.get_absolute_url }}">Swingers clubs in {{club.state}}</a> &gt; {{club.name}} Swingers Club & Sex Club{% endblock %}
+
+{% block content %}
+<h1>{{club.name}} Swingers Club & Sex Club</h1>
+<div id="main">
+
+<div class="hreview">
+    <b>
+        <span class="item"><span class="fn org">{{club.name}}</span></span>
+        Website:
+    </b>
+    <span class="url">
+        <a href="{{club.homepage}}">{{club.homepage}}</a>
+    </span><br><br>
+    <div class="adr">
+        <b>Address:</b>
+        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
+        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+        <span class="region">{{club.state.usps_name}}</span>,
+        <span class="postal-code"></span>
+    </div><br>
+	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
+	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
+    <b>About club:</b> <span class="summary">{{club.description}}</span><br><br>
+    <b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
+    <b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
+    <b>Club photos:</b><br> <br>
+</div>
+
+<script>
+    var idcomments_acct = 'ba1b3057ebab76dcb508e8e05267d572';
+    var idcomments_post_id;
+    var idcomments_post_url;
+</script>
+<span id="IDCommentsPostTitle" style="display:none"></span>
+<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
+
+</div>
+
+<h2>Other Clubs from {{club.state.name}}</h2>
+<div class="Article">
+<ul>
+{% for club in clubs_list%}
+{% load my_slugify %}
+<li><a href="{{club.get_absolute_url}}">{{club.name}}</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endblock content %}

@@ -1,0 +1,43 @@
+from django.contrib import admin
+from allswingersclubs.directory.models import *
+
+class ClubInline(admin.TabularInline):
+	model = Club
+	extra = 5
+	max_num = 15
+
+class CityInline(admin.TabularInline):
+	model = City
+	max_num = 15
+
+class CityAdmin(admin.ModelAdmin):
+	inlines = [ClubInline,]
+	list_select_related = True
+
+class StateAdmin(admin.ModelAdmin):
+	list_display = ('id', 'name', 'usps_name')
+	list_display_links = ('id', 'name',)
+	inlines = [CityInline,]
+
+class ClubAdmin(admin.ModelAdmin):
+	list_display = ('id', 'name', 'city_name', 'state_name', 'description')
+	# list_editable = ('description',)
+	list_display_links = ('id', 'name')
+	list_filter = ('state',)
+	ordering = ('state',)
+	search_fields = ('id', 'name')
+	actions_on_bottom = True
+	
+	def queryset(self, request):
+		qs = super(ClubAdmin, self).queryset(request)
+		return qs.select_related('state', 'city')
+	
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+		if db_field.name == 'city':
+			kwargs["queryset"] = City.objects.all().select_related('state')
+			# return db_field.formfield(**kwargs)
+		return super(ClubAdmin, self).formfield_for_foreignkey(db_field, request = request, **kwargs)
+
+admin.site.register(State, StateAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(Club, ClubAdmin)

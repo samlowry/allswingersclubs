@@ -1,0 +1,7 @@
+static/media/*
+.*
+!.gitignore
+*.jpg
+*.gif
+*.png
+*.py[co]
