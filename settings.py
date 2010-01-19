@@ -88,4 +88,4 @@ DEBUG_TOOLBAR_CONFIG = {
 try:
 	from local_settings import *
 except ImportError:
-	pass
+	from production_settings import *
