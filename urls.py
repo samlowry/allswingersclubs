@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.sitemaps import FlatPageSitemap, Sitemap
 from allswingersclubs.directory.views import index
 from allswingersclubs.directory.models import *
+from allswingersclubs import settings
 
 admin.autodiscover()
 
@@ -50,3 +51,6 @@ urlpatterns = patterns('',
 	#Main app urls
 	(r'^', include('allswingersclubs.directory.urls')),
 )
+
+if settings.DEBUG:
+	urlpatterns += patterns('', (r'^(?P<path>.+\.(?:css|js|jpg|gif|png))$', 'django.views.static.serve', {'document_root': 'static'}) )

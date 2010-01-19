@@ -1,8 +1,5 @@
 # Django settings for allswingersclubs project.
 
-DEBUG = False
-TEMPLATE_DEBUG = DEBUG
-
 APPEND_SLASH = False
 
 ADMINS = (
@@ -18,8 +15,6 @@ DATABASE_PASSWORD = 'clubs123'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
-# Caching
-CACHE_BACKEND = 'file:///tmp/django_cache'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -37,20 +32,6 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
-
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '9w+@byf8+ocnvn*!_n=@p4zhp#f-_5u#8r^8644)l3^^et4-7v'
@@ -100,7 +81,11 @@ INSTALLED_APPS = (
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
-
 DEBUG_TOOLBAR_CONFIG = {
-    # 'INTERCEPT_REDIRECTS': False,
+    'INTERCEPT_REDIRECTS': True,
 }
+
+try:
+	from local_settings import *
+except ImportError:
+	pass
