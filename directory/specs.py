@@ -3,13 +3,19 @@ from imagekit import processors
 
 # first we define our thumbnail resize processor 
 class ResizeThumb(processors.Resize): 
-    width = 100 
-    height = 75 
+    width = 250 
+    height = 250 
+
+# and adminthumbnail resize processor 
+class ResizeAdminThumb(processors.Resize): 
+    width = 40 
+    height = 40 
     crop = True
 
 # now we define a display size resize processor
 class ResizeDisplay(processors.Resize):
-    width = 600 
+    width = 800
+    height = 800
 
 # now lets create an adjustment processor to enhance the image at small sizes 
 class EnchanceThumb(processors.Adjustment): 
@@ -22,7 +28,12 @@ class Thumbnail(ImageSpec):
     pre_cache = True 
     processors = [ResizeThumb, EnchanceThumb] 
 
+# now we can define our thumbnail spec 
+class AdminThumbnail(ImageSpec): 
+    access_as = 'admin_thumbnail' 
+    processors = [ResizeAdminThumb, EnchanceThumb] 
+
 # and our display spec
 class Display(ImageSpec):
-    increment_count = True
+    # increment_count = True
     processors = [ResizeDisplay]
