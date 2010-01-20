@@ -45,7 +45,7 @@ class ClubAdmin(admin.ModelAdmin):
 		return super(ClubAdmin, self).formfield_for_foreignkey(db_field, request = request, **kwargs)
 
 class PhotoAdmin(admin.ModelAdmin):
-	list_display = ('id', 'original_image', 'admin_thumbnail')
+	list_display = ('id', 'original_image', 'admin_thumbnail_view')
 	list_select_related = True
 	search_fields = ('id', 'original_image')
 	list_per_page = 10
