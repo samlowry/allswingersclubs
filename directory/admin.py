@@ -1,6 +1,11 @@
 from django.contrib import admin
 from allswingersclubs.directory.models import *
 
+class PhotosInline(admin.TabularInline):
+	model = Photo
+	extra = 5
+	max_num = 15
+
 class ClubInline(admin.TabularInline):
 	model = Club
 	extra = 5
@@ -20,6 +25,7 @@ class StateAdmin(admin.ModelAdmin):
 	inlines = [CityInline,]
 
 class ClubAdmin(admin.ModelAdmin):
+	inlines = [PhotosInline,]
 	list_display = ('id', 'name', 'city_name', 'state_name', 'description')
 	# list_editable = ('description',)
 	list_display_links = ('id', 'name')
@@ -38,6 +44,14 @@ class ClubAdmin(admin.ModelAdmin):
 			# return db_field.formfield(**kwargs)
 		return super(ClubAdmin, self).formfield_for_foreignkey(db_field, request = request, **kwargs)
 
+class PhotoAdmin(admin.ModelAdmin):
+	list_display = ('id', 'original_image', 'admin_thumbnail')
+	list_select_related = True
+	search_fields = ('id', 'original_image')
+	list_per_page = 10
+
+
 admin.site.register(State, StateAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Club, ClubAdmin)
+admin.site.register(Photo, PhotoAdmin)
