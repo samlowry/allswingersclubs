@@ -12,6 +12,7 @@
 <div id="main">
 
 <div class="hreview">
+	{% if club.homepage %}
     <b>
         <span class="item"><span class="fn org">{{club.name}}</span></span>
         Website:
@@ -19,6 +20,7 @@
     <span class="url">
         <a href="{{club.homepage}}">{{club.homepage}}</a>
     </span><br><br>
+	{% endif %}
     <div class="adr">
         <b>Address:</b>
         {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
@@ -31,7 +33,12 @@
     <b>About club:</b> <span class="summary">{{club.description}}</span><br><br>
     <b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
     <b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
+	{% if club.photos %}
     <b>Club photos:</b><br> <br>
+		{% for photo in club.photos %}
+			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
+		{% endfor %}
+	{% endif %}
 </div>
 
 <script>

@@ -44,6 +44,7 @@ def club(request, club_id, club_urlsafe_title):
 			current_club.get_absolute_url()
 		)
 	else:
+		current_club.photos = current_club.photo_set.all()
 		all_clubs_for_state = Club.objects.filter(state__usps_name__exact=current_club.state.usps_name)
 		return render_to_response(
 			'directory/club.html',
