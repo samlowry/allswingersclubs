@@ -1,5 +1,6 @@
 from django.db import models
 from allswingersclubs.directory.templatetags.my_slugify import my_slugify
+from imagekit.models import ImageModel
 
 # Create your models here.
 class State(models.Model):
@@ -81,3 +82,13 @@ class Club(models.Model):
 			'club_id': int(self.id),
 			'club_urlsafe_title': str(my_slugify(self.name)),
 		})
+
+class Photo(ImageModel):
+	original_image = models.ImageField(upload_to='clubs')
+	club = models.ForeignKey(Club)
+
+	class IKOptions:
+		# This inner class is where we define the ImageKit options for the model
+		spec_module = 'allswingersclubs.directory.specs'
+		cache_dir = 'clubs'
+		image_field = 'original_image'
