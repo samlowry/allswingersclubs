@@ -84,11 +84,11 @@ class Club(models.Model):
 		})
 
 class Photo(ImageModel):
-	original_image = models.ImageField(upload_to='clubs')
+	original_image = models.ImageField(upload_to='photos')
 	club = models.ForeignKey(Club)
 
 	class IKOptions:
 		# This inner class is where we define the ImageKit options for the model
 		spec_module = 'allswingersclubs.directory.specs'
-		cache_dir = 'clubs'
+		cache_dir = 'resized'
 		image_field = 'original_image'
