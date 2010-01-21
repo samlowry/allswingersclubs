@@ -58,7 +58,7 @@ class Club(models.Model):
 	)
 	rating = models.IntegerField(choices=RATING_CHOISES)
 	date_of_review = models.DateField()
-	closed = models.BooleanField( default=False )
+	is_closed = models.BooleanField( default=False )
 	
 	class Meta:
 		ordering = ['name']
