@@ -70,6 +70,7 @@ INSTALLED_APPS = (
 	'django.contrib.sitemaps',
 	'allswingersclubs.linkator',
 	'allswingersclubs.directory',
+	'south'
 	# 'debug_toolbar',
 )
 
