@@ -1,3 +1,5 @@
+import os
+ROOT_PATH = '/home/lowry/www/allswingersclubs.org/allswingersclubs/'
 DEBUG = False
 
 # Caching
@@ -10,7 +12,7 @@ ADMIN_MEDIA_PREFIX = '/media/'
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/lowry/www/allswingersclubs.org/allswingersclubs/static/media/'
+MEDIA_ROOT = os.path.join(ROOT_PATH, 'static/media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -18,7 +20,7 @@ MEDIA_ROOT = '/home/lowry/www/allswingersclubs.org/allswingersclubs/static/media
 MEDIA_URL = '/media/'
 
 TEMPLATE_DIRS = (
-	'/home/lowry/www/allswingersclubs.org/allswingersclubs/templates',
+	os.path.join(ROOT_PATH, 'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
