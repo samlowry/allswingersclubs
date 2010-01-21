@@ -32,6 +32,9 @@ class City(models.Model):
 	def __unicode__(self):
 		return '%s, %s' % (self.name, self.state.usps_name)
 
+class OpenClubsManager(models.Manager):
+	def get_query_set(self):
+		return super(OpenClubsManager, self).get_query_set().filter(is_closed=False)
 
 class Club(models.Model):
 	name = models.CharField(max_length=50)
@@ -59,6 +62,8 @@ class Club(models.Model):
 	rating = models.IntegerField(choices=RATING_CHOISES)
 	date_of_review = models.DateField()
 	is_closed = models.BooleanField( default=False )
+	objects = models.Manager()
+	open_only = OpenClubsManager()
 	
 	class Meta:
 		ordering = ['name']

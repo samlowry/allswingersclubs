@@ -20,8 +20,8 @@ def index(request):
 	
 def state(request, state_usps_name):
 	current_state = State.objects.filter(usps_name__exact=state_usps_name).get()
-	all_clubs_for_state = Club.objects.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('name')
-	empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name,club__name__isnull=True)
+	all_clubs_for_state = Club.open_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('name')
+	empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(club__is_closed=True).filter(club__name__isnull=True)
 	
 	all_states_list = State.objects.all()
 	return render_to_response(
@@ -34,18 +34,21 @@ def state(request, state_usps_name):
 		},
 		context_instance=RequestContext(request),
 	)
-
 	
 def club(request, club_id, club_urlsafe_title):
 	current_club = Club.objects.select_related('state','city').filter(id__exact=club_id).get()
 	real_club_urlsafe_title=my_slugify(current_club.name)
-	if(club_urlsafe_title != real_club_urlsafe_title):
+	if(current_club.is_closed):
+		return HttpResponsePermanentRedirect(
+			current_club.state.get_absolute_url()
+		)
+	elif(club_urlsafe_title != real_club_urlsafe_title):
 		return HttpResponsePermanentRedirect(
 			current_club.get_absolute_url()
 		)
 	else:
 		current_club.photos = current_club.photo_set.all()
-		all_clubs_for_state = Club.objects.filter(state__usps_name__exact=current_club.state.usps_name)
+		all_clubs_for_state = Club.open_only.filter(state__usps_name__exact=current_club.state.usps_name)
 		return render_to_response(
 			'directory/club.html',
 			{

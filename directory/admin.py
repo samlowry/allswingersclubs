@@ -26,8 +26,7 @@ class StateAdmin(admin.ModelAdmin):
 
 class ClubAdmin(admin.ModelAdmin):
 	inlines = [PhotosInline,]
-	list_display = ('id', 'name', 'city_name', 'state_name', 'description')
-	# list_editable = ('description',)
+	list_display = ('id', 'name', 'city_name', 'state_name', 'description', 'is_closed')
 	list_display_links = ('id', 'name')
 	list_filter = ('state',)
 	ordering = ('state',)
