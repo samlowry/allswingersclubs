@@ -44,13 +44,15 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+	'django.middleware.gzip.GZipMiddleware',
+	'django.middleware.cache.UpdateCacheMiddleware',
+	'django.middleware.http.ConditionalGetMiddleware',
     # 'django.middleware.common.CommonMiddleware',	
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-	'django.middleware.cache.UpdateCacheMiddleware',
-	'django.middleware.cache.FetchFromCacheMiddleware',
 	# 'debug_toolbar.middleware.DebugToolbarMiddleware',
+	'django.middleware.cache.FetchFromCacheMiddleware',	
 )
 
 ROOT_URLCONF = 'allswingersclubs.urls'
