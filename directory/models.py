@@ -31,6 +31,11 @@ class City(models.Model):
 
 	def __unicode__(self):
 		return '%s, %s' % (self.name, self.state.usps_name)
+		
+	def state_name(self):
+		return self.state
+	state_name.short_description = 'State'
+	state_name.admin_order_field = 'state'
 
 class OpenClubsManager(models.Manager):
 	def get_query_set(self):

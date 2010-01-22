@@ -17,6 +17,10 @@ class CityInline(admin.TabularInline):
 
 class CityAdmin(admin.ModelAdmin):
 	inlines = [ClubInline,]
+	list_display = ('id', 'name', 'state_name')
+	list_display_links = ('id', 'name')
+	list_filter = ('state',)
+	search_fields = ('name',)
 	list_select_related = True
 
 class StateAdmin(admin.ModelAdmin):
@@ -32,7 +36,7 @@ class ClubAdmin(admin.ModelAdmin):
 	list_filter = ('is_closed', 'state',)
 	list_per_page = 20
 	ordering = ('state',)
-	search_fields = ('id', 'name')
+	search_fields = ('id', 'name',)
 	actions_on_bottom = True
 	
 	def queryset(self, request):
