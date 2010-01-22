@@ -7,21 +7,13 @@ class Migration:
     
     def forwards(self, orm):
         
-        # Adding field 'Club.is_closed'
-        db.add_column('directory_club', 'is_closed', orm['directory.club:is_closed'])
-        
-        # Deleting field 'Club.closed'
-        db.delete_column('directory_club', 'closed')
-        
-    
+        # Renaming field 'Club.closed' to 'Club.is_closed'
+        db.rename_column('directory_club', 'closed', 'is_closed')
     
     def backwards(self, orm):
         
-        # Deleting field 'Club.is_closed'
-        db.delete_column('directory_club', 'is_closed')
-        
-        # Adding field 'Club.closed'
-        db.add_column('directory_club', 'closed', orm['directory.club:closed'])
+        # Renaming field 'Club.is_closed' to 'Club.closed'
+        db.rename_column('directory_club', 'is_closed', 'closed')
         
     
     
