@@ -37,7 +37,7 @@
     </span>
     {% if club.phone %}<span class="tel">{{club.phone}}</span>,{% endif %}
     {% if club.email %}<span class="email">{{club.email}}</span>{% endif %}
-    - <span class="title">{{club.description}}</span>
+    - <span class="title">{{club.description|truncatewords:25}}</span>
 </div><br />
 {% endfor %}
 </div>
