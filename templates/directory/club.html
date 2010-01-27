@@ -25,7 +25,7 @@
         <b>Address:</b>
         {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
         {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
-        <span class="region">{{club.state.usps_name}}</span>,
+        <span class="region">{{club.state.usps_name}}</span>
         <span class="postal-code"></span>
     </div><br>
 	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
