@@ -30,7 +30,7 @@
     </div><br>
 	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
 	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
-    <b>About club:</b> <span class="summary">{{club.description}}</span><br><br>
+    <b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
     <b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
     <b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
 	{% if club.photos %}
