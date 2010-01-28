@@ -1,6 +1,24 @@
-# Django settings for allswingersclubs project.
+import os.path
+import sys
+
+PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
+
+DEBUG = False
+
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 APPEND_SLASH = False
+
+CACHE_BACKEND = 'file:///tmp/django_cache'
+
+ADMIN_MEDIA_PREFIX = '/media/'
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media')
+MEDIA_URL = '/media/'
+
+TEMPLATE_DIRS = (
+	os.path.join(PROJECT_ROOT, 'templates'),
+)
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -31,7 +49,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '9w+@byf8+ocnvn*!_n=@p4zhp#f-_5u#8r^8644)l3^^et4-7v'
@@ -51,7 +69,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-	# 'debug_toolbar.middleware.DebugToolbarMiddleware',
 	'django.middleware.cache.FetchFromCacheMiddleware',	
 )
 
@@ -73,10 +90,9 @@ INSTALLED_APPS = (
 	'allswingersclubs.linkator',
 	'allswingersclubs.directory',
 	'south'
-	# 'debug_toolbar',
 )
 
 try:
 	from local_settings import *
 except ImportError:
-	from production_settings import *
+	pass
