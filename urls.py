@@ -27,7 +27,7 @@ class ClubSitemap(Sitemap):
 	priority = 0.5
 
 	def items(self):
-	    return Club.open_only.all()
+	    return Club.objects.all()
 
 	def lastmod(self, obj):
 		return obj.date_of_review

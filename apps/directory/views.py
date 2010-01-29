@@ -38,11 +38,12 @@ def state(request, state_usps_name):
 def club(request, club_id, club_urlsafe_title):
 	current_club = Club.objects.select_related('state','city').filter(id__exact=club_id).get()
 	real_club_urlsafe_title=my_slugify(current_club.name)
-	if(current_club.is_closed):
-		return HttpResponsePermanentRedirect(
-			current_club.state.get_absolute_url()
-		)
-	elif(club_urlsafe_title != real_club_urlsafe_title):
+	# # here we do 301 redirect if club is closed
+	# if(current_club.is_closed):
+	# 	return HttpResponsePermanentRedirect(
+	# 		current_club.state.get_absolute_url()
+	# 	)
+	if(club_urlsafe_title != real_club_urlsafe_title):
 		return HttpResponsePermanentRedirect(
 			current_club.get_absolute_url()
 		)
