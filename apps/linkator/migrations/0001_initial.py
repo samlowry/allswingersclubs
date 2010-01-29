@@ -1,7 +1,7 @@
 
 from south.db import db
 from django.db import models
-from allswingersclubs.linkator.models import *
+from linkator.models import *
 
 class Migration:
     

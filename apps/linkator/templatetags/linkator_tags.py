@@ -1,5 +1,5 @@
 from django import template
-from allswingersclubs.linkator.models import *
+from linkator.models import Tradelink
 
 register = template.Library()
 

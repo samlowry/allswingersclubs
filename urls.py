@@ -1,9 +1,9 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.contrib.sitemaps import FlatPageSitemap, Sitemap
-from allswingersclubs.directory.views import index
-from allswingersclubs.directory.models import *
-from allswingersclubs import settings
+from directory.views import index
+from directory.models import *
+import settings
 
 admin.autodiscover()
 
@@ -45,11 +45,8 @@ urlpatterns = patterns('',
 	
 	(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
-	#TODO Remove this for working project
-	#(r'^(?P<path>.+\.(?:css|js))$', 'django.views.static.serve', {'document_root': 'static'}),
-
 	#Main app urls
-	(r'^', include('allswingersclubs.directory.urls')),
+	(r'^', include('directory.urls')),
 )
 
 if settings.DEBUG:

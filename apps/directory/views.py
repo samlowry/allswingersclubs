@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponsePermanentRedirect
-from allswingersclubs.directory.templatetags.my_slugify import my_slugify
+from directory.templatetags.my_slugify import my_slugify
 from django.core.urlresolvers import reverse
-from allswingersclubs.directory.models import *
+from directory.models import *
 from django.contrib.flatpages.models import FlatPage
 from django.template import RequestContext
 

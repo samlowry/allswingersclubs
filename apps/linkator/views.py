@@ -1,2 +1,2 @@
-from allswingersclubs.linkator.models import *
+from linkator.models import *
 

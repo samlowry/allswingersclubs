@@ -72,7 +72,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.cache.FetchFromCacheMiddleware',	
 )
 
-ROOT_URLCONF = 'allswingersclubs.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.auth',
@@ -87,8 +87,8 @@ INSTALLED_APPS = (
 	'django.contrib.flatpages',
     'django.contrib.admin',
 	'django.contrib.sitemaps',
-	'allswingersclubs.linkator',
-	'allswingersclubs.directory',
+	'linkator',
+	'directory',
 	'south'
 )
 

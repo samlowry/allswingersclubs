@@ -1,5 +1,5 @@
 from django.contrib import admin
-from allswingersclubs.linkator.models import *
+from linkator.models import *
 
 class TradelinkInline(admin.TabularInline):
 	model = Tradelink

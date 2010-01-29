@@ -20,7 +20,7 @@
 {% endblock content %}
 
 {% block links %}
-	{% load linkator %}
+	{% load linkator_tags %}
 	{% get_tradelinks as tradelinks %}
 	{% if tradelinks %}
 		{% block links_title %}

@@ -1,5 +1,5 @@
 from django.db import models
-from allswingersclubs.directory.templatetags.my_slugify import my_slugify
+from directory.templatetags.my_slugify import my_slugify
 from imagekit.models import ImageModel
 
 # Create your models here.
@@ -15,7 +15,7 @@ class State(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('allswingersclubs.directory.views.state', (), {
+		return ('directory.views.state', (), {
 			'state_usps_name': str(self.usps_name.lower()),
 		})
 
@@ -89,7 +89,7 @@ class Club(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return ('allswingersclubs.directory.views.club', (), {
+		return ('directory.views.club', (), {
 			'club_id': int(self.id),
 			'club_urlsafe_title': str(my_slugify(self.name)),
 		})
@@ -100,6 +100,6 @@ class Photo(ImageModel):
 
 	class IKOptions:
 		# This inner class is where we define the ImageKit options for the model
-		spec_module = 'allswingersclubs.directory.specs'
+		spec_module = 'directory.specs'
 		cache_dir = 'resized'
 		image_field = 'original_image'

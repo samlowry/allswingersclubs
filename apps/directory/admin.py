@@ -1,5 +1,5 @@
 from django.contrib import admin
-from allswingersclubs.directory.models import *
+from directory.models import *
 
 class PhotosInline(admin.TabularInline):
 	model = Photo
