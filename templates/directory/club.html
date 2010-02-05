@@ -71,7 +71,6 @@
 <div class="Article">
 <ul>
 {% for club in clubs_list%}
-{% load my_slugify %}
 <li><a href="{{club.get_absolute_url}}">{{club.name}}</a></li>
 {% endfor %}
 </ul>
