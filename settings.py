@@ -5,6 +5,9 @@ PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 
 DEBUG = False
 
+from multisite.threadlocals import SiteIDHook
+SITE_ID = SiteIDHook()
+
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 APPEND_SLASH = False
@@ -45,8 +48,6 @@ TIME_ZONE = 'America/Chicago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = False
@@ -56,6 +57,7 @@ SECRET_KEY = '9w+@byf8+ocnvn*!_n=@p4zhp#f-_5u#8r^8644)l3^^et4-7v'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+	'multisite.template_loader.load_template_source',
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
 #     'django.template.loaders.eggs.load_template_source',
@@ -65,7 +67,8 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.gzip.GZipMiddleware',
 	'django.middleware.cache.UpdateCacheMiddleware',
 	'django.middleware.http.ConditionalGetMiddleware',
-    # 'django.middleware.common.CommonMiddleware',	
+    # 'django.middleware.common.CommonMiddleware',
+	'multisite.middleware.DynamicSiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
