@@ -6,3 +6,4 @@ static/media/*
 *.png
 *.py[co]
 local_settings.py
+local_site_id*.py
