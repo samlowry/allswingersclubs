@@ -1,6 +1,8 @@
 from django.db import models
 from directory.templatetags.my_slugify import my_slugify
 from imagekit.models import ImageModel
+from django.contrib.sites.models import Site
+from django.conf import settings
 
 # Create your models here.
 class State(models.Model):
@@ -69,6 +71,7 @@ class Club(models.Model):
 	is_closed = models.BooleanField( default=False )
 	objects = models.Manager()
 	open_only = OpenClubsManager()
+	sites = models.ManyToManyField(Site)
 	
 	class Meta:
 		ordering = ['name']
