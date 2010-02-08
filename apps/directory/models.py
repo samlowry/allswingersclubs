@@ -2,6 +2,7 @@ from django.db import models
 from directory.templatetags.my_slugify import my_slugify
 from imagekit.models import ImageModel
 from django.contrib.sites.models import Site
+from django.contrib.sites.managers import CurrentSiteManager
 from django.conf import settings
 
 # Create your models here.
@@ -70,6 +71,7 @@ class Club(models.Model):
 	date_of_review = models.DateField()
 	is_closed = models.BooleanField( default=False )
 	objects = models.Manager()
+	current_site_only = CurrentSiteManager('sites')
 	open_only = OpenClubsFromCurrentSiteManager()
 	sites = models.ManyToManyField(Site)
 	
