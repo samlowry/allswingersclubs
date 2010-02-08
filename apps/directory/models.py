@@ -39,9 +39,9 @@ class City(models.Model):
 	state_name.short_description = 'State'
 	state_name.admin_order_field = 'state'
 
-class OpenClubsManager(models.Manager):
+class OpenClubsFromCurrentSiteManager(models.Manager):
 	def get_query_set(self):
-		return super(OpenClubsManager, self).get_query_set().filter(is_closed=False)
+		return super(OpenClubsFromCurrentSiteManager, self).get_query_set().filter(sites__id__exact=settings.SITE_ID, is_closed=False)
 
 class Club(models.Model):
 	name = models.CharField(max_length=50)
@@ -70,7 +70,7 @@ class Club(models.Model):
 	date_of_review = models.DateField()
 	is_closed = models.BooleanField( default=False )
 	objects = models.Manager()
-	open_only = OpenClubsManager()
+	open_only = OpenClubsFromCurrentSiteManager()
 	sites = models.ManyToManyField(Site)
 	
 	class Meta:

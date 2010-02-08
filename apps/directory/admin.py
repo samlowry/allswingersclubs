@@ -33,7 +33,7 @@ class ClubAdmin(admin.ModelAdmin):
 	list_display = ('id', 'name', 'city_name', 'state_name', 'description', 'is_closed', )
 	list_display_links = ('id', 'name')
 	list_editable = ('is_closed', )
-	list_filter = ('is_closed', 'state',)
+	list_filter = ('sites', 'is_closed', 'state',)
 	list_per_page = 20
 	ordering = ('state',)
 	search_fields = ('id', 'name',)

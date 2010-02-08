@@ -5,10 +5,11 @@ from django.core.urlresolvers import reverse
 from directory.models import *
 from django.contrib.flatpages.models import FlatPage
 from django.template import RequestContext
+from django.conf import settings
 
 def index(request):
 	all_states_list = State.objects.all()
-	flatpages = FlatPage.objects.all()
+	flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
 	return render_to_response(
 		'directory/index.html',
 		{
