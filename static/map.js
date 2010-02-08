@@ -95,12 +95,12 @@ function cm_createMarker(map, latlng, id, title, url) {
   var marker = new google.maps.Marker(markerOptions);
 
   google.maps.event.addListener(marker, "mouseover", function() {
-    marker.set_icon(markerImageOver);
+    marker.setIcon(markerImageOver);
 	//document.getElementById(items[id]['itemId']).style.color='green';
 	document.getElementById('icon'+items[id]['itemId']).src=iconImageOverUrl;
   });
   google.maps.event.addListener(marker, "mouseout", function() {
-    marker.set_icon(markerImageOut);
+    marker.setIcon(markerImageOut);
 	//document.getElementById(items[id]['itemId']).style.color='black';
 	document.getElementById('icon'+items[id]['itemId']).src=iconImageOutUrl;
   });
