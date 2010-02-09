@@ -1,7 +1,7 @@
 import os.path
 import sys
 
-PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = False
 
