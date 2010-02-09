@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{club.name}} Swingers Club & Sex Club{% endblock %}
+{% block title %}{{club.name}} Fetish Club &amp; Dungeon{% endblock %}
 
 {% if club.is_closed %}{% block inhead %}<script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
 <script type="text/javascript" src="/modal_dialog.js"></script>
@@ -10,7 +10,7 @@
 {% block description %}{{club.description}}{% endblock %}
 
 
-{% block breadcrumbs %}&gt; <a href="{{ club.state.get_absolute_url }}">Swingers clubs in {{club.state}}</a> &gt; {{club.name}} Swingers Club & Sex Club{% endblock %}
+{% block breadcrumbs %}&gt; <a href="{{ club.state.get_absolute_url }}">Fetish clubs in {{club.state}}</a> &gt; {{club.name}} Fetish Club &amp; BDSM Club{% endblock %}
 
 {% block content %}
 {% if club.is_closed %}
@@ -24,7 +24,7 @@
 </div>
 {% endif %}
 
-<h1>{{club.name}} Swingers Club & Sex Club</h1>
+<h1>{{club.name}} Fetish Club &amp; BDSM Club</h1>
 <div id="main">
 
 <div class="hreview">

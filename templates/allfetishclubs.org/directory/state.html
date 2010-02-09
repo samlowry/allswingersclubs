@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Swingers clubs &amp; Sex clubs in {{state}}{% endblock %}
+{% block title %}Fetish clubs &amp; BDSM clubs in {{state}}{% endblock %}
 
-{% block description %}Complete List of {{state.name}} Adult Clubs for Couples with Links, E-Mails, Phones and Addresses{% endblock %}
+{% block description %}Complete List of {{state.name}} Adult Clubs for Alternative Lifestyle lovers with Links, E-Mails, Phones and Addresses{% endblock %}
 
 {% block inhead %}
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -13,10 +13,10 @@
 
 {% block inbodytag %}onload="initialize()"{% endblock %}
 
-{% block breadcrumbs %}&gt; Swingers clubs &amp; Sex clubs in {{state}}{% endblock %}
+{% block breadcrumbs %}&gt; Fetish clubs &amp; BDSM clubs in {{state}}{% endblock %}
 
 {% block content %}
-<h1>Swingers clubs &amp; Sex clubs in {{state}}</h1>
+<h1>Fetish clubs &amp; BDSM clubs in {{state}}</h1>
 <div id="main">
 <div id="fixed-div" ><div id="map_canvas" ></div></div>
 <div id="clubs">
@@ -45,7 +45,7 @@
 
 
 <h2>Help us with information about this cities</h2>
-We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@allswingersclubs.org
+We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@allfetishclubs.org
 <div class="Article">
 <ul>
 	{% for city in empty_cities%}
@@ -53,11 +53,11 @@ We are still unaware if there are any clubs in these places or not. If you have 
 	{% endfor %}
 </ul>
 </div>
-<h2>Swing Clubs list by state</h2>
+<h2>Fetish Clubs list by state</h2>
 <div class="Article">
 <ul>
 	{% for state in all_states_list%}
-		<li><a href="{{ state.get_absolute_url }}">{{ state.name }} Swingers</a></li>
+		<li><a href="{{ state.get_absolute_url }}">{{ state.name }} Masters and Slaves</a></li>
 	{% endfor %}
 </ul>
 </div>
