@@ -2,13 +2,12 @@ import os.path
 import sys
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 DEBUG = False
 
 from multisite.threadlocals import SiteIDHook
 SITE_ID = SiteIDHook()
-
-sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 APPEND_SLASH = False
 
