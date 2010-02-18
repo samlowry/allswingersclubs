@@ -22,7 +22,8 @@ def index(request):
 def state(request, state_usps_name):
 	current_state = State.objects.filter(usps_name__exact=state_usps_name).get()
 	all_clubs_for_state = Club.open_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('name')
-	empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(club__is_closed=True).filter(club__name__isnull=True)
+	cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(club__id__in=all_clubs_for_state).values('id')
+	empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)
 	
 	all_states_list = State.objects.all()
 	return render_to_response(
