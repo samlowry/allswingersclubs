@@ -98,6 +98,10 @@ class Club(models.Model):
 			'club_id': int(self.id),
 			'club_urlsafe_title': str(my_slugify(self.name)),
 		})
+	def homepage_url(self):
+		""" returns html formatted homepage url """
+		return "<a href='%(url)s'>%(url)s</a>" % {"url": self.homepage}
+	homepage_url.allow_tags = True
 
 class Photo(ImageModel):
 	original_image = models.ImageField(upload_to='photos')
