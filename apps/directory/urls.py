@@ -10,5 +10,6 @@ urlpatterns = patterns('directory.views',
 # urls for admin_views functions
 urlpatterns += patterns('directory.admin_views',
     (r'state/(?P<state_id>\d+)/$', 'state_cities'),
+    (r'geocoder/$', 'geocoder_proxy'),
     
 )
