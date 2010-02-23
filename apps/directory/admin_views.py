@@ -51,10 +51,10 @@ oe=utf-8
             # success code is 200, otherwise raise an exception
             if int(resp["Status"]["code"]) != 200:
                 raise Exception("Can't retrieve coordinates. Sorry.");
-            # latitude in json representations - Placemark[0].Point.coordinates[0]
-            latitude = resp["Placemark"][0]["Point"]["coordinates"][0]
-            # longitude in json representations - Placemark[0].Point.coordinates[1]
-            longitude = resp["Placemark"][0]["Point"]["coordinates"][1]
+            # latitude in json representations - Placemark[0].Point.coordinates[1]
+            latitude = resp["Placemark"][0]["Point"]["coordinates"][1]
+            # longitude in json representations - Placemark[0].Point.coordinates[0]
+            longitude = resp["Placemark"][0]["Point"]["coordinates"][0]
             answer = {'status': 1,
                       'latitude': latitude,
                       'longitude': longitude
