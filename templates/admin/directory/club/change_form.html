@@ -71,6 +71,28 @@
 					});
 
 			}); //{# id_state.change function end #}
+			
+			create_thumbs = function() {
+				// {# adds thumb image based on image url #}
+
+				$(".original_image a").each(function(index) {
+
+					// {# for thumb get resized images #}
+					var image_url = $(this).attr("href");
+					image_url = image_url.replace('photos', 'resized');
+					
+					// {# get file extension #}
+					var re = /(?:\.([^.]+))?$/;
+					var ext = re.exec(image_url)[1];
+					
+					image_url = image_url.replace("." + ext, '_thumbnail_image.' + ext);
+
+					var img = "<img  src='" + image_url + "' />";
+					$(this).parent().prepend(img);
+				});
+				
+			}; // {# create_tumbs end #}
+			create_thumbs();
         }) // {# $ function end #}
     </script> 
 {{ media }}
