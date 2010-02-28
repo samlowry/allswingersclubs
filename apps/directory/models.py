@@ -103,6 +103,9 @@ class Club(models.Model):
 		return "<a href='%(url)s'>%(url)s</a>" % {"url": self.homepage}
 	homepage_url.allow_tags = True
 
+	def all_sites(self):
+		return self.sites.all()
+
 class Photo(ImageModel):
 	original_image = models.ImageField(upload_to='photos')
 	club = models.ForeignKey(Club)
