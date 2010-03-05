@@ -104,7 +104,9 @@ class Club(models.Model):
 	homepage_url.allow_tags = True
 
 	def all_sites(self):
-		return self.sites.all()
+		sites_ = ",".join([s.name for s in self.sites.all()]) 
+		# another way is return site domain. just change s.name with s.domain
+		return sites_
 
 class Photo(ImageModel):
 	original_image = models.ImageField(upload_to='photos')
