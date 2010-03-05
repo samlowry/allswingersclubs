@@ -16,10 +16,9 @@ class MultiSitesFilterSpec(FilterSpec):
 	def choices(self, cl):
 		yield {'selected': self.lookup_val is None,
 				'query_string': cl.get_query_string({}, [self.field.name]),
-				'display': _('All')}		
+				'display': _('All')}
 
 		for site in self.lookup_choices:
 			yield {'selected': self.lookup_val == site,
 					'query_string': cl.get_query_string({'sites__id': site.id}),
-					'display': site}	
-					
+					'display': site}

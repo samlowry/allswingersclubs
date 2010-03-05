@@ -11,8 +11,7 @@ def state_cities(request, state_id):
 
 if response.status == 0 then exception occurs and response.error contains error string
 if response.status == 1 then response contains list of cities(id, name)
-                                        
-    """
+"""
     
     cities_list = [{"id": x.id, "name": x.__unicode__()} for x in State.objects.get(id=state_id).city_set.all()]
 
@@ -69,4 +68,23 @@ oe=utf-8
             return HttpResponse(json_answer_error, mimetype='application/json')
     else:
         json_answer = simplejson.dumps(answer_error)    
+        return HttpResponse(json_answer_error, mimetype='application/json')
+
+@staff_member_required
+def get_current_state(request):
+    """ returns current state id """
+    try:
+        current_state_id = int(request.session.get("state_id", 0))
+        if current_state_id == 0:
+            raise Exception("state is not selected")
+        answer = {'status': 1,
+                'state_id': current_state_id
+                  }
+        json_answer = simplejson.dumps(answer)
+        return HttpResponse(json_answer, mimetype='application/json')
+
+    except Exception, err:
+        error = str(err)
+        answer_error = {'status': 0, 'error': error}
+        json_answer_error = simplejson.dumps(answer_error)    
         return HttpResponse(json_answer_error, mimetype='application/json')
