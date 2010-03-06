@@ -89,8 +89,7 @@
 					var re = /(?:\.([^.]+))?$/;
 					var ext = re.exec(image_url)[1];
 					
-					image_url = image_url.replace("." + ext, '_thumbnail_image.' + ext);
-
+					image_url = image_url.replace("." + ext, '_admin_thumbnail.' + ext);
 					var img = "<img  src='" + image_url + "' />";
 					$(this).parent().prepend(img);
 				});
