@@ -31,6 +31,7 @@ class Thumbnail(ImageSpec):
 # now we can define our thumbnail spec 
 class AdminThumbnail(ImageSpec): 
     access_as = 'admin_thumbnail' 
+    pre_cache = True 
     processors = [ResizeAdminThumb, EnchanceThumb] 
 
 # and our display spec
