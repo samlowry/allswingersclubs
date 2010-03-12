@@ -36,8 +36,12 @@
             }); // {# get coordinates click end #}
             
             // {# state change event #}
-			$("#id_state").change(function() {
-				state_url = "/state/" + $(this).val() + "/";
+			$("#id_state").change(function () {
+				get_state_cities($(this).val());
+			});
+			
+			get_state_cities = function(state_id) {
+				state_url = "/state/" + state_id + "/";
 	            var data = {
 	                hash: String(Math.random()).substring(2, 15)                
 	            };
@@ -70,7 +74,7 @@
 	                	}
 					});
 
-			}); //{# id_state.change function end #}
+			}; //{# get_state_cities function end #}
 			
 			create_thumbs = function() {
 				// {# adds thumb image based on image url #}
@@ -79,20 +83,46 @@
 
 					// {# for thumb get resized images #}
 					var image_url = $(this).attr("href");
-					image_url = image_url.replace('photos', 'resized');
+					image_url = image_url.replace('photos', 'resized/photos');
 					
 					// {# get file extension #}
 					var re = /(?:\.([^.]+))?$/;
 					var ext = re.exec(image_url)[1];
 					
-					image_url = image_url.replace("." + ext, '_thumbnail_image.' + ext);
-
+					image_url = image_url.replace("." + ext, '_admin_thumbnail.' + ext);
 					var img = "<img  src='" + image_url + "' />";
 					$(this).parent().prepend(img);
 				});
 				
-			}; // {# create_tumbs end #}
+			}; // {# create_thumbs end #}
+			
+			// {# get current state id #}
+			get_current_state_id = function() {
+				var url = "/current_state/";
+                $.ajax({
+                      url: url,
+                      dataType: 'json',
+                      success: function(data){	
+						if (data.status == 0)
+						{
+							return;
+						}
+						// {# data status is not null, so data.state_id contains state id #}
+						$("#id_state").val(data.state_id);
+						get_state_cities(data.state_id);
+						
+                	}
+                });				
+			
+			};
+			
 			create_thumbs();
+			// {# set current state only if it's new club #}
+			if ($("#id_name").val() == "")
+			{
+				get_current_state_id();
+			}
+
         }) // {# $ function end #}
     </script> 
 {{ media }}
