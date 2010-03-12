@@ -79,7 +79,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.auth',
 	'django.core.context_processors.request',
-	'allswingersclubs.context_processors.get_current_site_id',
+	'context_processors.get_current_site_id',
 )
 
 INSTALLED_APPS = (
