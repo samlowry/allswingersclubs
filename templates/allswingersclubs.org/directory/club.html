@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load comments %}
 
 {% block title %}{{club.name}} Swingers Club & Sex Club{% endblock %}
 
@@ -10,14 +11,14 @@
 {% block description %}{{club.description}}{% endblock %}
 
 
-{% block breadcrumbs %}&gt; <a href="{{ club.state.get_absolute_url }}">Swingers clubs in {{club.state}}</a> &gt; {{club.name}} Swingers Club & Sex Club{% endblock %}
+{% block breadcrumbs %}&gt; <a href="{{ club.state.get_absolute_url }}">Swingers clubs in {{ club.state }}</a> &gt; {{club.name}} Swingers Club & Sex Club{% endblock %}
 
 {% block content %}
 {% if club.is_closed %}
 <div id="boxes">
 	<div id="dialog" class="window">
 <h2>Sorry, but the club is closed or renamed</h2>
-<p>Try to check for <a href="{{ club.state.get_absolute_url }}">other clubs in {{club.state}}</a></p>
+<p>Try to check for <a href="{{ club.state.get_absolute_url }}">other clubs in {{ club.state }}</a></p>
 	</div>
 	<!-- Mask to cover the whole screen -->
 	<div id="mask"></div>
@@ -55,6 +56,15 @@
 			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
 		{% endfor %}
 	{% endif %}
+    {% get_comment_list for club as comment_list %}
+        {% for comment in comment_list %}
+            User name: {{ comment.user_name }}<br />
+            User email: {{ comment.email }}<br />
+            Comment: {{ comment.comment }}<br />
+            Date: {{ comment.submit_date }}<br />
+            <hr />
+        {% endfor %}
+    {% render_comment_form for club %}
 </div>
 
 <script>
