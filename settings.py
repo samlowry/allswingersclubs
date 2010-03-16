@@ -90,6 +90,7 @@ INSTALLED_APPS = (
 	'django.contrib.flatpages',
     'django.contrib.admin',
 	'django.contrib.sitemaps',
+    'django.contrib.comments',
 	'linkator',
 	'directory',
 	'south'
