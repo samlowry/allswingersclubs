@@ -11,8 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments.models import Comment
 
 import re
-# print content
-pat = re.compile(r"http://allswingersclubs.org/club/(?P<club_id>\d+)/.*")
+pat = re.compile(r"http://[\w.]*allswingersclubs.org/club/(?P<club_id>\d+)/.*")
 
 def main():
     # empty check file
@@ -45,7 +44,12 @@ def main():
             print "processing %s " % guid
             # get club
 
-            club_id = pat.match(guid).groupdict()["club_id"]
+            club_guid = pat.match(guid)
+            if club_guid:
+                club_id = club_guid.groupdict()["club_id"]
+            else:
+                log("%s doesnt match with pattern" % guid)
+                continue
             try:
                 club = Club.objects.get(id=club_id)
             except club.DoesNotExist:
