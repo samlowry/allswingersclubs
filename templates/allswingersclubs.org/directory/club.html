@@ -56,24 +56,25 @@
 			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
 		{% endfor %}
 	{% endif %}
-    {% get_comment_list for club as comment_list %}
-        {% for comment in comment_list %}
-            User name: {{ comment.user_name }}<br />
-            User email: {{ comment.email }}<br />
-            Comment: {{ comment.comment }}<br />
-            Date: {{ comment.submit_date }}<br />
-            <hr />
-        {% endfor %}
-    {% render_comment_form for club %}
 </div>
 
-<script>
-    var idcomments_acct = 'ba1b3057ebab76dcb508e8e05267d572';
-    var idcomments_post_id;
-    var idcomments_post_url;
-</script>
-<span id="IDCommentsPostTitle" style="display:none"></span>
-<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
+<div>
+	{% get_comment_list for club as comment_list %}
+	{% if not comment_list %}
+		<h3>Leave your opinion about the club</h3>
+	{% else %}
+		<h3>Comments</h3>
+		{% for comment in comment_list %}
+		<div class="comment">
+	          <div class="meta"><span class="nickname">{% if comment.user_url %}<a href="{{ comment.user_url }}">{{ comment.user_name }}</a>{% else %}{{ comment.user_name }}{% endif %}</span> at {{ comment.submit_date }} said:</div>
+	          <div class="body">{{ comment.comment }}</div>
+	          <hr />
+		</div>
+		{% endfor %}
+		<h4>Leave your opinion about the club</h4>
+	{% endif %}
+	{% render_comment_form for club %}
+</div>
 
 </div>
 
