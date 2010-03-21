@@ -73,7 +73,34 @@
 		{% endfor %}
 		<h4>Leave your opinion about the club</h4>
 	{% endif %}
-	{% render_comment_form for club %}
+	{% get_comment_form for club as form %}
+	
+    <form action="{% comment_form_target %}" method="POST">
+        {% for field in form %}
+            {% if field.is_hidden %}
+                {{ field }}
+            {% endif %}
+        {% endfor %}
+        <label for="id_name">Name:</label>{{ form.name }}<br />
+        {{ form.email.errors }}
+        <label for="id_email">Email address:</label>{{ form.email }}<br />
+        {{ form.url.errors }}
+        <label for="id_url">URL:</label>{{ form.url }}<br />
+        {{ form.comment.errors }}
+        <label for="id_comment">Comment:</label>{{ form.comment }}<br />
+        <p style="display: none;">
+            <label for="id_honeypot">If you enter anything in this field your comment will be treated as spam</label> 
+            {{ form.honeypot }}
+        </p>
+        
+        <input type="hidden" name="next" value="{{ club.get_absolute_url }}" />
+
+        <p class="submit">
+            <input name="post" class="submit-post" value="Post" type="submit">
+            <input name="preview" class="submit-preview" value="Preview" type="submit">
+        </p>
+        
+    </form>
 </div>
 
 </div>

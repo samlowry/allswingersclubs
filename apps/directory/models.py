@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.comments.models import Comment
 from directory.templatetags.my_slugify import my_slugify
 from imagekit.models import ImageModel
 from django.contrib.sites.models import Site
@@ -118,3 +119,14 @@ class Photo(ImageModel):
 		spec_module = 'directory.specs'
 		cache_dir = 'resized'
 		image_field = 'original_image'
+
+# add short comment to the Comment model	
+def get_short_comment(self):
+	""" returns slice of comment """
+	if len(self.comment) > 10:
+		short = "%s..." % self.comment[:10]
+	else:
+		short = self.comment
+	return short
+	
+Comment.short_comment = get_short_comment
