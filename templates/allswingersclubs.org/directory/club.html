@@ -73,7 +73,7 @@
 		{% endfor %}
 		<h4>Leave your opinion about the club</h4>
 	{% endif %}
-	{% get_comment_form for club as form %}
+	{# {% get_comment_form for club as form %} #}
 	
     <form action="{% comment_form_target %}" method="POST">
         {% for field in form %}

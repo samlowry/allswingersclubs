@@ -7,6 +7,7 @@ from django.contrib.flatpages.models import FlatPage
 from django.template import RequestContext
 from django.conf import settings
 from django.http import Http404
+from comments.forms import get_comment_form
 
 def index(request):
 	all_states_list = State.objects.all()
@@ -56,11 +57,14 @@ def club(request, club_id, club_urlsafe_title):
 	else:
 		current_club.photos = current_club.photo_set.all()
 		all_clubs_for_state = Club.open_only.filter(state__usps_name__exact=current_club.state.usps_name)
+		
+		form = get_comment_form(request, target_object=current_club)		
 		return render_to_response(
 			'directory/club.html',
 			{
 				'club': current_club,
 				'clubs_list': all_clubs_for_state,
+				'form': form
 			},
 			context_instance=RequestContext(request),
 		)
