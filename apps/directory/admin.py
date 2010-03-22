@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.contrib.comments.admin import CommentsAdmin
-from django.contrib.comments.models import Comment
 
 from directory.models import State, City, Club, Photo
 
@@ -89,21 +87,3 @@ admin.site.register(State, StateAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Club, ClubAdmin)
 admin.site.register(Photo, PhotoAdmin)
-
-
-# extending generic Comments application for adding short comments
-# unregister Comment model admin
-
-try:
-    admin.site.unregister(Comment)
-except:
-    pass
-
-
-
-class ExtendedCommentsAdmin(CommentsAdmin):
-	# new list_display with short_comment
-    # Comment doesn't have short_comment, it adds in the directory.models
-	list_display = ('name', 'content_type', 'object_pk', 'ip_address', 'submit_date', 'short_comment', 'is_public', 'is_removed', )
-
-admin.site.register(Comment, ExtendedCommentsAdmin)

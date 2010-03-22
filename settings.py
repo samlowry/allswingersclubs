@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
 	'linkator',
 	'directory',
+	'comments',
 	'south'
 )
 
