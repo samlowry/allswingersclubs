@@ -14,6 +14,6 @@ except:
 class ExtendedCommentsAdmin(CommentsAdmin):
 	# new list_display with short_comment
     # Comment doesn't have short_comment, it adds in the directory.models
-	list_display = ('name', 'object_pk', 'ip_address', 'club_url', 'submit_date', 'poster_url', 'short_comment', 'is_public', 'is_removed', )
+	list_display = ('name', 'ip_address', 'club_url', 'submit_date', 'poster_url', 'short_comment', 'is_public', 'is_removed', )
 
 admin.site.register(Comment, ExtendedCommentsAdmin)

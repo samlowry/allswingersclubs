@@ -43,6 +43,6 @@ Comment.club_url = get_club_url
 
 def get_poster_url(self):
 	""" returns html formatted homepage url """
-	return "<a href='%(url)s'>%(url)s</a>" % {"url": self.url}
+	return "<a href='%(url)s'>#</a>" % {"url": self.url}
 get_poster_url.allow_tags = True
 Comment.poster_url = get_poster_url
