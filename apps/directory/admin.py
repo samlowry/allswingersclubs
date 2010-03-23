@@ -1,5 +1,6 @@
 from django.contrib import admin
-from directory.models import *
+
+from directory.models import State, City, Club, Photo
 
 class PhotosInline(admin.TabularInline):
 	model = Photo

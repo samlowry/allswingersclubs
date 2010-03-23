@@ -72,7 +72,8 @@ def main():
                 comment.user_name = comment_info["name"]
                 comment.user_email = comment_info["email"]
                 comment.comment = comment_info["comment"]
-
+                if len(comment.comment) != len(comment_info["comment"]):
+                    print len(comment.comment), "-", len(comment_info["comment"])
                 # converting string to datetime object
                 dt = datetime.datetime.strptime(comment_info["gmt"], "%Y-%m-%d %H:%M:%S")
 
@@ -112,3 +113,52 @@ def log(log_str):
     f.write(log_str)
     f.write("\n")
     f.close()
+
+    
+def replace_amp():
+    """ replaces html entities within user_name or comment """
+    comments = Comment.objects.filter(submit_date__lt="2010-03-17")
+    counter = 0
+    replaced_counter = 0
+    for comment in comments:
+        # replace &amp; in the username
+        if comment.user_name.find("&amp;") >= 0:
+            comment.user_name = comment.user_name.replace("&amp;", "&")
+            comment.save()
+            print "user_name - %s changed" % comment.user_name
+            
+        if comment.comment.find(";") >= 0:
+            counter = counter + 1
+
+            if comment.comment.find("&#039;") >= 0:
+                comment.comment = comment.comment.replace("&#039;", "'")
+                comment.save()
+                replaced_counter = replaced_counter + 1
+                
+            if comment.comment.find("&amp;") >= 0:
+                comment.comment = comment.comment.replace("&amp;", "&")
+                comment.save()
+                replaced_counter = replaced_counter + 1
+                  
+            if comment.comment.find("&lt;") >= 0:
+                comment.comment = comment.comment.replace("&lt;", "<")
+                comment.save()
+                replaced_counter = replaced_counter + 1
+                  
+            if comment.comment.find("&lsquo;") >= 0:
+                comment.comment = comment.comment.replace("&lsquo;", "'")
+                comment.save()
+                replaced_counter = replaced_counter + 1
+                                  
+            if comment.comment.find("&rsquo;") >= 0:
+                comment.comment = comment.comment.replace("&rsquo;", "'")
+                comment.save()
+                replaced_counter = replaced_counter + 1
+                       
+            if comment.comment.find("&quot;") >= 0:
+                comment.comment = comment.comment.replace('&quot;', '"')
+                comment.save()
+                replaced_counter = replaced_counter + 1
+                                    
+    print "found %s comments with semicolons" % counter
+    print "replaced %s entities" % replaced_counter
