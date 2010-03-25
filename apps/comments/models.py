@@ -5,8 +5,8 @@ from directory.models import Club
 # add short comment to the Comment model	
 def get_short_comment(self):
 	""" returns slice of comment """
-	if len(self.comment) > 10:
-		short = "%s..." % self.comment[:10]
+	if len(self.comment) > 100:
+		short = "%s..." % self.comment[:100]
 	else:
 		short = self.comment
 	return short
@@ -40,3 +40,11 @@ def get_club_url(self):
 	
 get_club_url.allow_tags = True
 Comment.club_url = get_club_url
+
+def get_poster_url(self):
+	""" returns html formatted homepage url """
+	if self.url == '':
+		return ''
+	return "<a href='%(url)s'>#</a>" % {"url": self.url}
+get_poster_url.allow_tags = True
+Comment.poster_url = get_poster_url

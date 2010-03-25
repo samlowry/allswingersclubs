@@ -66,7 +66,7 @@
 		<h3>Comments</h3>
 		{% for comment in comment_list %}
 		<div class="comment">
-	          <div class="meta"><span class="nickname">{% if comment.user_url %}<a href="{{ comment.user_url }}">{{ comment.user_name }}</a>{% else %}{{ comment.user_name }}{% endif %}</span> at {{ comment.submit_date }} said:</div>
+	          <div class="meta"><span class="nickname">{% if comment.user_url %}<a href="{{ comment.user_url }}" rel="nofollow">{{ comment.user_name }}</a>{% else %}{{ comment.user_name }}{% endif %}</span> at {{ comment.submit_date }} said:</div>
 	          <div class="body">{{ comment.comment }}</div>
 	          <hr />
 		</div>
