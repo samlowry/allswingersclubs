@@ -16,10 +16,5 @@ def post_wrapper(request, next=None):
 		request.session["poster_name"] = poster_name
 		request.session["poster_email"] = poster_email
 		request.session["poster_url"] = poster_url
-		
-		# session expires when the user closes browser
-		# but in FF it doesn't expire if user restores FF session.
-		# https://bugzilla.mozilla.org/show_bug.cgi?id=443354
-		request.session.set_expiry(0) 
 	return post_comment(request, next)
 	

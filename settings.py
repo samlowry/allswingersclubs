@@ -101,3 +101,6 @@ try:
 	from local_settings import *
 except ImportError:
 	pass
+    
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 365 # one year
+SESSION_SAVE_EVERY_REQUEST = True
