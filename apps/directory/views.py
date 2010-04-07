@@ -41,7 +41,7 @@ def state(request, state_usps_name):
 	
 def club(request, club_id, club_urlsafe_title):
 	try:
-		current_club = Club.objects.select_related('state','city').filter(id__exact=club_id).get()
+		current_club = Club.current_site_only.select_related('state','city').filter(id__exact=club_id).get()
 	except Club.DoesNotExist:
 		raise Http404
 	real_club_urlsafe_title=my_slugify(current_club.name)
