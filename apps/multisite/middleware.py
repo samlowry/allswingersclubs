@@ -8,7 +8,8 @@ class DynamicSiteMiddleware(object):
     def process_request(self, request):
         host = request.get_host()
         shost = host.rsplit(':', 1)[0] # only host, without port
-
+        if shost.startswith("www."): # clear www
+            shost = shost.replace("www.", "")
         try:
             settings.SITE_ID.set(HOST_CACHE[host])
             return
