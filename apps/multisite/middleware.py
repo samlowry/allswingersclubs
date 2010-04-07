@@ -6,7 +6,7 @@ HOST_CACHE = {}
 
 class DynamicSiteMiddleware(object):
     def process_request(self, request):
-        host = request.get_host()
+        host = re.sub( '^www\.' , '' , request.get_host() )
         shost = host.rsplit(':', 1)[0] # only host, without port
 
         try:
