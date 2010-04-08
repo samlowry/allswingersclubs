@@ -68,3 +68,19 @@ def club(request, club_id, club_urlsafe_title):
 			},
 			context_instance=RequestContext(request),
 		)
+
+def tradingmap(request):
+	if not request.user.is_superuser:
+		raise Http404
+	all_states = State.objects.all()
+	all_flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
+	all_clubs = Club.current_site_only.all()
+	return render_to_response(
+		'directory/tradingmap.html',
+		{
+			'all_states': all_states,
+			'all_flatpages': all_flatpages,
+			'all_clubs': all_clubs,
+		},
+		context_instance=RequestContext(request),
+	)

@@ -1,0 +1,19 @@
+<html>
+<body>
+<!-- homepage -->
+<a href="http://{{request.get_host}}/">All Fetish Clubs & BDSM Clubs</a>
+<!-- states -->
+{% for state in all_states%}
+<a href="http://{{request.get_host}}{{ state.get_absolute_url }}">Fetish clubs & BDSM clubs in {{state}}</a>
+{% endfor %}
+<!-- clubs -->
+{% for club in all_clubs%}
+<a href="http://{{request.get_host}}{{ club.get_absolute_url }}">{{club.name}} Fetish Club & Dungeon</a>
+{% endfor %}
+<!-- articles -->
+{% for article in all_flatpages%}
+<a href="http://{{request.get_host}}{{ article.get_absolute_url }}">{{ article.title }}</a>
+{% endfor %}
+
+</body>
+</html>
