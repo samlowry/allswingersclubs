@@ -111,6 +111,13 @@ class Club(models.Model):
 		return sites_
 	all_sites.short_description = 'Published on'
 
+	def club_owner(self):
+		if self.owner is None:
+			return "-"
+		else:
+			return self.owner
+	club_owner.short_description = 'Owner'        
+        
 class Photo(ImageModel):
 	original_image = models.ImageField(upload_to='photos')
 	club = models.ForeignKey(Club)

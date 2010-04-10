@@ -100,7 +100,7 @@ def activate(request, backend,
                               context_instance=context)
 
 
-def register(request, backend, invitation_key="", success_url=None, form_class=None,
+def register(request, backend, success_url=None, form_class=None,
              disallowed_url='registration_disallowed',
              template_name='registration/registration_form.html',
              extra_context=None):
@@ -220,11 +220,8 @@ def _send_invitations():
         if email_re.match(club.email):               
             inv = Invitation()
             inv.email = club.email
-            salt = sha_constructor(str(random.random())).hexdigest()[:5]
             print "processing %s" % club.email
 
-            inv.invitation_key = sha_constructor(salt+club.email).hexdigest()[:20]
-            inv.user = User.objects.get(id=1)
             inv.save()
             inv.send()
             

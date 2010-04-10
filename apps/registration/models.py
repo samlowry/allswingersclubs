@@ -256,7 +256,7 @@ class RegistrationProfile(models.Model):
                      'site': site}        
         # users that we invite to register (all of them are in Invitation)
         try:
-            inv = Invitation.objects.get(id=self.user.id)
+            inv, created = Invitation.objects.get_or_create(email=self.user.email)
             email_template = 'registration/owner_activation_email.txt'
             # create new password and send email with it to the user
             password = sha_constructor(str(random.random())).hexdigest()[:5]
@@ -282,9 +282,8 @@ class Invitation(models.Model):
     email = models.EmailField('e-mail address', blank=True, db_index=True)
     created = models.DateTimeField('created', default=datetime.datetime.now)
     submited = models.DateTimeField(blank=True, null=True)
-    invitation_key = models.CharField('invitation key', max_length=30)
     sent = models.BooleanField(default=False, db_index=True)
-    user = models.ForeignKey(User, db_index=True) # must be unique
+    user = models.ForeignKey(User, db_index=True, blank=True, null=True) # must be unique
     comment = models.CharField('comment', max_length=220)
 
     def __unicode__(self):
@@ -303,7 +302,7 @@ class Invitation(models.Model):
                 try:
                     user_object = User.objects.get(username=temp_name)
                     # yes, exist. add suffix
-                    print "Such user already exists - %s. Adding suffix." % temp_name
+                    print "Such user already exists - %s. Adding suffix." % username
                     temp_name = "%s_%s" % (username, username_suffix)
                     username_suffix = username_suffix + 1
                     time.sleep(0.1)
@@ -314,12 +313,13 @@ class Invitation(models.Model):
             password = 1 # just a trick. real password creates later, just before activation email sending (send_activation_email function)
             
             site = Site.objects.get_current()
+            self.save()
             self.user = RegistrationProfile.objects.create_inactive_user(temp_name, self.email, password,
                              site, send_email=True)
             
             # new user is the club (maybe clubs) owner
             for club in Club.objects.filter(email=self.email):
-                club.user = self.user
+                club.owner = self.user
                 club.save()
                 
             self.sent = True
