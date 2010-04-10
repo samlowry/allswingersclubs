@@ -1,0 +1,3 @@
+User registration on {{ site }}
+You must activate your account within {{ expiration_days }}
+To activate your account please follow this link http://{{ site }}/accounts/activate/{{ activation_key }}.

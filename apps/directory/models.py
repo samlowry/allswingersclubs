@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from directory.templatetags.my_slugify import my_slugify
 from imagekit.models import ImageModel
 from django.contrib.sites.models import Site
@@ -74,6 +75,7 @@ class Club(models.Model):
 	current_site_only = CurrentSiteManager('sites')
 	open_only = OpenClubsFromCurrentSiteManager()
 	sites = models.ManyToManyField(Site)
+	owner = models.ForeignKey(User)
 	
 	class Meta:
 		ordering = ['name']

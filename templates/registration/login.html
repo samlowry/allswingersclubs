@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block extrahead %}
+
+{% endblock %}
+
+{% block content %}
+<div class="center_cont">
+    <div id="login">
+        <h3>Log in</h3>
+
+        <form method="post" action="/accounts/login/">
+            <div class="errorlist">
+                {% if form.errors %}
+                <p>Login error! Password and/or user name are wrong!</p>
+                <p>{{ error }}</p>
+                {% endif %}
+                
+            </div>
+            <table align="center" cellspacing="8" cellpadding="7" width="100%">
+
+            <tr>
+                <td width="30%" align="left"><label id="lbl_id_username" for="id_username">email:</label></td>
+                    <td align="left"><input id="id_username" type="text" name="username" maxlength="30" /></td>
+                </tr>
+                <tr>
+                    <td align="left"><label id="lbl_id_password" for="id_password">Password:</label></td>
+                    <td align="left"><input type="password" name="password" id="id_password" /></td>
+                </tr>
+
+                <tr>
+                <td></td>
+                <td align="center">
+                    <a href="#" id="btn_restore">Forgot password?</a>
+                </td>
+                </tr>
+                <tr>
+
+                    <td  colspan="2" align="center">
+                        <div>
+                            <input id="login_btn" type="submit" value='Login' />
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+       
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}

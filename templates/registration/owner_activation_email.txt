@@ -1,0 +1,6 @@
+club owner registration
+You must activate your account within {{ expiration_days }}
+We strongly recommend you to change your password after account activation
+Your username is {{ username }}
+Your password is {{ password }}
+To activate your account please follow this link http://{{ site }}/accounts/activate/{{ activation_key }}.

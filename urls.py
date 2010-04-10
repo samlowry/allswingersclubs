@@ -49,6 +49,7 @@ urlpatterns = patterns('',
 
 	#Main app urls
 	(r'^', include('directory.urls')),
+    (r'^accounts/', include('registration.backends.default.urls')),
 )
 
 if settings.DEBUG:

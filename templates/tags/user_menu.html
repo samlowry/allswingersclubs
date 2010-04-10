@@ -1,0 +1,9 @@
+<div align="right">
+    {% if user.is_authenticated %}
+        Welcome, {{ user.username }}<br />
+        <a href="/accounts/logout/">Logout</a><br />
+        <a href="/accounts/profile/">Profile</a><br />
+    {% else %}
+        <a href="/accounts/login/">Login</a><br />
+    {% endif %}
+</div>
