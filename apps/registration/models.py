@@ -1,6 +1,7 @@
 import datetime
 import random
 import re
+import time
 
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -292,28 +293,40 @@ class Invitation(models.Model):
     def send(self):
         # sending was success. show it.
         try:
-
-            # find user's club
-            clubs = Club.objects.filter(email=self.email)
             
-            # create username
-            username = self.email.split("@")[0].lower()
+            # create username from email
+            username = self.email.split("@")[0]
+            username_suffix = 1
+            temp_name = username
+            while True:
+                # maybe such user exist?
+                try:
+                    user_object = User.objects.get(username=temp_name)
+                    # yes, exist. add suffix
+                    print "Such user already exists - %s. Adding suffix." % temp_name
+                    temp_name = "%s_%s" % (username, username_suffix)
+                    username_suffix = username_suffix + 1
+                    time.sleep(0.1)
+                except User.DoesNotExist:
+                    break
             
             # create password
             password = 1 # just a trick. real password creates later, just before activation email sending (send_activation_email function)
             
             site = Site.objects.get_current()
-            self.user = RegistrationProfile.objects.create_inactive_user(username, self.email, password,
+            self.user = RegistrationProfile.objects.create_inactive_user(temp_name, self.email, password,
                              site, send_email=True)
             
             # new user is the club (maybe clubs) owner
-            Club.objects.filter(email=self.email).update(user=self.user)
-            
+            for club in Club.objects.filter(email=self.email):
+                club.user = self.user
+                club.save()
+                
             self.sent = True
             self.save()
         except Exception, exc:
             self.sent = False
-            #self.comment = str(exc)
+            self.comment = str(exc)
             self.save()
 
             
