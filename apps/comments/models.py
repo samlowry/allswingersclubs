@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.comments.models import Comment
+from django.contrib.comments.signals import comment_was_posted
+
 from directory.models import Club
+import settings
 
 # add short comment to the Comment model	
 def get_short_comment(self):
@@ -48,3 +51,15 @@ def get_poster_url(self):
 	return "<a href='%(url)s'>#</a>" % {"url": self.url}
 get_poster_url.allow_tags = True
 Comment.poster_url = get_poster_url
+
+def was_posted_callback(sender, comment, request, **kwargs):
+    """comments_was_posted signal handler. send notification email to the club's owner"""
+    if comment.content_type.name == "club":        
+        club_owner = comment.content_object.owner
+        # has user activated account?
+        if club_owner.is_active:
+            subject = "comment"
+            message = "%s has commented %s" % (comment.user_name, comment.content_object.name)
+            club_owner.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+
+comment_was_posted.connect(was_posted_callback, sender=Comment)
