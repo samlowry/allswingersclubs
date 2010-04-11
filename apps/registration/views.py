@@ -18,6 +18,7 @@ from django.forms.fields import email_re # before 1.1.1
 from registration.backends import get_backend
 from directory.models import Club
 from registration.models import Invitation
+from registration.forms import ChangeUsernameForm
 
 def activate(request, backend,
              template_name='registration/activate.html',
@@ -243,4 +244,18 @@ def login_wrapper(request, template_name="registration/login.html"):
     
 def profile(request, template_name="registration/profile.html"):
     context = RequestContext(request)
+    return render_to_response(template_name, context_instance=context)
+    
+def change_username(request, template_name="registration/username_change_form.html"):
+    context = RequestContext(request)
+    if request.method == "POST":
+        form = ChangeUsernameForm(data=request.POST)
+        if form.is_valid():
+            request.user.username = form.cleaned_data["username"]
+            request.user.save()
+            return redirect("/accounts/profile/")
+    else:
+        form = ChangeUsernameForm()
+    context["form"] = form
+        
     return render_to_response(template_name, context_instance=context)

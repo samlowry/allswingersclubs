@@ -25,6 +25,7 @@ from registration.forms import RegistrationFormUniqueEmail # user will login usi
 from registration.views import activate
 from registration.views import register
 from registration.views import profile
+from registration.views import change_username
 
 
 urlpatterns = patterns('',
@@ -56,5 +57,8 @@ urlpatterns = patterns('',
                        url(r'profile/$', 
                             profile, 
                             name='registration_profile'), 
+                       url(r'username/change/$', 
+                            change_username, 
+                            name='change_username'),                             
                        (r'', include('registration.auth_urls')),
                        )

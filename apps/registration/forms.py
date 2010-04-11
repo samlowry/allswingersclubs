@@ -121,3 +121,18 @@ class RegistrationFormNoFreeEmail(RegistrationForm):
         if email_domain in self.bad_domains:
             raise forms.ValidationError(_("Registration using free email addresses is prohibited. Please supply a different email address."))
         return self.cleaned_data['email']
+
+        
+class ChangeUsernameForm(forms.Form):
+    username = forms.RegexField(regex=r'^\w+$',
+                                max_length=30,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                label=_("Username"),
+                                error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
+    def clean_username(self):
+        """checks username for unique"""
+        try:
+            user = User.objects.get(username=self.cleaned_data["username"])
+        except User.DoesNotExist:
+            return self.cleaned_data['username']
+        raise forms.ValidationError("Such username already in use. Please try another one.")            
