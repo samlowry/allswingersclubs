@@ -11,9 +11,9 @@ from django.template import RequestContext
 from django.utils.hashcompat import sha_constructor
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.forms.fields import email_re # before 1.1.1
 #from django.core.validators import email_re # 1.1.1 version
-
 
 from registration.backends import get_backend
 from directory.models import Club
@@ -226,7 +226,6 @@ def _send_invitations():
             inv.save()
             inv.send()
             
-
 def login_wrapper(request, template_name="registration/login.html"):
     """gets username as email, find real username, replaces email with username and call generic login"""
     if request.method == "POST":
@@ -241,11 +240,13 @@ def login_wrapper(request, template_name="registration/login.html"):
     # call to generic login and pass username to it (if found)
     response = auth_views.login(request, template_name)
     return response
-    
+
+@login_required    
 def profile(request, template_name="registration/profile.html"):
     context = RequestContext(request)
     return render_to_response(template_name, context_instance=context)
-    
+
+@login_required    
 def change_username(request, template_name="registration/username_change_form.html"):
     context = RequestContext(request)
     if request.method == "POST":

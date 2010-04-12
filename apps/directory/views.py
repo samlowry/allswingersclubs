@@ -2,12 +2,16 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponsePermanentRedirect
 from directory.templatetags.my_slugify import my_slugify
 from django.core.urlresolvers import reverse
-from directory.models import *
 from django.contrib.flatpages.models import FlatPage
 from django.template import RequestContext
 from django.conf import settings
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
 from comments.forms import get_comment_form
+from directory.models import *
+from directory.forms import ClubForm
 
 def index(request):
 	all_states_list = State.objects.all()
@@ -84,3 +88,33 @@ def tradingmap(request):
 		},
 		context_instance=RequestContext(request),
 	)
+
+@login_required	
+def change_club(request, club_id, template_name="change_club.html"):
+	context = RequestContext(request)
+	# find club by id
+	cl = Club.objects.get(id=club_id)
+	
+	# if it's not club's owner redirect to club page
+	if request.user != cl.owner:
+		return redirect(cl.get_absolute_url())
+
+	if request.method == "POST":
+		form = ClubForm(data=request.POST, instance=cl)
+		if form.is_valid():
+			form.save()
+
+	else:
+		form = ClubForm(instance=cl)
+	context["form"] = form
+		
+	return render_to_response(template_name, context_instance=context)
+
+@login_required	
+def clubs(request, template_name='clubs_list.html'):
+	"""all clubs of the user"""
+	context = RequestContext(request)
+	# get user's clubs
+	all_clubs = Club.objects.filter(owner=request.user)
+	context["clubs"] = all_clubs
+	return render_to_response(template_name, context_instance=context)	

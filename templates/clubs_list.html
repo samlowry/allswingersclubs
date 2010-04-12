@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+
+</script>
+{% endblock %}
+{% block title %} Clubs list {% endblock %}
+
+{% block content %}
+    Clubs list <br />
+    {% for club in clubs %}
+        <a href="/club/change/{{ club.id }}/">{{ club.name }}</a> <br />
+    {% endfor %}
+
+{% endblock %}
