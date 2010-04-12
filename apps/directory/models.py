@@ -75,7 +75,7 @@ class Club(models.Model):
 	current_site_only = CurrentSiteManager('sites')
 	open_only = OpenClubsFromCurrentSiteManager()
 	sites = models.ManyToManyField(Site)
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User, null=True, blank=True)
 	
 	class Meta:
 		ordering = ['name']
