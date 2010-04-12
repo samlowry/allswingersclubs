@@ -96,6 +96,7 @@ INSTALLED_APPS = (
 	'comments',
 	'south',
     'registration',
+    'news',
 )
 
 try:

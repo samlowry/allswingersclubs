@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+
+</script>
+{% endblock %}
+{% block title %} Change news {% endblock %}
+
+{% block content %}
+    Change news<br />
+    <form action='.' method='POST'>
+        {{ form.as_ul }}
+        <input type="submit" value="Submit" />
+
+    </form>
+
+{% endblock %}

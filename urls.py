@@ -42,14 +42,14 @@ sitemaps = {
 urlpatterns = patterns('',
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	(r'^admin/', include(admin.site.urls)),
-	
+	(r'^news/', include('news.urls')),
 	(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 	(r'^comments/post/$', 'comments.views.post_wrapper'), # must be before django comments urls
 	(r'^comments/', include('django.contrib.comments.urls')),
 
 	#Main app urls
 	(r'^', include('directory.urls')),
-    (r'^accounts/', include('registration.backends.default.urls')),
+	(r'^accounts/', include('registration.backends.default.urls')),
 )
 
 if settings.DEBUG:
