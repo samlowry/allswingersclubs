@@ -11,7 +11,10 @@
 {% block content %}
     Clubs list <br />
     {% for club in clubs %}
-        <a href="/club/change/{{ club.id }}/">{{ club.name }}</a> <br />
+        <a href="/club/change/{{ club.id }}/">{{ club.name }}</a> &nbsp; 
+        <a href="/news/add/{{ club.id }}/">Add news</a>
+        <a href="/news/list/{{ club.id }}/">All news</a>
+        <br />
     {% endfor %}
 
 {% endblock %}

@@ -6,14 +6,25 @@
 
 </script>
 {% endblock %}
-{% block title %} Change news {% endblock %}
+{% block title %} News {% endblock %}
 
 {% block content %}
-    Change news<br />
+    {% if news %} 
+        Change news for {{ news.club.name }} 
+    {% else %}
+        Create news for {{ club.name }}
+    {% endif %}
+    <br />
+    {% if news %}
+        Created: {{ news.created|date:"d M Y H:i" }} <br />
+        Changed: {{ news.changed|date:"d M Y H:i" }} <br />
+    {% endif %}
     <form action='.' method='POST'>
         {{ form.as_ul }}
         <input type="submit" value="Submit" />
 
     </form>
-
+    {% if news %}
+        <a href="/news/delete/{{ news.id }}/">Delete</a>
+    {% endif %}
 {% endblock %}

@@ -10,5 +10,8 @@ class News(models.Model):
     text = models.TextField() 
 
     def __unicode__(self):
-        return "%s news" % club.name
-              
+        return "%s..." % self.text[:20]
+        
+    def save(self):
+        self.changed = datetime.datetime.now()
+        super(News, self).save()
