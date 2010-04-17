@@ -97,6 +97,7 @@ INSTALLED_APPS = (
 	'south',
     'registration',
     'news',
+    'reversion',
 )
 
 try:
