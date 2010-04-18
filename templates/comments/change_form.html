@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
+{% block title %} Change comment{% endblock %}
+
+{% block content %}
+    Comment <br />
+    <p>
+        User: {{ comment.user_name }}
+    </p>
+    <p>
+        Email: {{ comment.user_email }}
+    </p>    
+    <p>
+        Url: {{ comment.user_url }}
+    </p>
+    <p>
+        Created: {{ comment.submit_date|date:"d M Y H:i" }} 
+    </p>    
+    <form method="POST" action=".">
+        {{ form.as_ul }}
+        <input type="submit" value="save" />
+    </form>
+{% endblock %}

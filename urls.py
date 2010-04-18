@@ -45,6 +45,8 @@ urlpatterns = patterns('',
 	(r'^news/', include('news.urls')),
 	(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 	(r'^comments/post/$', 'comments.views.post_wrapper'), # must be before django comments urls
+    (r'^comments/list/$', 'comments.views.comments_list'),
+    (r'^comments/change/(?P<comment_id>\d+)/$', 'comments.views.comment_change'),    
 	(r'^comments/', include('django.contrib.comments.urls')),
 
 	#Main app urls

@@ -1,4 +1,6 @@
 from django.contrib.comments.forms import CommentForm
+from django import forms
+from django.contrib.comments.models import Comment
 
 def get_comment_form(request, target_object):
 	""" init form with values from request and returns form """
@@ -12,3 +14,9 @@ def get_comment_form(request, target_object):
 	
 	form = CommentForm(target_object=target_object, initial=initial_data)	
 	return form
+    
+class OwnerCommentForm(forms.ModelForm):
+    """form where owner of club can change club's comment from other users"""
+    class Meta:
+        model = Comment
+        fields = ("comment",)

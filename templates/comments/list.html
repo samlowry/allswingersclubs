@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
+{% block title %} Comments {% endblock %}
+
+{% block content %}
+    All comments <br />
+    
+    {% for comment in comments %}
+        <a title="Edit" href="/comments/change/{{ comment.id }}/">{{ comment }}</a> &nbsp; 
+        <br />
+    {% endfor %}
+{% endblock %}
