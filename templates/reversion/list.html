@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
+{% block title %} Revisions for {{ club.name }} {% endblock %}
+
+{% block content %}
+    Revisions for {{ club.name }} <br />
+
+    {% for revision in revisions%}
+        <a title="Show" href="{{ revision.get_absolute_url }}/">{{ revision }}</a> &nbsp; 
+        <br />
+    {% endfor %}
+{% endblock %}

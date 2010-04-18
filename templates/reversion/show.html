@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+
+</script>
+{% endblock %}
+{% block title %} Reversion {% endblock %}
+
+{% block content %}
+    {{ revision.created|date:"d M Y H:i" }}
+    <br />
+    <span>Name: {{ revision.reverted.name }}</span>
+    <br />
+    <span>Descripttion: {{ revision.reverted.description }}</span>    
+    <br />
+    <span>Address: {{ revision.reverted.address }}</span>    
+    <br />
+    <span>State: {{ revision.reverted.state }}</span>    
+    <br />
+    <span>City: {{ revision.reverted.city }}</span>    
+    <br />    
+    <span>Phone: {{ revision.reverted.phone }}</span>    
+    <br />
+    <span>Email: {{ revision.reverted.email }}</span>    
+    <br />    
+    <span>Longitude: {{ revision.reverted.longitude }}</span>    
+    <br />
+    <span>Latitude: {{ revision.reverted.latitude }}</span>    
+    <br />
+    <span>Rating: {{ revision.reverted.rating }}</span>    
+    <br />    
+    <a title="revert" href="/reversions/revert/{{ revision.id }}/"> Revert </a>  
+{% endblock %}

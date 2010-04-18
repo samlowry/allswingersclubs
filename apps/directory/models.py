@@ -110,7 +110,7 @@ class Club(models.Model):
 		# another way is return site domain. just change s.name with s.domain
 		return sites_
 	all_sites.short_description = 'Published on'
-        
+
 class Photo(ImageModel):
 	original_image = models.ImageField(upload_to='photos')
 	club = models.ForeignKey(Club)

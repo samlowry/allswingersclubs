@@ -107,6 +107,7 @@ def change_club(request, club_id, template_name="change_club.html"):
 	else:
 		form = ClubForm(instance=cl)
 	context["form"] = form
+	context["club"] = cl
 		
 	return render_to_response(template_name, context_instance=context)
 

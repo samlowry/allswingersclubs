@@ -50,6 +50,7 @@ urlpatterns = patterns('',
 	#Main app urls
 	(r'^', include('directory.urls')),
 	(r'^accounts/', include('registration.backends.default.urls')),
+	(r'^reversions/', include('reversion.urls')),    
 )
 
 if settings.DEBUG:

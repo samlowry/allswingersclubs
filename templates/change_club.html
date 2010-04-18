@@ -6,9 +6,10 @@
 
 </script>
 {% endblock %}
-{% block title %} Change username {% endblock %}
+{% block title %} Change club {% endblock %}
 
 {% block content %}
+    <a href="/reversions/list/{{ club.id }}/">History</a>
     <form action='.' method='POST'>
         {{ form.as_ul }}
         <input type="submit" value="Submit" />
