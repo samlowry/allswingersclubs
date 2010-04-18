@@ -84,4 +84,9 @@ def delete_news(request, news_id):
         #print "forbidden. it's not your club"
         return redirect(news.club.get_absolute_url())  
 
-        
+def show(request, news_id, template_name="news/show.html"):
+    """shows news"""
+    context = RequestContext(request)
+    news = get_object_or_404(News, id=news_id)
+    context["news"] = news
+    return render_to_response(template_name, context)

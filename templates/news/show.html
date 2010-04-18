@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block extrahead %}
+
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
+{% block title %} {% endblock %}
+
+{% block content %}
+    News <br />
+    <p>Club: {{ news.club }}</p>
+    <p>Created: {{ news.created|date:"d M Y H:i" }}</p>
+    <p>Text: {{ news.text }}</p>
+{% endblock %}

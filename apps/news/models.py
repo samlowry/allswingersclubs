@@ -15,3 +15,6 @@ class News(models.Model):
     def save(self):
         self.changed = datetime.datetime.now()
         super(News, self).save()
+        
+    def get_absolute_url(self):
+        return "/news/show/%s/" % self.id
