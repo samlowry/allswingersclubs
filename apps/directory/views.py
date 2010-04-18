@@ -8,6 +8,8 @@ from django.conf import settings
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+
 
 from comments.forms import get_comment_form
 from directory.models import *
@@ -119,3 +121,20 @@ def clubs(request, template_name='clubs_list.html'):
 	all_clubs = Club.objects.filter(owner=request.user)
 	context["clubs"] = all_clubs
 	return render_to_response(template_name, context_instance=context)	
+    
+def take_club(request, club_id):
+	"""sets registered user as club owner"""
+	if request.user.is_anonymous():
+		# offer to register.
+		return redirect('/accounts/register/')
+	else:
+		club = get_object_or_404(Club, id=club_id)
+		if club.owner is not None:
+			# club has owner
+			raise Http404
+		club.owner = request.user
+		club.email = request.user.email
+		club.save()
+		context = RequestContext(request)
+		context["club"] = club
+		return redirect(reverse(change_club, args=[club.id]))

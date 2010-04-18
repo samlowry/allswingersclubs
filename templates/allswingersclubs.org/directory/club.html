@@ -26,6 +26,10 @@
 {% endif %}
 
 <h1>{{club.name}} Swingers Club & Sex Club</h1>
+{{ club.email }}
+{% if not club.email %}
+    <a href="/club/take/{{ club.id }}/">I'm owner</a>
+{% endif %}
 <div id="main">
 
 <div class="hreview">
