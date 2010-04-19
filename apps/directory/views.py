@@ -9,6 +9,7 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
+from django.contrib.sites.models import Site
 
 
 from comments.forms import get_comment_form
@@ -120,8 +121,8 @@ def clubs(request, template_name='clubs_list.html'):
 	# get user's clubs
 	all_clubs = Club.objects.filter(owner=request.user)
 	context["clubs"] = all_clubs
-	return render_to_response(template_name, context_instance=context)	
-    
+	return render_to_response(template_name, context_instance=context)
+
 def take_club(request, club_id):
 	"""sets registered user as club owner"""
 	if request.user.is_anonymous():
@@ -138,3 +139,22 @@ def take_club(request, club_id):
 		context = RequestContext(request)
 		context["club"] = club
 		return redirect(reverse(change_club, args=[club.id]))
+
+@login_required	  
+def add_club(request, template_name="change_club.html"):
+	""" adds new club to the database """
+	context = RequestContext(request)
+	if request.method == "POST":
+		form = ClubForm(data=request.POST)
+		if form.is_valid():
+			club_object = form.save(commit=False)
+			club_object.owner = request.user
+			club_object.save() # Club instance need to have primary key before m2m relationship can be used
+			club_object.sites = [Site.objects.get_current(),]
+			club_object.save()
+			return redirect(reverse(change_club, args=[club_object.id]))
+			
+	else:
+		form = ClubForm()
+	context["form"] = form
+	return render_to_response(template_name, context)

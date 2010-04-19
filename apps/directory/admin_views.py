@@ -5,7 +5,8 @@ from directory.models import State
 import urllib2 # need to send request to the google geocoder
 from django.contrib.admin.views.decorators import staff_member_required
 
-@staff_member_required
+# @staff_member_required - just an user need it to.
+@login_required
 def state_cities(request, state_id):
     """ gets request and state id, returns list of state's cities in the json format
 
@@ -27,7 +28,8 @@ if response.status == 1 then response contains list of cities(id, name)
         json_answer_error = simplejson.dumps(answer_error)    
         return HttpResponse(json_answer_error, mimetype='application/json')
         
-@staff_member_required
+#@staff_member_required
+@login_required
 def geocoder_proxy(request):
     """ passes data from request to the google geocoder, return latitude and longitude """
     KEY = "222222" # google map key
