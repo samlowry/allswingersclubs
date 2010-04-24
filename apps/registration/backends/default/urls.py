@@ -61,4 +61,8 @@ urlpatterns = patterns('',
                             change_username, 
                             name='change_username'),                             
                        (r'', include('registration.auth_urls')),
+                       url(r'anonymous/$',
+                           direct_to_template,
+                           { 'template': 'registration/anonymous.html' },
+                           name='registration_anonymous'),                       
                        )
