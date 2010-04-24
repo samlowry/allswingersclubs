@@ -5,5 +5,6 @@
         <a href="/accounts/profile/">Profile</a><br />
     {% else %}
         <a href="/accounts/login/">Login</a><br />
+        <a href="{% url registration.views.register %}">Register</a><br />
     {% endif %}
 </div>
