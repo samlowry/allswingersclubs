@@ -7,7 +7,7 @@ urlpatterns = patterns('directory.views',
 	(r'^club/change/(?P<club_id>\d+)/$', 'change_club'),
 	(r'^clubs/$', 'clubs'),
 	(r'^club/take/(?P<club_id>\d+)/$', 'take_club'),
-	(r'^club/add/$', 'add_club'),    
+	(r'^club/add/$', 'add_club'),
 	(r'^tradingmap\.html$', 'tradingmap'),	
 )
 
