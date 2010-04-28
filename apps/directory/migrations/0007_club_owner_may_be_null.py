@@ -4,21 +4,21 @@ from django.db import models
 from directory.models import *
 
 class Migration:
-    
+    no_dry_run = True    
     def forwards(self, orm):
         
         # Changing field 'Club.owner'
         # (to signature: django.db.models.fields.related.ForeignKey(to=orm['auth.User'], null=True, blank=True))
         db.alter_column('directory_club', 'owner_id', orm['directory.club:owner'])
+        Club.objects.all().update(owner=None)
         
-    
     
     def backwards(self, orm):
         
         # Changing field 'Club.owner'
         # (to signature: django.db.models.fields.related.ForeignKey(to=orm['auth.User']))
         db.alter_column('directory_club', 'owner_id', orm['directory.club:owner'])
-        
+        Club.objects.all().update(owner=0)        
     
     
     models = {
