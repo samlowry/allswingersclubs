@@ -61,6 +61,17 @@
 	{% endif %}
 </div>
 
+{# news div #}
+<div>
+{% if news %}
+    <h3>Club news.</h3>
+    {% for unit in news %}
+        Date: {{ unit.created }} <br />
+        Short: {{ unit }} <br />
+    {% endfor %}
+{% endif %}
+</div>
+{# news div end #}
 <div>
 	{% get_comment_list for club as comment_list %}
 	{% if not comment_list %}

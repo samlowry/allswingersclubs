@@ -64,14 +64,17 @@ def club(request, club_id, club_urlsafe_title):
 	else:
 		current_club.photos = current_club.photo_set.all()
 		all_clubs_for_state = Club.open_only.filter(state__usps_name__exact=current_club.state.usps_name)
-		
+
+		news = current_club.news_set.all()
+        
 		form = get_comment_form(request, target_object=current_club)		
 		return render_to_response(
 			'directory/club.html',
 			{
 				'club': current_club,
 				'clubs_list': all_clubs_for_state,
-				'form': form
+				'form': form,
+				'news': news
 			},
 			context_instance=RequestContext(request),
 		)
