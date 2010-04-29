@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from directory.templatetags.my_slugify import my_slugify
@@ -53,7 +54,7 @@ class Club(models.Model):
 	city = models.ForeignKey(City, blank=True, null=True)
 	phone = models.CharField(max_length=30, blank=True)
 	email = models.EmailField('e-mail', blank=True)
-	homepage = models.URLField(blank=True)
+	homepage = models.URLField(blank=True, verify_exists=False)
 	latitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
 	longitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
 	RATING_CHOISES = (
@@ -68,8 +69,8 @@ class Club(models.Model):
 		(4.5, 4.5),
 		(5, 5),
 	)
-	rating = models.IntegerField(choices=RATING_CHOISES)
-	date_of_review = models.DateField()
+	rating = models.IntegerField(choices=RATING_CHOISES, default=1)
+	date_of_review = models.DateField(default=datetime.date.today)
 	is_closed = models.BooleanField( default=False )
 	objects = models.Manager()
 	current_site_only = CurrentSiteManager('sites')

@@ -9,4 +9,4 @@ class ClubForm(forms.ModelForm):
                     # email, homepage, latitude, longitude, rating, 
                     # date_of_review, is_closed, objects, current_site_only, 
                     # open_only, sites, owner
-        exclude = ('sites', 'owner')
+        exclude = ('sites', 'owner', 'date_of_review', 'rating', 'is_closed')
