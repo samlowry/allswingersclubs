@@ -52,6 +52,20 @@ def get_poster_url(self):
 get_poster_url.allow_tags = True
 Comment.poster_url = get_poster_url
 
+def comment_by_owner(self):
+    """returns true if it's club's owner's comment. if not returns false"""
+
+    if not self.content_object.owner:
+        # club has no owner
+        return False
+
+    if self.content_object.owner == self.user:
+        return True
+        
+    return False
+    
+Comment.by_owner = comment_by_owner
+
 def was_posted_callback(sender, comment, request, **kwargs):
     """comments_was_posted signal handler. send notification email to the club's owner"""
     if comment.content_type.name == "club":  

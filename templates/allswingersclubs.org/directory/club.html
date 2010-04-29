@@ -27,34 +27,34 @@
 
 <h1>{{club.name}} Swingers Club & Sex Club</h1>
 {% if not club.email %}
-    <a href="/club/take/{{ club.id }}/">I'm owner</a>
+	<a href="/club/take/{{ club.id }}/">I'm owner</a>
 {% endif %}
 <div id="main">
 
 <div class="hreview">
 	{% if club.homepage %}
-    <b>
-        <span class="item"><span class="fn org">{{club.name}}</span></span>
-        Website:
-    </b>
-    <span class="url">
-        <a href="{{club.homepage}}">{{club.homepage}}</a>
-    </span><br><br>
+	<b>
+		<span class="item"><span class="fn org">{{club.name}}</span></span>
+		Website:
+	</b>
+	<span class="url">
+		<a href="{{club.homepage}}">{{club.homepage}}</a>
+	</span><br><br>
 	{% endif %}
-    <div class="adr">
-        <b>Address:</b>
-        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
-        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
-        <span class="region">{{club.state.usps_name}}</span>
-        <span class="postal-code"></span>
-    </div><br>
+	<div class="adr">
+		<b>Address:</b>
+		{% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
+		{% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+		<span class="region">{{club.state.usps_name}}</span>
+		<span class="postal-code"></span>
+	</div><br>
 	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
 	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
-    <b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
-    <b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
-    <b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
+	<b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
+	<b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
+	<b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
 	{% if club.photos %}
-    <b>Club photos:</b><br> <br>
+	<b>Club photos:</b><br> <br>
 		{% for photo in club.photos %}
 			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
 		{% endfor %}
@@ -69,45 +69,59 @@
 		<h3>Comments</h3>
 		{% for comment in comment_list %}
 		<div class="comment">
-	          <div class="meta"><span class="nickname">{% if comment.user_url %}<a href="{{ comment.user_url }}" rel="nofollow">{{ comment.user_name }}</a>{% else %}{{ comment.user_name }}{% endif %}</span> at {{ comment.submit_date }} said:</div>
-	          <div class="body">{{ comment.comment }}</div>
-	          <hr />
+				<div class="meta">
+					<span class="nickname" 
+						{% if comment.by_owner %}
+							style="font-weight: bold" title="Owner"
+						{% endif %}>
+						{% if comment.user_url %}
+							<a href="{{ comment.user_url }}" rel="nofollow">
+								{{ comment.user_name }}
+							</a>
+						{% else %}
+							{{ comment.user_name }}
+						{% endif %}
+					</span>
+						at {{ comment.submit_date }} said:
+					</div>
+			  <div class="body">{{ comment.comment }}</div>
+			  <hr />
 		</div>
 		{% endfor %}
 		<h4>Leave your opinion about the club</h4>
 	{% endif %}
 	{# {% get_comment_form for club as form %} #}
 	
-    <form action="{% comment_form_target %}" method="POST">
-        {% for field in form %}
-            {% if field.is_hidden %}
-                {{ field }}
-            {% endif %}
-        {% endfor %}
-        
-        {% if not user.is_authenticated %}
-            <label for="id_name">Name:</label>{{ form.name }}<br />
-            {{ form.email.errors }}
-            <label for="id_email">Email address:</label>{{ form.email }}<br />
-            {{ form.url.errors }}
-            <label for="id_url">URL:</label>{{ form.url }}<br />
-        {% endif %}
-        
-        {{ form.comment.errors }}
-        <label for="id_comment">Comment:</label>{{ form.comment }}<br />
-        <p style="display: none;">
-            <label for="id_honeypot">If you enter anything in this field your comment will be treated as spam</label> 
-            {{ form.honeypot }}
-        </p>
-        
-        <input type="hidden" name="next" value="{{ club.get_absolute_url }}" />
+	<form action="{% comment_form_target %}" method="POST">
+		{% for field in form %}
+			{% if field.is_hidden %}
+				{{ field }}
+			{% endif %}
+		{% endfor %}
+		
+		{% if not user.is_authenticated %}
+			<label for="id_name">Name:</label>{{ form.name }}<br />
+			{{ form.email.errors }}
+			<label for="id_email">Email address:</label>{{ form.email }}<br />
+			{{ form.url.errors }}
+			<label for="id_url">URL:</label>{{ form.url }}<br />
+		{% endif %}
+		
+		{{ form.comment.errors }}
+		<label for="id_comment">Comment:</label>{{ form.comment }}<br />
+		<p style="display: none;">
+			<label for="id_honeypot">If you enter anything in this field your comment will be treated as spam</label> 
+			{{ form.honeypot }}
+		</p>
+		
+		<input type="hidden" name="next" value="{{ club.get_absolute_url }}" />
 
-        <p class="submit">
-            <input name="post" class="submit-post" value="Post" type="submit">
-            <input name="preview" class="submit-preview" value="Preview" type="submit">
-        </p>
-        
-    </form>
+		<p class="submit">
+			<input name="post" class="submit-post" value="Post" type="submit">
+			<input name="preview" class="submit-preview" value="Preview" type="submit">
+		</p>
+		
+	</form>
 </div>
 
 </div>
