@@ -84,11 +84,15 @@
                 {{ field }}
             {% endif %}
         {% endfor %}
-        <label for="id_name">Name:</label>{{ form.name }}<br />
-        {{ form.email.errors }}
-        <label for="id_email">Email address:</label>{{ form.email }}<br />
-        {{ form.url.errors }}
-        <label for="id_url">URL:</label>{{ form.url }}<br />
+        
+        {% if not user.is_authenticated %}
+            <label for="id_name">Name:</label>{{ form.name }}<br />
+            {{ form.email.errors }}
+            <label for="id_email">Email address:</label>{{ form.email }}<br />
+            {{ form.url.errors }}
+            <label for="id_url">URL:</label>{{ form.url }}<br />
+        {% endif %}
+        
         {{ form.comment.errors }}
         <label for="id_comment">Comment:</label>{{ form.comment }}<br />
         <p style="display: none;">

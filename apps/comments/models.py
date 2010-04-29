@@ -54,10 +54,10 @@ Comment.poster_url = get_poster_url
 
 def was_posted_callback(sender, comment, request, **kwargs):
     """comments_was_posted signal handler. send notification email to the club's owner"""
-    if comment.content_type.name == "club":        
+    if comment.content_type.name == "club":  
         club_owner = comment.content_object.owner
         # has user activated account?
-        if club_owner.is_active:
+        if (club_owner is not None) and (club_owner.is_active):
             subject = "comment"
             message = "%s has commented %s" % (comment.user_name, comment.content_object.name)
             club_owner.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
