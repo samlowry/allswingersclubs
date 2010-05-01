@@ -1,7 +1,12 @@
 from django import forms
+from django.forms.widgets import TextInput
+
 from directory.models import Club
 
 class ClubForm(forms.ModelForm):
+    # make coord read only.
+    longitude = forms.DecimalField(widget=TextInput(attrs={'readonly': True}))
+    latitude = forms.DecimalField(widget=TextInput(attrs={'readonly': True}))
     class Meta:
         model = Club
         #fields =  ('name', 'description', 'address', 'email', 'homepage')
