@@ -149,6 +149,7 @@ def add_club(request, template_name="change_club.html"):
 	context = RequestContext(request)
 	if request.method == "POST":
 		form = ClubForm(data=request.POST)
+
 		if form.is_valid():
 			club_object = form.save(commit=False)
 			club_object.owner = request.user

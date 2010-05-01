@@ -29,15 +29,19 @@
             
             });
             
-            $("#filter_cities").click(function() {
-                get_cities_by_state($("#id_state").val());
-            });
             
             $("#id_state").change(function() {
                 get_cities_by_state($(this).val());
             });
             
             get_cities_by_state = function(state_id) {
+                if (!state_id)
+                {
+                    $("#id_city").empty();
+                    $("#id_city").html("<option selected='selected' value=''>---------</option>");
+                    $("#id_city").attr("disabled", true);
+                    return;
+                }
                 state_url = "/state/" + state_id + "/";
                 var data = {
                     hash: String(Math.random()).substring(2, 15)                
@@ -63,6 +67,7 @@
                                     options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
                                 }
                                 $("#id_city").html(options);
+                                $("#id_city").removeAttr("disabled");
                             };
                         },
                     error: function (XMLHttpRequest, textStatus, errorThrown) 
@@ -82,15 +87,39 @@
 {% block content %}
     <a href="/reversions/list/{{ club.id }}/">History</a>
     <br />
-    <input type="button" value="Get coordinates" id="retrieve_coordinates" /> 
-    &nbsp;
-    <input type="button" value="Filter city" id="filter_cities" /> {# when show all fields manually, move this close to the state #}
-    <br />
     
     <form action='.' method='POST'>
-        {{ form.as_ul }}
+        {{ form.name.errors }}
+        Name: {{ form.name }}  <br />
+        
+        {{ form.description.errors }}
+        Description: {{ form.description }}  <br />
+        
+        {{ form.address.errors }} 
+        Address: {{ form.adress }} <br />
+        
+        {{ form.state.errors }}
+        State: {{ form.state }}  <br />
+        
+        {{ form.city.errors }}
+        City: {{ form.city }}  <br />
+        
+        {{ form.phone.errors }}
+        Phone: {{ form.phone }}  <br />
+        
+        {{ form.email.errors }}
+        e-mail: {{ form.email }}  <br />
+        
+        {{ form.homepage.errors }} 
+        Homepage: {{ form.homepage }} <br />
+        
+        {{ form.latitude.errors }}  
+        Latitude: {{ form.latitude }} 
+        <input type="button" value="Get coordinates" id="retrieve_coordinates" /> <br />
+        {{ form.longitude.errors }}
+        Longitude: {{ form.longitude }}  <br />
+        
         <input type="submit" value="Submit" />
-
-    </form>
+    </form>    
 
 {% endblock %}
