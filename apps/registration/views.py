@@ -19,6 +19,7 @@ from registration.backends import get_backend
 from directory.models import Club
 from registration.models import Invitation
 from registration.forms import ChangeUsernameForm
+from recaptcha.client import captcha
 
 def activate(request, backend,
              template_name='registration/activate.html',
@@ -191,9 +192,28 @@ def register(request, backend, success_url=None, form_class=None,
         return redirect(disallowed_url)
     if form_class is None:
         form_class = backend.get_form_class(request)
-
+    if extra_context is None:
+        extra_context = {}
+    context = RequestContext(request)
+    for key, value in extra_context.items():
+        context[key] = callable(value) and value() or value
+        
     if request.method == 'POST':
+        # Check the captcha
+        # move to the settings.py
+        RECAPTCHA_PRIVATE_KEY = "6LeX5rkSAAAAAN457FJ7DMkZsBwmUBb9jCKIaPuu"
+        RECAPTCHA_PUB_KEY = "6LeX5rkSAAAAADMBEPhrmNyH9YqASFIAO6OcAcLR"
+        check_captcha = captcha.submit(request.POST['recaptcha_challenge_field'], request.POST['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
+
         form = form_class(data=request.POST, files=request.FILES)
+        if not check_captcha.is_valid:
+            # wrong captcha
+            html_captcha = captcha.displayhtml(RECAPTCHA_PUB_KEY, error=check_captcha.error_code)
+            return render_to_response(template_name,
+                              { 'form': form, 'html_captcha': html_captcha },
+                              context_instance=context)
+                                
+        html_captcha = captcha.displayhtml(RECAPTCHA_PUB_KEY)
         if form.is_valid():
             new_user = backend.register(request, **form.cleaned_data)
             if success_url is None:
@@ -202,16 +222,12 @@ def register(request, backend, success_url=None, form_class=None,
             else:
                 return redirect(success_url)
     else:
+        RECAPTCHA_PUB_KEY = "6LeX5rkSAAAAADMBEPhrmNyH9YqASFIAO6OcAcLR"
+        html_captcha = captcha.displayhtml(RECAPTCHA_PUB_KEY)
         form = form_class()
-    
-    if extra_context is None:
-        extra_context = {}
-    context = RequestContext(request)
-    for key, value in extra_context.items():
-        context[key] = callable(value) and value() or value
 
     return render_to_response(template_name,
-                              { 'form': form },
+                              { 'form': form, 'html_captcha': html_captcha },
                               context_instance=context)
 
 # nmb10
