@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'registration',
     'news',
     'reversion',
+    'tapes',
 )
 
 try:
