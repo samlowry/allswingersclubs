@@ -5,6 +5,18 @@ from django.shortcuts import get_object_or_404
 from directory.models import Club
 from directory.models import City
 from directory.models import State
+from directory.models import Photo
+
+class PhotoForm(forms.ModelForm):
+    
+    class Meta:
+        model = Photo
+    def __init__(self, *args, **kwargs):
+        super(PhotoForm,self ).__init__(*args,**kwargs) 
+        if self.instance.id:
+            self.show_url = self.instance.thumbnail_image.url
+        
+
 
 class ClubForm(forms.ModelForm):
     # make coord read only.

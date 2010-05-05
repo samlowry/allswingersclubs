@@ -11,10 +11,13 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 
-
 from comments.forms import get_comment_form
 from directory.models import *
 from directory.forms import ClubForm
+from directory.forms import PhotoForm
+
+from django.forms.models import inlineformset_factory
+
 
 def index(request):
 	all_states_list = State.objects.all()
@@ -66,7 +69,7 @@ def club(request, club_id, club_urlsafe_title):
 		all_clubs_for_state = Club.open_only.filter(state__usps_name__exact=current_club.state.usps_name)
 
 		news = current_club.news_set.all()
-        
+		
 		form = get_comment_form(request, target_object=current_club)		
 		return render_to_response(
 			'directory/club.html',
@@ -105,13 +108,19 @@ def change_club(request, club_id, template_name="change_club.html"):
 	if request.user != cl.owner:
 		return redirect(cl.get_absolute_url())
 
+	PhotoFormSet = inlineformset_factory(Club, Photo, form=PhotoForm, max_num=7, extra=1, can_delete=False)
+
 	if request.method == "POST":
 		form = ClubForm(data=request.POST, instance=cl)
-		if form.is_valid():
+		formset = PhotoFormSet(request.POST, request.FILES, instance=cl)
+		if form.is_valid() and formset.is_valid():
 			form.save()
-
+			formset.save()
 	else:
 		form = ClubForm(instance=cl)
+		formset = PhotoFormSet(instance=cl)
+
+	context["formset"] = formset
 	context["form"] = form
 	context["club"] = cl
 		
@@ -143,22 +152,40 @@ def take_club(request, club_id):
 		context["club"] = club
 		return redirect(reverse(change_club, args=[club.id]))
 
+	
 @login_required	  
 def add_club(request, template_name="change_club.html"):
 	""" adds new club to the database """
 	context = RequestContext(request)
-	if request.method == "POST":
-		form = ClubForm(data=request.POST)
+	PhotoFormSet = inlineformset_factory(Club, Photo, extra=1, max_num=7, can_delete=False)
 
+	empty_club = Club()
+	if request.method == "POST":
+					 
+		form = ClubForm(data=request.POST)
+		formset = PhotoFormSet(request.POST, request.FILES)
+			
 		if form.is_valid():
 			club_object = form.save(commit=False)
 			club_object.owner = request.user
 			club_object.save() # Club instance need to have primary key before m2m relationship can be used
 			club_object.sites = [Site.objects.get_current(),]
 			club_object.save()
-			return redirect(reverse(change_club, args=[club_object.id]))
-			
+			# saving formset with images
+			formset = PhotoFormSet(request.POST, request.FILES, instance=club_object)
+
+			if formset.is_valid():
+				
+				formset.save()
+			return redirect(reverse(change_club, args=[club_object.id]))			
 	else:
+		
+		formset = PhotoFormSet(instance=empty_club)
+		
 		form = ClubForm()
+		
+
 	context["form"] = form
-	return render_to_response(template_name, context)
+	context["formset"] = formset
+	
+	return render_to_response(template_name, context)	

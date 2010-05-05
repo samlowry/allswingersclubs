@@ -87,8 +87,8 @@
 {% block content %}
     <a href="/reversions/list/{{ club.id }}/">History</a>
     <br />
-    
-    <form action='.' method='POST'>
+
+    <form action='.' method='POST' enctype="multipart/form-data">
         {{ form.name.errors }}
         Name: {{ form.name }}  <br />
         
@@ -96,7 +96,7 @@
         Description: {{ form.description }}  <br />
         
         {{ form.address.errors }} 
-        Address: {{ form.adress }} <br />
+        Address: {{ form.address }} <br />
         
         {{ form.state.errors }}
         State: {{ form.state }}  <br />
@@ -118,8 +118,18 @@
         <input type="button" value="Get coordinates" id="retrieve_coordinates" /> <br />
         {{ form.longitude.errors }}
         Longitude: {{ form.longitude }}  <br />
-        
+        <hr>
+        <br />
+        {{ formset.management_form }}
+        {% for frm in formset.forms %}
+            {% if frm.show_url %}
+                <img src="{{ frm.show_url }}" alt="club image" /> 
+            {% endif %}
+            {{ frm }} <br />
+        {% endfor %}
+
         <input type="submit" value="Submit" />
     </form>    
 
+       
 {% endblock %}
