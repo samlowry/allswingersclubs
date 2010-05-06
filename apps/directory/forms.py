@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.widgets import TextInput
 from django.shortcuts import get_object_or_404
+from django.contrib.sites.models import Site
 
 from directory.models import Club
 from directory.models import City
@@ -22,6 +23,10 @@ class ClubForm(forms.ModelForm):
     # make coord read only.
     longitude = forms.DecimalField(required=False, widget=TextInput(attrs={'readonly': True}))
     latitude = forms.DecimalField(required=False, widget=TextInput(attrs={'readonly': True}))
+    
+    # replace sites multiple choice with checkbox
+    sites = forms.ModelMultipleChoiceField(Site.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
+
     class Meta:
         model = Club
         #fields =  ('name', 'description', 'address', 'email', 'homepage')
@@ -29,7 +34,8 @@ class ClubForm(forms.ModelForm):
                     # email, homepage, latitude, longitude, rating, 
                     # date_of_review, is_closed, objects, current_site_only, 
                     # open_only, sites, owner
-        exclude = ('sites', 'owner', 'date_of_review', 'rating', 'is_closed')
+        exclude = ('owner', 'date_of_review', 'rating', 'is_closed')
+
     
     def __init__(self, *args, **kwargs):
         super(ClubForm,self ).__init__(*args,**kwargs) 
