@@ -1,7 +1,11 @@
 from django.contrib import admin
+from django import forms
 from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
 from registration.models import RegistrationProfile
 
@@ -44,3 +48,31 @@ class RegistrationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(RegistrationProfile, RegistrationAdmin)
+
+
+
+"""
+This code aims to override the username's regex of the Django admin panel to be
+able to allow email as usernames.
+
+Just add this code to an app as admin.py and everything will be done.
+"""
+help_text = _("Required. 30 characters or fewer. Valid email.")
+
+class UserCreationForm(UserCreationForm):
+    # The regex must be a string
+    username = forms.EmailField(label=_("Username_"), max_length=30, help_text=help_text)
+
+
+class UserChangeForm(UserChangeForm):
+    # The regex must be a string
+    username = forms.EmailField(label=_("Username"), max_length=30, help_text=help_text) 
+
+    
+class UserProfileAdmin(UserAdmin):
+    form = UserChangeForm
+    add_form = UserCreationForm
+
+
+admin.site.unregister(User)
+admin.site.register(User, UserProfileAdmin)

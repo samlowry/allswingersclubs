@@ -186,7 +186,8 @@ def register(request, backend, success_url=None, form_class=None,
     
     """
 
-            
+    
+    
     backend = get_backend(backend)
     if not backend.registration_allowed(request):
         return redirect(disallowed_url)
@@ -215,6 +216,8 @@ def register(request, backend, success_url=None, form_class=None,
                                 
         html_captcha = captcha.displayhtml(RECAPTCHA_PUB_KEY)
         if form.is_valid():
+            # email and username are the same. create username key in the request
+            data = request.POST.copy()
             new_user = backend.register(request, **form.cleaned_data)
             if success_url is None:
                 to, args, kwargs = backend.post_registration_redirect(request, new_user)
@@ -242,21 +245,6 @@ def _send_invitations():
             inv.save()
             inv.send()
             
-def login_wrapper(request, template_name="registration/login.html"):
-    """gets username as email, find real username, replaces email with username and call generic login"""
-    if request.method == "POST":
-        data = request.POST.copy()
-        # try to find username
-        try:
-            us = User.objects.get(email=data["username"])
-            data["username"] = us.username
-            request.POST = data
-        except User.DoesNotExist:
-            pass
-    # call to generic login and pass username to it (if found)
-    response = auth_views.login(request, template_name)
-    return response
-
 @login_required    
 def profile(request, template_name="registration/profile.html"):
     context = RequestContext(request)
