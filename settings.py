@@ -112,3 +112,5 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = "admin@allswingresclubs.org"
 ACCOUNT_ACTIVATION_DAYS = 14
+
+AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'

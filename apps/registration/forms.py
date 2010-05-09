@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from registration.models import RegistrationProfile
 
 # I put this on all required fields, because it's easier to pick up
 # on them with CSS or JavaScript if they have a class of "required"
@@ -125,13 +126,22 @@ class RegistrationFormNoFreeEmail(RegistrationForm):
         return self.cleaned_data['email']
 
         
-class ChangeUsernameForm(forms.Form):
-    username = forms.EmailField(label=_("Username"), max_length=30, 
+class ChangeProfileForm(forms.ModelForm):
+    username = forms.EmailField(label=_("Username"), max_length=30, required=False,
                 help_text="Required. 30 characters or fewer. Valid email." )
+    class Meta:
+        model = RegistrationProfile
+        fields = ["username", "url", "about_me"]
+    
     def clean_username(self):
         """checks username for unique"""
-        try:
-            user = User.objects.get(username=self.cleaned_data["username"])
-        except User.DoesNotExist:
-            return self.cleaned_data['username']
+        # if user name has not changed, return it, else check either such username exists.
+        if self.cleaned_data["username"] == self.instance.user.username:
+            return self.cleaned_data["username"]
+        else:
+            try:
+                user = User.objects.get(username=self.cleaned_data["username"])
+            except User.DoesNotExist:
+                return self.cleaned_data["username"]
+
         raise forms.ValidationError("Such username already in use. Please try another one.")            

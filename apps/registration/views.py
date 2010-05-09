@@ -12,13 +12,14 @@ from django.utils.hashcompat import sha_constructor
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.forms.fields import email_re # before 1.1.1
 #from django.core.validators import email_re # 1.1.1 version
 
 from registration.backends import get_backend
 from directory.models import Club
 from registration.models import Invitation
-from registration.forms import ChangeUsernameForm
+from registration.forms import ChangeProfileForm
 from recaptcha.client import captcha
 
 def activate(request, backend,
@@ -251,16 +252,18 @@ def profile(request, template_name="registration/profile.html"):
     return render_to_response(template_name, context_instance=context)
 
 @login_required    
-def change_username(request, template_name="registration/username_change_form.html"):
+def change_profile(request, template_name="registration/profile_change_form.html"):
     context = RequestContext(request)
     if request.method == "POST":
-        form = ChangeUsernameForm(data=request.POST)
+        form = ChangeProfileForm(data=request.POST, instance=request.user.get_profile())
         if form.is_valid():
             request.user.username = form.cleaned_data["username"]
             request.user.save()
-            return redirect("/accounts/profile/")
+            form.save()
+            
+            return redirect(reverse(change_profile))
     else:
-        form = ChangeUsernameForm()
+        form = ChangeProfileForm(instance=request.user.get_profile(), initial={"username": request.user.username})
     context["form"] = form
         
     return render_to_response(template_name, context_instance=context)

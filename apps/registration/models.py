@@ -176,6 +176,8 @@ class RegistrationProfile(models.Model):
     
     user = models.ForeignKey(User, unique=True, verbose_name=_('user'))
     activation_key = models.CharField(_('activation key'), max_length=40)
+    url = models.URLField(blank=True, verify_exists=False)
+    about_me = models.TextField(blank=True, default="")
     
     objects = RegistrationManager()
     
