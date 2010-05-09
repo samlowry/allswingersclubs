@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block inhead %}
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="/map.js"></script>
+<script src="http://www.google.com/jsapi?key=ABCDE"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.3.2");
+	google.load("jqueryui", "1.7.2");
+</script>
+<script type="text/javascript" src="/jquery.scrollfollow.js"></script>
+<script type="text/javascript">
+$( document ).ready( function ()
+			{
+				$( '#map_canvas' ).scrollFollow({
+					container: 'main',
+					offset: 200,
+					speed: 250,
+					});
+			}
+		);
+</script>
+{% endblock %}
+
+{% block inbodytag %}onload="initialize()"{% endblock %}
+
+{% block content %}
+<h1>{% block state_page_title_prefix %}{% endblock %} in {{state}}</h1>
+<div id="main">
+	<div id="map_canvas" ></div>
+	<div id="clubs">
+		{% for club in clubs_list%}
+		{% load my_slugify %}
+		<div class="vcard">
+		    <a href="{{club.get_absolute_url}}" id="{{club.id}}">
+			{% if club.latitude %}<script type="text/javascript">
+				addItem({{club.latitude}},{{club.longitude}},{{club.id}},'{{club.name}}','{{club.get_absolute_url}}');
+			</script>{% endif %}
+			<span class="fn org">{{club.name}}</span></a>
+		    {% if club.homepage %}&nbsp;&nbsp;<a href="{{club.homepage}}" class="url">#</a>{% endif %}
+		    - <span class="adr">
+		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+		        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
+		        <span class="region">{{club.state.usps_name}}</span>,
+		    </span>
+		    {% if club.phone %}<span class="tel">{{club.phone}}</span>,{% endif %}
+		    {% if club.email %}<span class="email">{{club.email}}</span>{% endif %}
+		    - <span class="title">{{club.description|truncatewords:25}}</span>
+		</div><br />
+		{% endfor %}
+	</div>
+</div>
+
+
+<h2>Help us with information about this cities</h2>
+We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@{{ current_site.domain }}
+<div class="Article">
+<ul>
+	{% for city in empty_cities%}
+		<li>{{ city.name }}</a></li>
+	{% endfor %}
+</ul>
+</div>
+<h2>{% block by_state_title_prefix %}{% endblock %} list by state</h2>
+<div class="Article">
+<ul>
+	{% for state in all_states_list%}
+		<li><a href="{{ state.get_absolute_url }}">{{ state.name }} {% block by_state_item_suffix %}{% endblock %}</a></li>
+	{% endfor %}
+</ul>
+</div>
+{% endblock content %}
+
+{% block links_title %}<h2>Related sites</h2>{% endblock %}

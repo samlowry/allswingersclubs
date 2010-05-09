@@ -1,18 +1,10 @@
-{% extends "base.html" %}
-{% load comments %}
+{% extends "directory/base_club.html" %}
 
 {% block title %}{{club.name}} Swingers Club & Sex Club{% endblock %}
 
-{% block inhead %}{% if club.is_closed %}<script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
-<script type="text/javascript" src="/modal_dialog.js"></script>
-<link rel="stylesheet" href="/modal_dialog.css" type="text/css" media="screen" />
-{% endif %}{% endblock %}
-
-{% block description %}{{club.description}}{% endblock %}
-
-
 {% block breadcrumbs %}&gt; <a href="{{ club.state.get_absolute_url }}">Swingers clubs in {{ club.state }}</a> &gt; {{club.name}} Swingers Club & Sex Club{% endblock %}
 
+<<<<<<< HEAD
 {% block content %}
 {% if club.is_closed %}
 <div id="boxes">
@@ -146,3 +138,6 @@
 </ul>
 </div>
 {% endblock content %}
+=======
+{% block club_page_title_suffix %}Swingers Club & Sex Club{% endblock %}
+>>>>>>> e7221ffccb24e37568316af8f737a228559410aa
