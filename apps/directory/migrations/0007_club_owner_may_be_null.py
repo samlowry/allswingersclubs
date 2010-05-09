@@ -2,6 +2,7 @@
 from south.db import db
 from django.db import models
 from directory.models import *
+from django.contrib.sites.models import *
 
 class Migration:
     no_dry_run = True    
