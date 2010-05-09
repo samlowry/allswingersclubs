@@ -1,12 +1,18 @@
 import datetime
+import random
+from imagekit.models import ImageModel
+
 from django.db import models
 from django.contrib.auth.models import User
-from directory.templatetags.my_slugify import my_slugify
-from imagekit.models import ImageModel
 from django.contrib.sites.models import Site
 from django.contrib.sites.managers import CurrentSiteManager
 from django.conf import settings
 
+from directory.templatetags.my_slugify import my_slugify
+
+def rating_random():
+    return random.choice([3.0, 3.5, 4.0])
+    
 # Create your models here.
 class State(models.Model):
 	name = models.CharField('state name', max_length=20, unique=True)
@@ -69,7 +75,7 @@ class Club(models.Model):
 		(4.5, 4.5),
 		(5, 5),
 	)
-	rating = models.IntegerField(choices=RATING_CHOISES, default=1)
+	rating = models.FloatField(choices=RATING_CHOISES, default=rating_random)
 	date_of_review = models.DateField(default=datetime.date.today)
 	is_closed = models.BooleanField( default=False )
 	objects = models.Manager()
