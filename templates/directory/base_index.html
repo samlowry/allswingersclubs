@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>{% block index_page_title %}{% endblock %}</h1>
+<div id="main">
+<div>
+<h2>{% block index_page_subtitle %}{% endblock %}</h2>
+<div class="Article">
+<ul>
+{% for state in all_states_list%}
+	<li><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></li>
+{% endfor %}
+</ul>
+</div>
+
+{% if flatpages %}
+<h2>{% block articles_title %}{% endblock %}</h2>
+<div>
+{% block articles_description %}
+{% endblock %}
+<ol>
+	{% for flatpage in flatpages %}
+		<li><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></li>
+	{% endfor %}
+</ol>
+</div>
+{% endif %}
+
+</div>
+</div>
+{% endblock content %}
+

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "directory/base_index.html" %}
 
 {% block title %}All Fetish Clubs &amp; BDSM Clubs{% endblock %}
 
@@ -8,30 +8,10 @@
 
 {% block breadcrumbs %}&gt; All Fetish Clubs &amp; BDSM Clubs{% endblock %}
 
-{% block content %}
-<h1>All Fetish Clubs &amp; BDSM Clubs</h1>
-<div id="main">
-<div id="clubs"><h2>Local fetish clubs in</h2>
-<div class="Article">
-<ul>
-{% for state in all_states_list%}
-	<li><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></li>
-{% endfor %}
-</ul>
-</div>
+{% block index_page_title %}All Fetish Clubs &amp; BDSM Clubs{% endblock %}
 
-<div>
-<ol>
-	{% for flatpage in flatpages %}
-		<li><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></li>
-	{% endfor %}
-</ol>
+{% block index_page_subtitle %}Local fetish clubs in{% endblock %}
 
-</li>
-</ul>
-</div>
+{% block articles_title %}Some BDSM stories{% endblock %}
 
-</div>
-</div>
-{% endblock content %}
-
+{% block articles_description %}{% endblock %}

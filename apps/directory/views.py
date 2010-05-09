@@ -13,8 +13,9 @@ def index(request):
 	all_states_list = State.objects.all()
 	flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
 	return render_to_response(
-		'directory/index.html',
+		'decorator.html',
 		{
+			'templatename': 'directory/index.html',
 			'all_states_list': all_states_list,
 			'flatpages': flatpages,
 		},
@@ -29,8 +30,9 @@ def state(request, state_usps_name):
 	
 	all_states_list = State.objects.all()
 	return render_to_response(
-		'directory/state.html',
+		'decorator.html',
 		{
+			'templatename': 'directory/state.html',
 			'state': current_state,
 			'clubs_list': all_clubs_for_state,
 			'empty_cities': empty_cities,
@@ -60,8 +62,9 @@ def club(request, club_id, club_urlsafe_title):
 		
 		form = get_comment_form(request, target_object=current_club)		
 		return render_to_response(
-			'directory/club.html',
+			'decorator.html',
 			{
+				'templatename': 'directory/club.html',
 				'club': current_club,
 				'clubs_list': all_clubs_for_state,
 				'form': form

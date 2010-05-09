@@ -11,10 +11,10 @@
 
 <body {% block inbodytag %}{% endblock %}>
 <div id="content">
-<iframe width="100%" scrolling="no" frameborder="0" src="http://banners.alt.com/piclist?background_color=transparent&banner_title=1Get+kinky+with+hot+people+in&border_color=transparent&link_color=%23CC9900&pic_border_color=%23000000&pic_border_width=0&piclang=english&pid=g668502-pct.subafc&rate_img=gold_stars&rollover_header_color=%236E6E5E&rows=1&show_join_link=0&site=bdsm&size=4&text_color=%23FFFFFF&thumb=bigsquare&title_color=%23000000&spcpromo_creative=July-spc&iframe=1" style="vertical-align: middle;" height="279" allowtransparency="true"></iframe>
+{% block topbanner %}{% endblock %}
 <p>
-<div><a href="/">Fetish Club</a> home {% block breadcrumbs %}{% endblock %}</div>
-{% block start_text %}Our listing inludes sex clubs, erotic clubs, erotic massage saloons, clubs for couples only and singles clubs, on premise and off premise BDSM clubs. If you want to suggest your favorite place for lifestyle activities - send details to webmaster@allfetishclubs.org{% endblock %}
+<div><a href="/">{% block homeanchor %}{% endblock %}</a> home {% block breadcrumbs %}{% endblock %}</div>
+{% block start_text %}{% endblock %}
 
 {% block content %}
 {% endblock content %}
@@ -36,7 +36,7 @@
 
 <hr>
 <div>
-2009 All Fetish Clubs Group, contact: webmaster@allfetishsclubs.org
+{% block footertext %}{% endblock %}
 </div>
 </div>
 <script type="text/javascript">
@@ -45,7 +45,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 </script>
 <script type="text/javascript">
 try {
-var pageTracker = _gat._getTracker("UA-2184402-9");
+var pageTracker = _gat._getTracker("");
 pageTracker._trackPageview();
 } catch(err) {}</script>
 </body>

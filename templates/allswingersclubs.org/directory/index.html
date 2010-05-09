@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "directory/base_index.html" %}
 
 {% block title %}All Swingers Clubs &amp; Sex Clubs{% endblock %}
 
@@ -8,34 +8,14 @@
 
 {% block breadcrumbs %}&gt; All Swingers Clubs &amp; Sex Clubs{% endblock %}
 
-{% block content %}
-<h1>All Swingers Clubs &amp; Sex Clubs</h1>
-<div id="main">
-<div><h2>Local swingers clubs in</h2>
-<div class="Article">
-<ul>
-{% for state in all_states_list%}
-	<li><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></li>
-{% endfor %}
-</ul>
-</div>
+{% block index_page_title %}All Swingers Clubs &amp; Sex Clubs{% endblock %}
 
-<h2>Some swingers stories</h2>
-<div>
+{% block index_page_subtitle %}Local swingers clubs in{% endblock %}
+
+{% block articles_title %}Some swingers stories{% endblock %}
+
+{% block articles_description %}
 Swinging, sometimes referred to in North America as the swinging lifestyle, is "non-monogamous sexual activity, treated much like any other social activity, that can be experienced as a couple."<br>
 The phenomenon (or at least its wider discussion and practice) may be seen as part of the sexual revolution of recent decades, which has occurred after the upsurge in sexual activity possible due to safer sex practices that became prevalent during these same decades.<br>
 Swinging has been called wife swapping in the past, but this term is now archaic, as it is androcentric and does not accurately describe the full range of sexual activities that swingers may take part in.<br>
-<ol>
-	{% for flatpage in flatpages %}
-		<li><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></li>
-	{% endfor %}
-</ol>
-
-</li>
-</ul>
-</div>
-
-</div>
-</div>
-{% endblock content %}
-
+{% endblock %}

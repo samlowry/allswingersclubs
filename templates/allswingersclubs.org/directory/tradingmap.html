@@ -1,19 +1,8 @@
-<html>
-<body>
-<!-- homepage -->
-<a href="http://{{request.get_host}}/">All Swingers Clubs & Sex Clubs</a>
-<!-- states -->
-{% for state in all_states%}
-<a href="http://{{request.get_host}}{{ state.get_absolute_url }}">Swingers clubs & Sex clubs in {{state}}</a>
-{% endfor %}
-<!-- clubs -->
-{% for club in all_clubs%}
-<a href="http://{{request.get_host}}{{ club.get_absolute_url }}">{{club.name}} Swingers Club & Sex Club</a>
-{% endfor %}
-<!-- articles -->
-{% for article in all_flatpages%}
-<a href="http://{{request.get_host}}{{ article.get_absolute_url }}">{{ article.title }}</a>
-{% endfor %}
+{% extends "directory/base_tradingmap.html" %}
 
-</body>
-</html>
+{% block homepage_anchor %}All Swingers Clubs & Sex Clubs{% endblock %}
+
+
+{% block state_anchor_prefix %}Swingers clubs & Sex clubs{% endblock %}
+
+{% block club_anchor_suffix %}Swingers Club & Sex Club{% endblock %}
