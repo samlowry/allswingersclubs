@@ -30,11 +30,8 @@ class RegistrationForm(forms.Form):
     registration backend.
     
     """
-    #username = forms.RegexField(regex=r'^\w+$',
-    #                            max_length=30,
-    #                            widget=forms.TextInput(attrs=attrs_dict),
-    #                            label=_("Username"),
-    #                            error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
+    username = forms.CharField(max_length=30, required=False, widget=forms.HiddenInput())
+  
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
                              label=_("Email address"))
@@ -70,7 +67,10 @@ class RegistrationForm(forms.Form):
         self.cleaned_data["username"] = self.cleaned_data["email"]
         return self.cleaned_data
 
+    def clean_email(self):
 
+        return self.cleaned_data["email"]
+        
 class RegistrationFormTermsOfService(RegistrationForm):
     """
     Subclass of ``RegistrationForm`` which adds a required checkbox
