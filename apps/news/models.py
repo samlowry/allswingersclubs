@@ -9,6 +9,10 @@ class News(models.Model):
     changed = models.DateTimeField(default=datetime.datetime.now, db_index=True)
     text = models.TextField() 
 
+    class Meta:
+        verbose_name = "News"
+        verbose_name_plural = "News"
+        
     def __unicode__(self):
         return "%s..." % self.text[:20]
         
