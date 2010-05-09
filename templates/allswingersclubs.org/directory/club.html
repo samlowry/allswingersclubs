@@ -26,7 +26,7 @@
 {% endif %}
 
 <h1>{{club.name}} Swingers Club & Sex Club</h1>
-{% if not club.email %}
+{% if not club.email and not club.owner %}
 	<a href="/club/take/{{ club.id }}/">I'm owner</a>
 {% endif %}
 <div id="main">
