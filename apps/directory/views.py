@@ -116,6 +116,7 @@ def change_club(request, club_id, template_name="change_club.html"):
 		if form.is_valid() and formset.is_valid():
 			form.save()
 			formset.save()
+			return redirect(reverse(change_club, args=[cl.id]))
 	else:
 		form = ClubForm(instance=cl)
 		formset = PhotoFormSet(instance=cl)
