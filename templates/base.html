@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>{% block title %}{% endblock %}</title>
-<meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|escape}}{% endblock %}">
+<meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen" />
 <script type="text/JavaScript" src="/css3-multi-column.js"></script>
