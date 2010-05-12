@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/modal_dialog.css" type="text/css" media="screen" />
 {% endif %}{% endblock %}
 
-{% block description %}{{club.description}}{% endblock %}
+{% block description %}{{club.description|striptags|truncatewords:40|escape}}{% endblock %}
 
 
 {% block content %}
