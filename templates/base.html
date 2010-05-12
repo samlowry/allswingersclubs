@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>{% block title %}{% endblock %}</title>
+<title>{% block title %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
 <meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen" />
