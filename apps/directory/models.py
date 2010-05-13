@@ -122,7 +122,7 @@ class Club(models.Model):
 		"""checks the owner of club, if owner changed saves event to the ClubCapture table"""
 
 		if self.id is not None:
-			from apps.tapes.models import ClubCapture
+			from tapes.models import ClubCapture
 			if Club.objects.get(id=self.id).owner != self.owner:
 				capture = ClubCapture()
 				capture.user = self.owner
