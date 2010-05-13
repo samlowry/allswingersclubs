@@ -59,7 +59,7 @@
 								$("#id_city").empty();
 
 								// {# creating options for city select box #}
-								var options = "";
+								var options = "<option selected='selected' value=''>---------</option>";
 								var cities = XMLHttpRequest.cities;								
 								for (var i=0; i<cities.length; i++)
 								{
