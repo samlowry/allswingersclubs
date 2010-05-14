@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>{% block title %}{% endblock %}</title>
-<meta name="Description" content="{% block description %}{{item.description}}{% endblock %}">
+<title>{% block title %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
+<meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen" />
 <script type="text/JavaScript" src="/css3-multi-column.js"></script>
@@ -52,7 +52,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 </script>
 <script type="text/javascript">
 try {
-var pageTracker = _gat._getTracker("");
+var pageTracker = _gat._getTracker("{% block google_analytics_id %}{% endblock %}");
 pageTracker._trackPageview();
 } catch(err) {}</script>
 </body>

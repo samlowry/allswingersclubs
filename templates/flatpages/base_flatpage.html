@@ -2,7 +2,7 @@
 
 {% block title %}{{ flatpage.title }}{% endblock %}
 
-{% block description %}{{ flatpage.content|striptags|truncatewords:40 }}{% endblock %}
+{% block description %}{{ flatpage.content|striptags|truncatewords:40|force_escape }}{% endblock %}
 
 
 {% block breadcrumbs %}&gt; <a href="{{ flatpage.url }}">{{ flatpage.title }}</a> Article{% endblock %}
