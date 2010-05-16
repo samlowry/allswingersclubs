@@ -188,5 +188,6 @@ def add_club(request, template_name="change_club.html"):
 
 	context["form"] = form
 	context["formset"] = formset
+	context["add_club"] = True
 	
 	return render_to_response(template_name, context)	

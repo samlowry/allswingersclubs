@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "decorator.html" %}
 
 {% block title %}{% endblock %}
 
@@ -7,10 +7,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="center_cont">
-    <div id="login">
-        <h3>Log in</h3>
-
+        <h1>Log in</h1>
+    <div id="main">
         <form method="post" action="/accounts/login/">
             <div class="errorlist">
                 {% if form.errors %}
@@ -58,5 +56,4 @@
             </table>
         </form>
     </div>
-</div>
 {% endblock %}

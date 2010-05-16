@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "decorator.html" %}
 {% block inhead %}
     <script src="http://www.google.com/jsapi?key=ABCDE"></script>
     <script type="text/javascript">
@@ -82,47 +82,51 @@
 
     </script>
 {% endblock %}
-{% block title %} Change club {% endblock %}
+{% block title %}{% if add_club %}Add new{% else %}Change {{ club.name }}{% endif %} club {% endblock %}
 
 {% block content %}
-    <a href="/reversions/list/{{ club.id }}/">History</a>
-    <br />
+
+	<h1>{% if add_club %}Add new{% else %}Change {{ club.name }}{% endif %} club </h1>
+	<div id="main">
+	{% if not add_club %}
+    <a href="/reversions/list/{{ club.id }}/">History of edits</a>
+    <br /><br>
+	{% endif %}
 
     <form action='.' method='POST' enctype="multipart/form-data">
         {{ form.name.errors }}
-        Name: {{ form.name }}  <br />
+        Name*: {{ form.name }}  <br />
         
         {{ form.description.errors }}
-        Description: {{ form.description }}  <br />
-        
-        {{ form.address.errors }} 
-        Address: {{ form.address }} <br />
+        Description*: {{ form.description }}  <br />
         
         {{ form.state.errors }}
-        State: {{ form.state }}  <br />
+        State*: {{ form.state }}  <br />
         
         {{ form.city.errors }}
-        City: {{ form.city }}  <br />
+        City*: {{ form.city }}  <br />
+
+        {{ form.address.errors }} 
+        Address: {{ form.address }} <br />
         
         {{ form.phone.errors }}
         Phone: {{ form.phone }}  <br />
         
         {{ form.email.errors }}
-        e-mail: {{ form.email }}  <br />
+        e-mail*: {{ form.email }}  <br />
         
         {{ form.homepage.errors }} 
         Homepage: {{ form.homepage }} <br />
-        
+		<small>Correct coordinates can be retrieved with filled Country, State, City and Address fields only!</small><br>
+        <input type="button" value="Get coordinates" id="retrieve_coordinates" /> 
+
         {{ form.latitude.errors }}  
-        Latitude: {{ form.latitude }} 
-        <input type="button" value="Get coordinates" id="retrieve_coordinates" /> <br />
+        Lat: {{ form.latitude }} 
         {{ form.longitude.errors }}
-        Longitude: {{ form.longitude }}  <br />
+        Long: {{ form.longitude }}  <br /><br />
         
         {{ form.sites.errors }}
-        Sites: {{ form.sites }}  <br />        
-        <hr>
-        <br />
+        Publish on sites*: {{ form.sites }}  <br />
         {{ formset.management_form }}
         {% for frm in formset.forms %}
             {% if frm.show_url %}
@@ -131,8 +135,9 @@
             {{ frm }} <br />
         {% endfor %}
 
-        <input type="submit" value="Submit" />
-    </form>    
+        <input type="submit" value="Save" />
+    </form>
+	</div>
 
        
 {% endblock %}

@@ -1,18 +1,15 @@
-{% extends "base.html" %}
-{% block title %}{% endblock %}
-
-{% block extrahead %}
-
-
-{% endblock %}
+{% extends "decorator.html" %}
+{% block title %}Your profile{% endblock %}
 
 {% block content %}
+    <h1>Your profile</h1>
+<div id="main">
 
-    <h3>Profile</h3><br />
-    <a href="/club/add">Add club</a><br />
+	
+	<a href="/club/add">Add club</a><br />
     <a href="{% url change_profile %}">Change profile</a><br />
     <a href="/accounts/password/change/">Change password</a><br />
     <a href="/clubs/">Show my clubs</a><br />
     <a href="/comments/list/">Show comments</a><br />
 
-{% endblock %}
+</div>{% endblock %}

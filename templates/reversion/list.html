@@ -1,17 +1,19 @@
-{% extends "base.html" %}
+{% extends "decorator.html" %}
 {% block extrahead %}
 
 <script type="text/javascript">
     
 </script>
 {% endblock %}
-{% block title %} Revisions for {{ club.name }} {% endblock %}
+{% block title %} Revisions for {{ club.name }} club{% endblock %}
 
 {% block content %}
-    Revisions for {{ club.name }} <br />
-
-    {% for revision in revisions%}
-        <a title="Show" href="{{ revision.get_absolute_url }}/">{{ revision }}</a> &nbsp; 
-        <br />
-    {% endfor %}
+	<h1>Revisions for {{ club.name }} club</h1>
+	<div id="main">
+		<ul>
+		{% for revision in revisions%}
+		<li><a title="Show" href="{{ revision.get_absolute_url }}/">{{ revision }}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "decorator.html" %}
 {% block extrahead %}
 
 <script type="text/javascript">
@@ -6,15 +6,23 @@
 
 </script>
 {% endblock %}
-{% block title %} Clubs list {% endblock %}
+{% block title %}Your clubs list {% endblock %}
 
 {% block content %}
-    Clubs list <br />
+    <h1>Your clubs list</h1>
+<div id="main">
+<ul>
     {% for club in clubs %}
-        <a href="/club/change/{{ club.id }}/">{{ club.name }}</a> &nbsp; 
-        <a href="/news/add/{{ club.id }}/">Add news</a>
-        <a href="/news/list/{{ club.id }}/">All news</a>
-        <br />
+<li>
+	<a href="/club/{{ club.id }}/">{{ club.name }}</a>
+	<sup>
+	[<a href="/club/change/{{ club.id }}/">Edit club</a>]
+	[<a href="/news/add/{{ club.id }}/">Add news</a>]
+	[<a href="/news/list/{{ club.id }}/">Edit news</a>]
+	</sup>
+</li>
     {% endfor %}
+</ul>
+</div>
 
 {% endblock %}
