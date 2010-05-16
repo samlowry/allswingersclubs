@@ -1,7 +1,7 @@
 {% extends "decorator.html" %}
 {% load comments %}
 
-{% block title_suffix %} | {{ club.state }}{% endblock %}
+{% block title_suffix %} in {{ club.state }}{% endblock %}
 
 {% block inhead %}{% if club.is_closed %}<script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script>
 <script type="text/javascript" src="/modal_dialog.js"></script>
