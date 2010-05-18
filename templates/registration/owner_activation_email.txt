@@ -1,6 +1,20 @@
 club owner registration
-You must activate your account within {{ expiration_days }}
-We strongly recommend you to change your password after account activation
+
+Hello!
+
+Your e-mail is listed in one (or several) club details on website {{ site.name }}. You have ability to take posession of that clubs records. After that you can edit club details, get notifications about new questions about your club, post news about your club events.
+
+Who we are: we are growing network of niched adult club direstories, our websites stays in tops of Google. Our current mission - to give club owners ability to manage their clubs records. Belive us - it's topical problem. 99% of comments about clubs - is questions from people, who want to get more info about your club and to find connetction with club owners. They consider, it's more useful to do at our website (they exactly, it aren't our grandiose schemes to conquer the world).
+
+So - don't loose your chanse, don't lose people, who want to come to your party. Activate the acc! You have {{ expiration_days }} days.
+We st
+rongly recommend you to change your password after account activation!
+
 Your username is {{ username }}
 Your password is {{ password }}
-To activate your account please follow this link http://{{ site }}/accounts/activate/{{ activation_key }}.
+
+To activate the acc please follow this link http://{{ site.domain }}/accounts/activate/{{ activation_key }}.
+
+If this message was sent to wrong address - don't activate the acc!
+If your club was closed long time ago - pls, tell us!
+If you have any Qs - pls, contact us: webmaster@{{ site.domain }}

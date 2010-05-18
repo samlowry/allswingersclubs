@@ -14,10 +14,24 @@
 {% block topbanner %}{% endblock %}
 <p>
 <div><a href="/">{% block homeanchor %}{% endblock %}</a> home {% block breadcrumbs %}{% endblock %}</div>
-{% block start_text %}{% endblock %}
 
-{% include 'tags/user_menu.html' %}
-<br />
+{% block start_text %}{% endblock %}
+<br><br />
+
+<div align="right">
+    {% if user.is_authenticated %}
+        Welcome, <a href="/accounts/profile/">{{ user.username }}</a> |
+        <a href="/accounts/logout/">Logout</a> |
+        <a href="{% url directory.views.add_club %}">Add club</a>
+    {% else %}
+        <a href="/accounts/login/">Login</a> |
+        <a href="{% url registration_register %}">Register</a> |
+        <a href="{% url registration_anonymous %}">Add club</a>
+    {% endif %}
+</div>
+<br>
+
+
 <div align="right">
     <a href="/news/sitenews/feed/">RSS(sitenews)</a><br />
     <a href="/news/statenews/sc-clubs.html/feed/">RSS(statenews-South Carolina)</a><br />

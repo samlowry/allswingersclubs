@@ -1,1 +1,1 @@
-club owner registration
+Activate your account at {{ site.domain }}

@@ -3,10 +3,12 @@
 {% block title %} Change profile {% endblock %}
 
 {% block content %}
+<h1>Change profile</h1>
+<div id="main">
     <form action='.' method='POST'>
         {{ form.as_ul }}
         <input type="submit" value="Submit" />
 
     </form>
 
-{% endblock %}
+</div>{% endblock %}

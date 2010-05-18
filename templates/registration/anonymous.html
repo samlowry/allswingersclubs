@@ -2,9 +2,9 @@
 {% block inhead %}
 
 {% endblock %}
-{% block title %} Anonymous {% endblock %}
+{% block title %}You are not logged in!{% endblock %}
 
 {% block content %}
-    Sorry, you are not logged in. Please login <a href="/accounts/login/">here</a> 
-        or register <a href="{% url registration_register %}">here</a>. Thank you.
+<h1>You are not logged in!</h1>
+<div id="main">Please login <a href="/accounts/login/">here</a> or register <a href="{% url registration_register %}">here</a>. Thank you.</div>
 {% endblock %}

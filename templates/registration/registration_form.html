@@ -6,10 +6,11 @@
 
 </script>
 {% endblock %}
-{% block title %} Register {% endblock %}
+{% block title %}Registration{% endblock %}
 
 {% block content %}
-    <form action='.' method='POST'>
+<h1>Registration</h1>
+<div id="main">    <form action='.' method='POST'>
         {{ form.as_ul }}
 
         {{ html_captcha|safe }}
@@ -17,5 +18,5 @@
         <input type="submit" value="Submit" />
         
     </form>
-
+</div>
 {% endblock %}

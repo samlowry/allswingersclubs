@@ -1,18 +1,15 @@
 {% extends "decorator.html" %}
-{% block extrahead %}
 
-<script type="text/javascript">
-    
-</script>
-{% endblock %}
-{% block title %} Clubs list {% endblock %}
+{% block title %} {{ news.club.name }} news list {% endblock %}
 
 {% block content %}
-    All news for {{ club.name }} <br />
-    <a href="/news/add/{{ club.id }}/">Add news</a>  
-    <br />
-    {% for unit in news %}
-        <a title="Edit" href="/news/change/{{ unit.id }}/">{{ unit }}</a> &nbsp; 
-        <br />
+    <h1>All news for {{ club.name }}</h1>
+<div id="main">
+<ul>    {% for unit in news %}
+        <li><a title="Edit" href="/news/change/{{ unit.id }}/">{{ unit }}</a></li>
     {% endfor %}
+</ul>
+<a href="/news/add/{{ club.id }}/">Add news</a>  
+</div>
+
 {% endblock %}

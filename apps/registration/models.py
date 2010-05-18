@@ -260,6 +260,8 @@ class RegistrationProfile(models.Model):
         try:
             inv, created = Invitation.objects.get_or_create(email=self.user.email)
             email_template = 'registration/owner_activation_email.txt'
+            subject = render_to_string('registration/owner_activation_email_subject.txt',
+                                   ctx_dict)
             # create new password and send email with it to the user
             password = sha_constructor(str(random.random())).hexdigest()[:5]
             self.user.set_password(password)
@@ -268,9 +270,9 @@ class RegistrationProfile(models.Model):
         except Invitation.DoesNotExist:
             # it's new user
             email_template = 'registration/user_activation_email.txt'
-
-        subject = render_to_string('registration/activation_email_subject.txt',
+            subject = render_to_string('registration/activation_email_subject.txt',
                                    ctx_dict)
+                                    
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         
