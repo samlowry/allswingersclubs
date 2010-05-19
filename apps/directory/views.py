@@ -13,6 +13,7 @@ from django.contrib.sites.models import Site
 
 from comments.forms import get_comment_form
 from directory.models import *
+from news.models import News
 from directory.forms import ClubForm
 from directory.forms import PhotoForm
 
@@ -22,11 +23,15 @@ from django.forms.models import inlineformset_factory
 def index(request):
 	all_states_list = State.objects.all()
 	flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
+	
+	news = News.objects.order_by('-created')[:10]
+	
 	return render_to_response(
 		'directory/index.html',
 		{
 			'all_states_list': all_states_list,
 			'flatpages': flatpages,
+			'news': news,
 		},
 		context_instance=RequestContext(request),
 	)
@@ -38,6 +43,9 @@ def state(request, state_usps_name):
 	empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)
 	
 	all_states_list = State.objects.all()
+	
+	news = News.objects.filter(club__state__id__exact=current_state.id).order_by('-created')[:10]
+	
 	return render_to_response(
 		'directory/state.html',
 		{
@@ -45,6 +53,7 @@ def state(request, state_usps_name):
 			'clubs_list': all_clubs_for_state,
 			'empty_cities': empty_cities,
 			'all_states_list': all_states_list,
+			'news': news,
 		},
 		context_instance=RequestContext(request),
 	)

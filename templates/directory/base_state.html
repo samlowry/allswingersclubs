@@ -50,8 +50,16 @@ $( document ).ready( function ()
 		</div><br />
 		{% endfor %}
 	</div>
-</div>
 
+{# news div #}
+<div id="news">
+{% if news %}
+{% include "news/news_block.html" %}
+{% endif %}
+</div>
+{# news div end #}	
+
+</div>
 
 <h2>Help us with information about this cities</h2>
 We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@{{ current_site.domain }}

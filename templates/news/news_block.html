@@ -1,0 +1,17 @@
+{% if club %}
+	<h3>Club news</h3>
+{% else %}
+	{% if state %}
+		<h3>{{ state }} clubs news</h3>
+	{% else %}
+		<h3>All clubs news</h3>
+	{% endif %}
+{% endif %}
+{% for unit in news %}
+<div class="news">
+	<h4>{% if not club %}{{ unit.club }}: {% endif %}{{ unit.title }}</h4>
+	<div class="body">{{ unit.description }}</div>
+	{% if not club %}<div class="link"><a href="{{ unit.club.get_absolute_url }}">go to club page</a></div>{% endif %}
+	<div class="meta">{{ unit.created }}</div>	
+</div>
+{% endfor %}

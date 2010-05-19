@@ -13,10 +13,16 @@ class LatestNews(Feed):
     link = "/sitenews/"
     description = "News about clubs"
     
+    title_template = "feeds/news_title.html"
+    description_template = "feeds/news_description.html"
+    
     def items(self):
         return News.objects.order_by('-created')[:10]
         
 class ClubNews(Feed):
+
+    title_template = "feeds/news_title.html"
+    description_template = "feeds/news_description.html"
 
     def title(self, obj):
         return "%s news feed" % obj.name
@@ -40,6 +46,10 @@ class ClubNews(Feed):
 
         
 class StateNews(Feed):
+
+    title_template = "feeds/news_title.html"
+    description_template = "feeds/news_description.html"    
+    
     def get_object(self, bits):
         if len(bits) != 1:
             raise ObjectDoesNotExist

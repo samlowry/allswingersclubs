@@ -4,7 +4,7 @@
 {% block content %}
 <h1>{% block index_page_title %}{% endblock %}</h1>
 <div id="main">
-<div>
+
 <h2>{% block index_page_subtitle %}{% endblock %}</h2>
 <div class="Article">
 <ul>
@@ -13,6 +13,14 @@
 {% endfor %}
 </ul>
 </div>
+
+{# news div #}
+<div id="news">
+{% if news %}
+{% include "news/news_block.html" %}
+{% endif %}
+</div>
+{# news div end #}
 
 {% if flatpages %}
 <h2>{% block articles_title %}{% endblock %}</h2>
@@ -27,7 +35,6 @@
 </div>
 {% endif %}
 
-</div>
 </div>
 {% endblock content %}
 
