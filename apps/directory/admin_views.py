@@ -5,6 +5,8 @@ from directory.models import State
 import urllib2 # need to send request to the google geocoder
 from django.contrib.admin.views.decorators import staff_member_required
 
+ACCURACY_ADDRESS = 8 # geocode response accuracy
+
 # @staff_member_required - just an user need it to.
 @login_required
 def state_cities(request, state_id):
@@ -31,7 +33,7 @@ if response.status == 1 then response contains list of cities(id, name)
 #@staff_member_required
 @login_required
 def geocoder_proxy(request):
-    """ passes data from request to the google geocoder, return latitude and longitude """
+    """ passes data from request to the google geocoder, returns latitude and longitude """
     KEY = "222222" # google map key
     address = request.GET.get("q", "")
     if len(address) > 0:
@@ -52,16 +54,23 @@ oe=utf-8
             # success code is 200, otherwise raise an exception
             if int(resp["Status"]["code"]) != 200:
                 raise Exception("Can't retrieve coordinates. Sorry.");
-            # latitude in json representations - Placemark[0].Point.coordinates[1]
-            latitude = resp["Placemark"][0]["Point"]["coordinates"][1]
-            # longitude in json representations - Placemark[0].Point.coordinates[0]
-            longitude = resp["Placemark"][0]["Point"]["coordinates"][0]
-            answer = {'status': 1,
-                      'latitude': latitude,
-                      'longitude': longitude
-                      }
-            json_answer = simplejson.dumps(answer)
-            return HttpResponse(json_answer, mimetype='application/json')
+            
+            # we need coordinate of full address
+                
+            for place in resp["Placemark"]:
+                if place["AddressDetails"]["Accuracy"] == ACCURACY_ADDRESS:
+                    
+                    # latitude in json representations - place.Point.coordinates[1]
+                    latitude = place["Point"]["coordinates"][1]
+                    # longitude in json representations - place.Point.coordinates[0]
+                    longitude = place["Point"]["coordinates"][0]
+                    answer = {'status': 1,
+                              'latitude': latitude,
+                              'longitude': longitude
+                              }
+                    json_answer = simplejson.dumps(answer)
+                    return HttpResponse(json_answer, mimetype='application/json')
+            raise Exception("Can't find such address. Please check address");
 
         except Exception, err:
             error = str(err)
