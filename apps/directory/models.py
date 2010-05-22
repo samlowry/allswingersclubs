@@ -11,8 +11,8 @@ from django.conf import settings
 from directory.templatetags.my_slugify import my_slugify
 
 def rating_random():
-    return random.choice([3.0, 3.5, 4.0])
-    
+	return random.choice([3.0, 3.5, 4.0])
+	
 # Create your models here.
 class State(models.Model):
 	name = models.CharField('state name', max_length=20, unique=True)

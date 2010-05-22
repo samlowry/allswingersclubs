@@ -258,13 +258,14 @@ class RegistrationProfile(models.Model):
                      'site': site}        
         # users that we invite to register (all of them are in Invitation)
         try:
-            inv, created = Invitation.objects.get_or_create(email=self.user.email)
+            inv = Invitation.objects.get(email=self.user.email)
             email_template = 'registration/owner_activation_email.txt'
             subject = render_to_string('registration/owner_activation_email_subject.txt',
                                    ctx_dict)
             # create new password and send email with it to the user
             password = sha_constructor(str(random.random())).hexdigest()[:5]
             self.user.set_password(password)
+            self.user.save()
             ctx_dict['username'] = self.user.username
             ctx_dict['password'] = password
         except Invitation.DoesNotExist:
@@ -281,7 +282,11 @@ class RegistrationProfile(models.Model):
         
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
 
-# nmb10 need to send invitations for all clubs owners.      
+# nmb10 need to send invitations for all clubs owners. 
+# DO NOT RESEND INVITATION HERE
+# IT MAY CAUSE SOME PROBLEM, BECAUSE PROFILES ARE CREATED, USERS ARE SAVED, INVITATION LOG NOT EMPTY
+# CREATE FUNCTION INSTEAT THAT LOOPS THROUGH INVITATION MODEL, GET EMAIL THERE AND SEND INVITATION.
+
 class Invitation(models.Model):
     email = models.EmailField('e-mail address', blank=True, db_index=True)
     created = models.DateTimeField('created', default=datetime.datetime.now)
@@ -296,9 +301,10 @@ class Invitation(models.Model):
     def send(self):
         # sending was success. show it.
         try:
-            
             # create username from email
             username = self.email.split("@")[0]
+            # username cannot be more then 30
+            username = username[:29]
             username_suffix = 1
             temp_name = username
             while True:
@@ -306,7 +312,7 @@ class Invitation(models.Model):
                 try:
                     user_object = User.objects.get(username=temp_name)
                     # yes, exist. add suffix
-                    print "Such user already exists - %s. Adding suffix." % username
+                    print "Such user already exists - %s. Adding suffix." % temp_name
                     temp_name = "%s_%s" % (username, username_suffix)
                     username_suffix = username_suffix + 1
                     time.sleep(0.1)
@@ -318,9 +324,11 @@ class Invitation(models.Model):
             
             site = Site.objects.get_current()
             self.save()
-            self.user = RegistrationProfile.objects.create_inactive_user(temp_name, self.email, password,
+
+            new_user = RegistrationProfile.objects.create_inactive_user(temp_name, self.email, password,
                              site, send_email=True)
             
+            self.user = new_user
             # new user is the club (maybe clubs) owner
             for club in Club.objects.filter(email=self.email):
                 club.owner = self.user
@@ -328,10 +336,9 @@ class Invitation(models.Model):
                 
             self.sent = True
             self.save()
+            
         except Exception, exc:
             self.sent = False
             self.comment = str(exc)
             self.save()
-
-            
-    
+                

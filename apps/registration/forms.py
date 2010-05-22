@@ -30,7 +30,11 @@ class RegistrationForm(forms.Form):
     registration backend.
     
     """
-    username = forms.CharField(max_length=30, required=False, widget=forms.HiddenInput())
+    username = forms.RegexField(regex=r'^\w+$',
+                                max_length=30,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                label=_("Username"),
+                                error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
   
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
@@ -40,17 +44,17 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_("Password (again)"))
     
-    #def clean_username(self):
-    #    """
-    #    Validate that the username is alphanumeric and is not already
-    #    in use.
-        
-    #    """
-    #    try:
-    #        user = User.objects.get(username__iexact=self.cleaned_data['username'])
-    #    except User.DoesNotExist:
-    #        return self.cleaned_data['username']
-    #    raise forms.ValidationError(_("A user with that username already exists."))
+    def clean_username(self):
+        """
+        Validate that the username is alphanumeric and is not already
+        in use.
+       
+        """
+        try:
+            user = User.objects.get(username__iexact=self.cleaned_data['username'])
+        except User.DoesNotExist:
+            return self.cleaned_data['username']
+        raise forms.ValidationError(_("A user with that username already exists."))
 
     def clean(self):
         """
@@ -63,8 +67,7 @@ class RegistrationForm(forms.Form):
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("The two password fields didn't match."))
-        # create username as copy of email
-        self.cleaned_data["username"] = self.cleaned_data["email"]
+
         return self.cleaned_data
 
     def clean_email(self):
@@ -127,8 +130,11 @@ class RegistrationFormNoFreeEmail(RegistrationForm):
 
         
 class ChangeProfileForm(forms.ModelForm):
-    username = forms.EmailField(label=_("Username"), max_length=30, required=False,
-                help_text="Required. 30 characters or fewer. Valid email." )
+    username = forms.RegexField(regex=r'^\w+$',
+                                max_length=30,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                label=_("Username"),
+                                error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
     class Meta:
         model = RegistrationProfile
         fields = ["username", "url", "about_me"]
