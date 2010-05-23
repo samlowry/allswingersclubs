@@ -106,7 +106,7 @@ CSS3Utility.prototype.randomId=function(){var rId="";for(var i=0;i<6;i++)
 rId+=String.fromCharCode(97+Math.floor((Math.random()*24)))
 return rId;}
 CSS3Utility.prototype.debug=function(text){var debugOutput=document.getElementById('debugOutput');if(typeof debugOutput!="undefined"&&debugOutput){debugOutput.innerHTML+=text;}}
-var css3MC=new CSS3MultiColumn();if(jQuery){(function($){$.scrollFollow=function(box,options)
+var css3MC=new CSS3MultiColumn();if(typeof jQuery!='undefined'){(function($){$.scrollFollow=function(box,options)
 {box=$(box);var position=box.css('position');function ani()
 {box.queue([]);var viewportHeight=parseInt($(window).height());var pageScroll=parseInt($(document).scrollTop());var parentTop=parseInt(box.cont.offset().top);var parentHeight=parseInt(box.cont.attr('offsetHeight'));var boxHeight=parseInt(box.attr('offsetHeight')+(parseInt(box.css('marginTop'))||0)+(parseInt(box.css('marginBottom'))||0));var aniTop;if(isActive)
 {if(options.relativeTo=='top')

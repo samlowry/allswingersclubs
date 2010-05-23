@@ -1025,7 +1025,7 @@ var css3MC = new CSS3MultiColumn();
  * 								default: 0
  */
 
-if(jQuery){
+if(typeof jQuery!='undefined'){
 ( function( $ ) {
 	
 	$.scrollFollow = function ( box, options )
