@@ -1025,6 +1025,7 @@ var css3MC = new CSS3MultiColumn();
  * 								default: 0
  */
 
+if(jQuery){
 ( function( $ ) {
 	
 	$.scrollFollow = function ( box, options )
@@ -1236,6 +1237,7 @@ var css3MC = new CSS3MultiColumn();
 		return this;
 	};
 })( jQuery );
+}
 
 
 
