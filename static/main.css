@@ -10,3 +10,31 @@ hr{color:#cccccc;background-color:#cccccc;height:1px;border:0;}
 .Article2Col{column-count:2;}
 .Article3Col{column-count:3;}
 #map_canvas{height:400px;position:absolute;right:0px;left:600px;margin:50px;margin-top:300px;}
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+  
+#boxes .window {
+  position:absolute;
+  left:0;
+  top:0;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9999;
+  padding:20px;
+}
+
+#boxes #dialog {
+  width:375px; 
+  height:203px;
+  padding:20px 10px;
+  background-color:#ffffff;
+  text-align:center;
+  font-size:16px;
+}

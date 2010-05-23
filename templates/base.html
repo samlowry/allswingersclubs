@@ -4,9 +4,9 @@
 <title>{% block title %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
 <meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
+{% block inhead %}{% endblock %}
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen" />
 <script type="text/JavaScript" src="/scripts-min.js"></script>
-{% block inhead %}{% endblock %}
 </head>
 
 <body {% block inbodytag %}{% endblock %}>
