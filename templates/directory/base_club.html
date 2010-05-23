@@ -84,7 +84,7 @@
 							</a>
 						{% endif %}								
 					</span>
-						at {{ comment.submit_date }} said:
+						{{ comment.submit_date|timesince }} ago said:
 					</div>
 			  <div class="body">{{ comment.comment }}</div>
 			  <hr />
