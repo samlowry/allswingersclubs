@@ -1401,7 +1401,7 @@ function addItem(lat,lng,id,title,url){
 
 
 ////modal_dialog.js
-
+if(typeof jQuery!='undefined'){
 $(document).ready(function() {	
 
 	var id = "#dialog";
@@ -1444,3 +1444,4 @@ $(document).ready(function() {
 	});			
 	
 });
+}
