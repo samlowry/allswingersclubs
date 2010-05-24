@@ -91,7 +91,7 @@ class Club(models.Model):
 		# ordering = ['id']
 	
 	def __unicode__(self):
-		return '%s (%s)' % (self.name, self.city)
+		return self.name
 
 	def state_name(self):
 		return self.state

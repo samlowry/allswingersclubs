@@ -62,15 +62,9 @@
 </div>
 
 {# news div #}
-<div>
+<div id="news">
 {% if news %}
-    <h3>Club news</h3>
-	{% for unit in news %}
-<div class="news">
-        <div class="meta">{{ unit.created }}</div>
-        <div class="body">{{ unit }}</div>
-</div>
-	{% endfor %}
+{% include "news/news_block.html" %}
 {% endif %}
 </div>
 {# news div end #}
