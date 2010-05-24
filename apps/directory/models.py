@@ -7,8 +7,10 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.sites.managers import CurrentSiteManager
 from django.conf import settings
+from django.core import serializers
 
 from directory.templatetags.my_slugify import my_slugify
+
 
 def rating_random():
 	return random.choice([3.0, 3.5, 4.0])
@@ -118,7 +120,7 @@ class Club(models.Model):
 		return sites_
 	all_sites.short_description = 'Published on'
 	
-	def save(self):
+	def save(self, create_revision=False):
 		"""checks the owner of club, if owner changed saves event to the ClubCapture table"""
 
 		if self.id is not None:
@@ -129,7 +131,25 @@ class Club(models.Model):
 				capture.club = self
 				capture.save()
 		super(Club, self).save()
+        
+		if create_revision:
+			from reversion.models import ClubReversion
+			# get previous revision
+			prev_revisions = ClubReversion.objects.filter(club=self).order_by("-created")
+			prev_data = ""
+			if prev_revisions.count() > 0:
+				prev_data = prev_revisions[0].serialized_data
+				
+			# get current object serialization data
+			current_data = serializers.serialize("json", [self])
+			if prev_data != current_data:
+				# print "club changed. save revision and need revision."
+				rev = ClubReversion()
+				rev.club = self
+				rev.serialized_data = current_data
+				rev.save()				
 			
+	
 
 class Photo(ImageModel):
 	original_image = models.ImageField(upload_to='photos')
