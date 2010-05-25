@@ -13,7 +13,7 @@ rongly recommend you to change your password after account activation!
 Your username is {{ username }}
 Your password is {{ password }}
 
-To activate the acc please follow this link http://{{ site.domain }}/accounts/activate/{{ activation_key }}.
+To activate the acc please follow this link http://{{ site.domain }}/accounts/activate/{{ activation_key }}/
 
 If this message was sent to wrong address - don't activate the acc!
 If your club was closed long time ago - pls, tell us!
