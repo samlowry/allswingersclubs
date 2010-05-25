@@ -43,9 +43,7 @@
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', '{% block google_analytics_id %}{% endblock %}']);
-  _gaq.push(['_setDomainName', 'none']);
-  _gaq.push(['_setAllowLinker', true]);
-  _gaq.push(['_trackPageview']);
+  {% block google_analytics_additional_settings %}{% endblock %}
 
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
