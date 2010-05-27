@@ -31,23 +31,3 @@ class ClubReversion(models.Model):
         club = self.get_reverted()
         # save reverted club
         club.save()
-        
-def club_postsave_callback(sender, **kwargs):
-    """serialize club object, and saves it"""
-    club = kwargs["instance"]
-    # get previous revision
-    prev_revisions = ClubReversion.objects.filter(club=club).order_by("-created")
-    prev_data = ""
-    if prev_revisions.count() > 0:
-        prev_data = prev_revisions[0].serialized_data
-        
-    # get current object serialization data
-    current_data = serializers.serialize("json", [club])
-    if prev_data != current_data:
-        # print "club changed. save revision"
-        rev = ClubReversion()
-        rev.club = club
-        rev.serialized_data = current_data
-        rev.save()
-    
-post_save.connect(club_postsave_callback, sender=Club)

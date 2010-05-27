@@ -20,7 +20,7 @@
             <table align="center" cellspacing="8" cellpadding="7" width="100%">
 
             <tr>
-                <td width="30%" align="left"><label id="lbl_id_username" for="id_username">email:</label></td>
+                <td width="30%" align="left"><label id="lbl_id_username" for="id_username">Username:</label></td>
                     <td align="left"><input id="id_username" type="text" name="username" maxlength="30" /></td>
                 </tr>
                 <tr>
@@ -31,7 +31,7 @@
                 <tr>
                 <td></td>
                 <td align="center">
-                    <a href="#" id="btn_restore">Forgot password?</a>
+                    <a href="{% url auth_password_reset %}" id="btn_restore">Forgot password?</a>
                 </td>
                 </tr>
                 <tr>

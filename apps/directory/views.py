@@ -123,7 +123,9 @@ def change_club(request, club_id, template_name="change_club.html"):
 		form = ClubForm(data=request.POST, instance=cl)
 		formset = PhotoFormSet(request.POST, request.FILES, instance=cl)
 		if form.is_valid() and formset.is_valid():
-			form.save()
+			# this action need to save to revision.
+			changed_club = form.save(commit=False)
+			changed_club.save(create_revision=True)
 			formset.save()
 			return redirect(reverse(change_club, args=[cl.id]))
 	else:
@@ -148,8 +150,8 @@ def clubs(request, template_name='clubs_list.html'):
 def take_club(request, club_id):
 	"""sets registered user as club owner"""
 	if request.user.is_anonymous():
-		# offer to register.
-		return redirect('/accounts/register/')
+		# offer to register or login
+		return redirect('/accounts/anonymous/')
 	else:
 		club = get_object_or_404(Club, id=club_id)
 		if club.owner is not None:
@@ -157,7 +159,7 @@ def take_club(request, club_id):
 			raise Http404
 		club.owner = request.user
 		club.email = request.user.email
-		club.save()
+		club.save(create_revision=True)
 		context = RequestContext(request)
 		context["club"] = club
 		return redirect(reverse(change_club, args=[club.id]))

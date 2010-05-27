@@ -18,7 +18,9 @@
                             if (data.status == 0)
                             {
                                 alert(data.error);
-                                return
+                                $("#id_latitude").val('');
+                                $("#id_longitude").val('');
+                                return;
                             }
                             var latitude = new Number(data.latitude);
                             var longitude = new Number(data.longitude); 
@@ -32,6 +34,14 @@
             
             $("#id_state").change(function() {
                 get_cities_by_state($(this).val());
+                enable_retrieve();
+            });
+            $("#id_city").change(function() {
+                enable_retrieve();
+
+            }); 
+            $("#id_address").keyup(function() {
+                enable_retrieve();
             });
             
             get_cities_by_state = function(state_id) {
@@ -77,7 +87,18 @@
                         }
                 });
             }; // {# get_cities_by_state end #}
+            enable_retrieve = function() {
+                // {# enables retrieve_coordinates if all neccessary fields are not empty (State, City, Address) #}
 
+                if (($("#id_state").val() == "") || ($("#id_city").val() == "") || ($("#id_address").val() == ""))
+                {
+                    $("#retrieve_coordinates").attr("disabled", true);
+                    return false;
+                }
+                $("#retrieve_coordinates").attr("disabled", false);                
+                
+            };
+            enable_retrieve();
         });
 
     </script>

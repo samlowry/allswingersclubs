@@ -217,8 +217,7 @@ def register(request, backend, success_url=None, form_class=None,
                                 
         html_captcha = captcha.displayhtml(RECAPTCHA_PUB_KEY)
         if form.is_valid():
-            # email and username are the same. create username key in the request
-            data = request.POST.copy()
+
             new_user = backend.register(request, **form.cleaned_data)
             if success_url is None:
                 to, args, kwargs = backend.post_registration_redirect(request, new_user)
@@ -239,12 +238,14 @@ def _send_invitations():
     """sends invitations for registration to clubs owners"""
     for club in Club.objects.all():
         if email_re.match(club.email):               
-            inv = Invitation()
-            inv.email = club.email
+            # user may be owner of som club, but must to get only 1 invitations
+            inv, created = Invitation.objects.get_or_create(email=club.email)
+            if created:                
+                inv.email = club.email
+                # saving and sending message only if it's new invitation.
+                inv.save()
+                inv.send()
             print "processing %s" % club.email
-
-            inv.save()
-            inv.send()
             
 @login_required    
 def profile(request, template_name="registration/profile.html"):
