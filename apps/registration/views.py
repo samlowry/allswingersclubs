@@ -203,8 +203,8 @@ def register(request, backend, success_url=None, form_class=None,
     if request.method == 'POST':
         # Check the captcha
         # move to the settings.py
-        RECAPTCHA_PRIVATE_KEY = "6LeX5rkSAAAAAN457FJ7DMkZsBwmUBb9jCKIaPuu"
-        RECAPTCHA_PUB_KEY = "6LeX5rkSAAAAADMBEPhrmNyH9YqASFIAO6OcAcLR"
+        RECAPTCHA_PUB_KEY = "6LcJdroSAAAAABfP3j_QOe_Sj7b7SnlYric-oxyt"
+        RECAPTCHA_PRIVATE_KEY = "6LcJdroSAAAAAAqgU9xRuTZCa0fqTL7-9eqALcgp"
         check_captcha = captcha.submit(request.POST['recaptcha_challenge_field'], request.POST['recaptcha_response_field'], RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
 
         form = form_class(data=request.POST, files=request.FILES)
