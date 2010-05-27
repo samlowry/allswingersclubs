@@ -1,6 +1,14 @@
 {% extends "decorator.html" %}
 {% load comments %}
 
+{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
+<link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/" />
+<link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/" />
+{% endblock %}
+
+{% block rss_link %}<a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
+
+
 {% block title_suffix %} in {{ club.state }}{% endblock %}
 
 {% block inhead %}{% if club.is_closed %}
