@@ -24,7 +24,7 @@ def index(request):
 	all_states_list = State.objects.all()
 	flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
 	
-	news = News.objects.order_by('-created')[:10]
+	news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).order_by('-created')[:10]
 	
 	return render_to_response(
 		'directory/index.html',
@@ -43,8 +43,7 @@ def state(request, state_usps_name):
 	empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)
 	
 	all_states_list = State.objects.all()
-	
-	news = News.objects.filter(club__state__id__exact=current_state.id).order_by('-created')[:10]
+	news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__state__id__exact=current_state.id).order_by('-created')[:10]
 	
 	return render_to_response(
 		'directory/state.html',
