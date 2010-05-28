@@ -21,6 +21,7 @@ from directory.models import Club
 from registration.models import Invitation
 from registration.forms import ChangeProfileForm
 from recaptcha.client import captcha
+from django.contrib.sites.models import Site
 
 def activate(request, backend,
              template_name='registration/activate.html',
@@ -250,6 +251,10 @@ def _send_invitations():
 @login_required    
 def profile(request, template_name="registration/profile.html"):
     context = RequestContext(request)
+    all_clubs = Club.objects.filter(owner=request.user)
+    context["clubs"] = all_clubs
+    site = Site.objects.get_current()
+    context["site"] = site
     return render_to_response(template_name, context_instance=context)
 
 @login_required    

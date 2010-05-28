@@ -4,7 +4,7 @@
 <link rel="alternate" type="application/rss+xml" title="{{state}} clubs news" href="/rss/state/{{state.usps_name|lower}}/" />
 {% endblock %}
 
-{% block rss_link %}<a href="/rss/state/{{state.usps_name|lower}}/">RSS</a>{% endblock %}
+{% block rss_link %} | <a href="/rss/state/{{state.usps_name|lower}}/">RSS</a>{% endblock %}
 
 {% block inhead %}
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />

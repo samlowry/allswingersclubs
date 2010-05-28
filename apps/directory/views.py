@@ -189,7 +189,7 @@ def add_club(request, template_name="change_club.html"):
 			if formset.is_valid():
 				
 				formset.save()
-			return redirect(reverse(change_club, args=[club_object.id]))			
+			return redirect(reverse(club_added, args=[club_object.id]))			
 	else:
 		
 		formset = PhotoFormSet(instance=empty_club)
@@ -202,3 +202,21 @@ def add_club(request, template_name="change_club.html"):
 	context["add_club"] = True
 	
 	return render_to_response(template_name, context)	
+
+
+@login_required	  
+def club_added(request, club_id, template_name="club_added.html"):
+	""" inform user about successful club adding """
+	context = RequestContext(request)
+	# find club by id
+	cl = Club.objects.get(id=club_id)
+	
+	# if it's not club's owner redirect to club page
+	if request.user != cl.owner:
+		return redirect(cl.get_absolute_url())
+		
+	site = Site.objects.get_current()
+	context["club"] = cl
+	context["site"] = site
+		
+	return render_to_response(template_name, context_instance=context)

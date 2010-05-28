@@ -6,7 +6,7 @@
 <link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/" />
 {% endblock %}
 
-{% block rss_link %}<a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
+{% block rss_link %} | <a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
 
 
 {% block title_suffix %} in {{ club.state }}{% endblock %}
@@ -34,9 +34,11 @@
 {% endif %}
 
 <h1>{{club.name}} {% block club_page_title_suffix %}{% endblock %}</h1>
+
 {% if not club.email and not club.owner %}
-	<a href="/club/take/{{ club.id }}/">I'm owner</a>
-{% endif %}
+	We don't know, who is owner of this club. If it's you - <a href="/club/take/{{ club.id }}/">click to take club under your acoount</a>
+{% endif %}<br><br>
+
 <div id="main">
 
 <div class="hreview">
