@@ -147,7 +147,8 @@
         Long: {{ form.longitude }}  <br /><br />
         
         {{ form.sites.errors }}
-        Publish on sites*: {{ form.sites }}  <br />
+        Publish on sites*: {{ form.sites }}
+		{% if add_club %}<small>Pls, add photos, which gives impression about your club, not banners.</small><br>{% endif %}
         {{ formset.management_form }}
         {% for frm in formset.forms %}
             {% if frm.show_url %}
