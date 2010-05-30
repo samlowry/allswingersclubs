@@ -1,7 +1,7 @@
 If this message was sent to wrong guy - pls, don't answer and don't click activation link!
 
 You had registered at {{ site.name }}
-Now you have to activate your account within {{ expiration_days }}
+Now you have to activate your account within {{ expiration_days }} days
 To do it, pls, follow this link http://{{ site.domain }}/accounts/activate/{{ activation_key }}/ 
 
 If you have any Qs - pls, contact us: webmaster@{{ site.domain }}
