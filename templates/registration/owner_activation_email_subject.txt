@@ -1,1 +1,1 @@
-Your clubs listings at {{ site.domain }}
+Your clubs listings on {{ site.domain }}
