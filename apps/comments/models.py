@@ -61,9 +61,9 @@ def was_posted_callback(sender, comment, request, **kwargs):
         club_owner = comment.content_object.owner
         # has user activated account?
         if (club_owner is not None) and (club_owner.is_active) and (club_owner != comment.user):
-            site = Site.objects.get_current()
-            subject = render_to_string("comments/subject.txt")
-            message = render_to_string("comments/message.txt", {'user': comment.user, 'club': comment.content_object, 'site': site})
+            context = {'name': comment.user_name, 'club': comment.content_object, 'site': comment.site, 'comment':comment.comment}
+            subject = render_to_string("comments/subject.txt", context)
+            message = render_to_string("comments/message.txt", context)
             club_owner.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
 
 comment_was_posted.connect(was_posted_callback, sender=Comment)

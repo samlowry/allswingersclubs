@@ -1,1 +1,1 @@
-comment notification
+{{ name }} has commented your {{ club.name }} club on {{ site }}
