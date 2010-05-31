@@ -37,7 +37,20 @@ hr { color:#cccccc; background-color:#cccccc; height:1px; border: 0; }
 }
 
 /* News */
+#news h4 {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
 #news .meta {
+    font-size: xx-small;    
+}
+
+#news .link {
+    font-style: italic;   
     font-size: xx-small;
-    
+}
+
+#news .body {
+    margin-bottom: 20px;
 }

@@ -4,6 +4,7 @@
 <title>{% block title %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
 <meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
+{% block rss_inheader %}{% endblock %}
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen" />
 {% block inhead %}{% endblock %}
 <script type="text/JavaScript" src="/scripts-min.js"></script>
@@ -28,15 +29,9 @@
         <a href="{% url registration_register %}">Register</a> |
         <a href="{% url registration_anonymous %}">Add club</a>
     {% endif %}
+		{% block rss_link %}{% endblock %}
 </div>
-<br>
 
-
-<div align="right">
-    <a href="/news/sitenews/feed/">RSS(sitenews)</a><br />
-    <a href="/news/statenews/sc-clubs.html/feed/">RSS(statenews-South Carolina)</a><br />
-    <a href="/news/clubnews/7/feed/">RSS(Club news(id=7))</a><br />
-</div>
 {% block content %}
 {% endblock content %}
 
@@ -61,13 +56,17 @@
 </div>
 </div>
 <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{% block google_analytics_id %}{% endblock %}']);
+  {% block google_analytics_additional_settings %}{% endblock %}
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 </script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("{% block google_analytics_id %}{% endblock %}");
-pageTracker._trackPageview();
-} catch(err) {}</script>
 </body>
 </html>

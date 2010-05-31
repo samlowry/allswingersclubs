@@ -1,19 +1,11 @@
 from django.conf.urls.defaults import *
 
-from news.feeds import LatestNews
-from news.feeds import ClubNews
-from news.feeds import StateNews
 from news.views import add
 from news.views import change
 from news.views import news_list
 from news.views import delete_news
 from news.views import show
 
-feeds = {
-    'sitenews': LatestNews,
-    'clubnews': ClubNews,
-    'statenews': StateNews
-}
 
 urlpatterns = patterns('',
                         url(r'list/(?P<club_id>\d+)/$',
@@ -39,10 +31,5 @@ urlpatterns = patterns('',
                         url(r'delete/(?P<news_id>\d+)/$',
                            delete_news,
                            name='delete_news'),
-                           
-                        url(r'(?P<url>.*)/feed/$',
-                            'django.contrib.syndication.views.feed', 
-                            {'feed_dict': feeds}, 
-                            name="news_feed"),
                            
 )

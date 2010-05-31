@@ -43,6 +43,7 @@ urlpatterns = patterns('',
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	(r'^admin/', include(admin.site.urls)),
 	(r'^news/', include('news.urls')),
+	(r'^rss/', include('rss.urls')),
 	(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 	(r'^comments/post/$', 'comments.views.post_wrapper'), # must be before django comments urls
     (r'^comments/list/$', 'comments.views.comments_list'),
