@@ -1,1 +1,6 @@
-{{ user.username }} has commented your club - {{ club.name }} on {{ site }}.
+{{ name }} has commented your {{ club.name }} club on {{ site }}:
+
+{{ comment }}
+
+Follow to club page, if you want to answer to comment:
+http://{{site.domain}}{{ club.get_absolute_url }}

@@ -3,7 +3,7 @@
 
 {% block content %}
 
-	<h1>{{ club.name }} was added successfully</h1>
+	<h1><a href="{{ club.get_absolute_url }}">{{ club.name }}</a> was added successfully</h1>
 	<div id="main">
 	<h2>We will be grateful for linkbacks</h2>
 	{% include "banners.html" %}

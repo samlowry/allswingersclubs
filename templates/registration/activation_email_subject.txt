@@ -1,1 +1,1 @@
-Activate your account at {{ site.domain }}
+Activate your account on {{ site.domain }}
