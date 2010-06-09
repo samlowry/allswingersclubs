@@ -114,7 +114,7 @@
     <br /><br>
 	{% endif %}
 
-    <form action='.' method='POST' enctype="multipart/form-data">
+    <form action='.' method='POST' enctype="multipart/form-data">{% csrf_token %}
         {{ form.name.errors }}
         Name*: {{ form.name }}  <br />
         

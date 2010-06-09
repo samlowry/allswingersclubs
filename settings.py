@@ -74,6 +74,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 	'django.middleware.cache.FetchFromCacheMiddleware',	
+    
+    'django.middleware.csrf.CsrfViewMiddleware',
 )
 
 ROOT_URLCONF = 'urls'

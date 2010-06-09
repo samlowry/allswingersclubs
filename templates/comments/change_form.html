@@ -21,7 +21,7 @@
     <p>
         Created: {{ comment.submit_date|date:"d M Y H:i" }} 
     </p>    
-    <form method="POST" action=".">
+    <form method="POST" action=".">{% csrf_token %}
         {{ form.as_ul }}
         <input type="submit" value="save" />
     </form>
