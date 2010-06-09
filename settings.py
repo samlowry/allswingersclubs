@@ -111,7 +111,7 @@ try:
 except ImportError:
 	pass
     
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 365 # one year
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # one months
 SESSION_SAVE_EVERY_REQUEST = True
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = 1025
