@@ -9,8 +9,8 @@ class TradelinksNode(template.Node):
 		self.var_name = var_name
 
 	def render(self, context):
-		request = context['request']
-		context[self.var_name] = Tradelink.objects.filter(page__site__id__exact=settings.SITE_ID, page__path__exact=request.path).order_by('id')
+		#request = context['request']
+		#context[self.var_name] = Tradelink.objects.filter(page__site__id__exact=settings.SITE_ID, page__path__exact=request.path).order_by('id')
 		return ''
 
 import re
