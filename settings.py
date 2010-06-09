@@ -101,6 +101,7 @@ INSTALLED_APPS = (
     'news',
     'reversion',
     'tapes',
+    'imagekit',
 )
 
 try:
