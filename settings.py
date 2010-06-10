@@ -76,6 +76,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.cache.FetchFromCacheMiddleware',	
     
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
 ROOT_URLCONF = 'urls'

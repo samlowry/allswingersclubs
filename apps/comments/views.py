@@ -11,6 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from comments.forms import OwnerCommentForm
 from directory.models import Club
 
+
 @require_POST
 def post_wrapper(request, next=None):
 	""" saves user's data from request to the session and call comment's post_comment function """

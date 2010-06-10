@@ -32,7 +32,22 @@
             });
             
             
+            $("#id_country").change(function() {
+                $('#id_state').val('');
+                $.ajax({
+                  type: 'POST',
+                  url: '/ajax/get-country-cities/',
+                  data: 'country_id='+$(this).val(),
+                  success: function(data) {
+                    $('#id_city').html(data);
+                    $("#id_city").removeAttr("disabled");
+                  }
+                });
+            });
+            
+            
             $("#id_state").change(function() {
+                $('#id_country').val('');
                 get_cities_by_state($(this).val());
                 enable_retrieve();
             });
@@ -122,7 +137,10 @@
         Description*: {{ form.description }}  <br />
         
         {{ form.state.errors }}
-        State*: {{ form.state }}  <br />
+        State: {{ form.state }} 
+        
+        {{ form.country.errors }}
+        or country: {{ form.country }}  <br />
         
         {{ form.city.errors }}
         City*: {{ form.city }}  <br />
