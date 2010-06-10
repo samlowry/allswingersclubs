@@ -1,6 +1,7 @@
 from django import template
 from linkator.models import Tradelink
 from django.conf import settings
+from django.db.models import Q
 
 register = template.Library()
 
@@ -10,7 +11,7 @@ class TradelinksNode(template.Node):
 
 	def render(self, context):
 		request = context['request']
-		context[self.var_name] = Tradelink.objects.filter(page__site__id__exact=settings.SITE_ID, page__path__exact=request.path).order_by('id')
+		context[self.var_name] = Tradelink.objects.filter(page__site__id__exact=settings.SITE_ID).filter( Q(page__path__exact=request.path) | Q(page__path__exact='*') ).order_by('id')
 		return ''
 
 import re
