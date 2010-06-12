@@ -3,10 +3,10 @@
 {% block title %}Swingers clubs &amp; Sex clubs in {{ country.name }}{% endblock %}
 
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
-<link rel="alternate" type="application/rss+xml" title="{{state}} clubs news" href="/rss/state/{{state.usps_name|lower}}/" />
+<link rel="alternate" type="application/rss+xml" title="{{ country.name }} clubs news" href="/rss/country/{{ country.name|lower }}/" />
 {% endblock %}
 
-{% block rss_link %} | <a href="/rss/state/{{state.usps_name|lower}}/">RSS</a>{% endblock %}
+{% block rss_link %} | <a href="/rss/country/{{ country.name|lower }}/">RSS</a>{% endblock %}
 
 {% block inhead %}
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />

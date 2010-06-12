@@ -4,8 +4,7 @@ from django.contrib.syndication.feeds import FeedDoesNotExist
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
 from news.models import News
-from directory.models import Club
-from directory.models import State
+from directory.models import *
 
 
 class LatestNews(Feed):
@@ -69,4 +68,31 @@ class StateNews(Feed):
     
     def items(self, obj):
         return News.objects.filter(club__state__id__exact=obj.id).order_by('-created')[:10]
+        
+        
+        
+class CountryNews(Feed):
+    
+    title_template = "feeds/news_title.html"
+    description_template = "feeds/news_description.html"
+    
+    def get_object(self, bits):
+        if len(bits) != 1:
+            raise ObjectDoesNotExist
+        country_name = bits[0]
+        return Country.objects.get(name=country_name)
+    
+    def title(self, obj):
+        return "%s country feed" % obj.name
+    
+    def description(self, obj):
+        return "%s country feed" % obj.name
+    
+    def link(self, obj):
+        if not obj:
+            raise FeedDoesNotExist
+        return obj.get_absolute_url()
+    
+    def items(self, obj):
+        return News.objects.filter(club__city__country__id=obj.id).order_by('-created')[:10]
         
