@@ -48,8 +48,9 @@ class ClubAdmin(admin.ModelAdmin):
     list_filter = ('sites', 'is_closed', 'state',)
     list_per_page = 20
     ordering = ('state',)
-    search_fields = ('id', 'name',)
+    search_fields = ('id', 'name', 'city__name',)
     actions_on_bottom = True
+    
     
     def queryset(self, request):
         q = request.GET.copy()
@@ -80,12 +81,16 @@ class ClubAdmin(admin.ModelAdmin):
         request.GET = q
         qs = super(ClubAdmin, self).queryset(request)
         return qs.select_related('state', 'city')
+        
+    
+    
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'city':
             kwargs["queryset"] = City.objects.all().select_related('state')
             # return db_field.formfield(**kwargs)
         return super(ClubAdmin, self).formfield_for_foreignkey(db_field, request = request, **kwargs)
+    
 
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('id', 'club', 'original_image', 'admin_thumbnail_view')

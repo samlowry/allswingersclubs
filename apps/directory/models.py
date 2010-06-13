@@ -96,7 +96,7 @@ class Club(models.Model):
     description = models.TextField(blank=True)
     address = models.CharField('Street address', max_length=100, blank=True)
     state = models.ForeignKey(State, blank=True, null=True)
-    city = models.ForeignKey(City)
+    city = models.ForeignKey(City, blank=True, null=True)
     phone = models.CharField(max_length=30, blank=True)
     email = models.EmailField('e-mail', blank=True)
     homepage = models.URLField(blank=True, verify_exists=False)
