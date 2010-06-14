@@ -65,8 +65,8 @@ def state(request, state_usps_name):
 
 
 @render_to('directory/country.html')
-def country(request, country_name):
-    country = get_object_or_404(Country, name__iexact=country_name)
+def country(request, slug):
+    country = get_object_or_404(Country, slug=slug)
     cities = country.country_cities.all()
     clubs = Club.objects.filter(city__country=country)
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=country).order_by('-created')[:10]
