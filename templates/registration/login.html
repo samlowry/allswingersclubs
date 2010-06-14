@@ -9,7 +9,7 @@
 {% block content %}
         <h1>Log in</h1>
     <div id="main">
-        <form method="post" action="/accounts/login/">
+        <form method="post" action="/accounts/login/">{% csrf_token %}
             <div class="errorlist">
                 {% if form.errors %}
                 <p>Login error! Password and/or user name are wrong!</p>

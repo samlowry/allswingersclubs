@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Change profile</h1>
 <div id="main">
-    <form action='.' method='POST'>
+    <form action='.' method='POST'>{% csrf_token %}
         {{ form.as_ul }}
         <input type="submit" value="Submit" />
 

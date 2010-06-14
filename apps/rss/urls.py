@@ -4,7 +4,8 @@ from rss.feeds import *
 feeds = {
     'site': LatestNews,
     'club': ClubNews,
-    'state': StateNews
+    'state': StateNews,
+    'country': CountryNews
 }
 
 urlpatterns = patterns('',

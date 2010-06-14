@@ -13,8 +13,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.forms.fields import email_re # before 1.1.1
-#from django.core.validators import email_re # 1.1.1 version
+#from django.forms.fields import email_re # before 1.1.1
+from django.core.validators import email_re # 1.1.1 version
 
 from registration.backends import get_backend
 from directory.models import Club

@@ -10,7 +10,7 @@
 
 {% block content %}
 <h1>Registration</h1>
-<div id="main">    <form action='.' method='POST'>
+<div id="main">    <form action='.' method='POST'>{% csrf_token %}
         {{ form.as_ul }}
 
         {{ html_captcha|safe }}

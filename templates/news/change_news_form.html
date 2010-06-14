@@ -19,7 +19,7 @@
         Created: {{ news.created|date:"d M Y H:i" }} <br />
         Changed: {{ news.changed|date:"d M Y H:i" }} <br />
     {% endif %}
-    <form action='.' method='POST'>
+    <form action='.' method='POST'>{% csrf_token %}
         {{ form.as_ul }}
         <input type="submit" value="Submit" />
 
