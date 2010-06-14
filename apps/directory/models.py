@@ -11,6 +11,8 @@ from django.core import serializers
 
 from directory.templatetags.my_slugify import my_slugify
 
+from django.template.defaultfilters import slugify
+
 
 def rating_random():
     return random.choice([3.0, 3.5, 4.0])
@@ -29,14 +31,20 @@ class Region(models.Model): # Europe, Australia etc
 class Country(models.Model): # Germany, UK etc
     name = models.CharField('Country name', max_length=50, unique=True)
     region = models.ForeignKey(Region, related_name='region_countries')
+    slug = models.SlugField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name
         
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Country, self).save(*args, **kwargs)
+        
     @models.permalink
     def get_absolute_url(self):
         return ('directory.views.country', (), {
-            'country_name': self.name.lower(),
+            'slug': self.slug,
         })
         
     class Meta:
