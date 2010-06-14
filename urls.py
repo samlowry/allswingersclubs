@@ -22,6 +22,15 @@ class StateSitemap(Sitemap):
 	def items(self):
 	    return State.objects.all()
 
+
+class CountrySitemap(Sitemap):
+	changefreq = "always"
+	priority = 0.7
+
+	def items(self):
+	    return Country.objects.all()        
+
+
 class ClubSitemap(Sitemap):
 	changefreq = "daily"
 	priority = 0.5
@@ -35,6 +44,7 @@ class ClubSitemap(Sitemap):
 sitemaps = {
     'index': IndexSitemap,
     'state': StateSitemap,
+    'country': CountrySitemap,
     'clubs': ClubSitemap,
     'flatpages': FlatPageSitemap,
 }
