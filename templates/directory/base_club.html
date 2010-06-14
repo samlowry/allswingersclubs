@@ -16,7 +16,7 @@
 {% block rss_link %} | <a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
 
 
-{% block title_suffix %} in {{ club.state|default_if_none:club.city.country.name }}{% endblock %}
+{% block title_suffix %} in {% if club.state %}{{ club.state }}{% else %}{{ club.city.country.name }}{% endif %}{% endblock %}
 
 {% block inhead %}{% if club.is_closed %}
 <script src="http://www.google.com/jsapi?key=ABCDE"></script>
