@@ -68,7 +68,7 @@ def state(request, state_usps_name):
 def country(request, slug):
     country = get_object_or_404(Country, slug=slug)
     cities = country.country_cities.all()
-    clubs = Club.objects.filter(city__country=country)
+    clubs = Club.objects.select_related('country','city').filter(city__country=country)
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=country).order_by('-created')[:10]
     
     return locals()
@@ -98,7 +98,7 @@ def club(request, club_id, club_urlsafe_title):
             all_clubs_for_state = None
             
         if current_club.city.country:
-            all_clubs_for_country = Club.open_only.filter(city__country=current_club.city.country).exclude(pk=current_club.pk)
+            all_clubs_for_country = Club.open_only.select_related('state','city').filter(city__country=current_club.city.country).exclude(pk=current_club.pk)
         else:
             all_clubs_for_country = None
 
