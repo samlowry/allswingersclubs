@@ -54,6 +54,8 @@ for cl in csv_lines:
     
     db_city, is_created = City.objects.get_or_create(name=city, country=db_country)
     
+    #club_name = club_name.decode('latin1_swedish_ci')
+    
     exists = True
     try:
         db_club = Club.objects.get(name=club_name.strip(), description=description.strip(), address=address.strip(), city=db_city, phone=phone.strip(), homepage=website.strip())
@@ -68,8 +70,8 @@ for cl in csv_lines:
         
     if not exists:
         db_club = Club(name=club_name.strip(), description=description.strip(), address=address.strip(), city=db_city, phone=phone.strip(), homepage=website.strip()).save()
-        #if not db_club: continue
-        print db_club, 'created'
+        if not db_club: continue
+        print db_club, club_name, 'created'
         db_club.sites = [Site.objects.get_current(),]
         db_club.save()
         
