@@ -97,9 +97,12 @@ def club(request, club_id, club_urlsafe_title):
         else:
             all_clubs_for_state = None
             
-        if current_club.city.country:
-            all_clubs_for_country = Club.open_only.select_related('state','city').filter(city__country=current_club.city.country).exclude(pk=current_club.pk)
-        else:
+        try:
+            if current_club.city.country:
+                all_clubs_for_country = Club.open_only.select_related('state','city').filter(city__country=current_club.city.country).exclude(pk=current_club.pk)
+            else:
+                all_clubs_for_country = None
+        except AttributeError:
             all_clubs_for_country = None
 
         news = current_club.news_set.all()
