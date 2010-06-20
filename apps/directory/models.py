@@ -49,6 +49,7 @@ class Country(models.Model): # Germany, UK etc
         
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = "countries"
     
     
 # Create your models here.
