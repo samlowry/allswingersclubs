@@ -42,10 +42,10 @@ class StateAdmin(admin.ModelAdmin):
 
 class ClubAdmin(admin.ModelAdmin):
     inlines = [PhotosInline,]
-    list_display = ('id', 'name', 'owner', 'city_name', 'state_name', 'description', 'is_closed', 'homepage_url', 'all_sites')
+    list_display = ('id', 'name', 'owner', 'city_name', 'state_name', 'country_name', 'description', 'is_closed', 'homepage_url', 'all_sites')
     list_display_links = ('id', 'name')
     list_editable = ('is_closed', )
-    list_filter = ('sites', 'is_closed', 'state',)
+    list_filter = ('sites', 'is_closed', 'state')
     list_per_page = 20
     ordering = ('state',)
     search_fields = ('id', 'name', 'city__name',)

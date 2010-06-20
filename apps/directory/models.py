@@ -138,6 +138,12 @@ class Club(models.Model):
     def __unicode__(self):
         return self.name
 
+    def country_name(self):
+        return self.city.country.name
+    country_name.short_description = 'Country'
+    country_name.admin_order_field = 'city__country'
+
+
     def state_name(self):
         return self.state
     state_name.short_description = 'State'
