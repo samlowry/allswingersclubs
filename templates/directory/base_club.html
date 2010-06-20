@@ -42,10 +42,6 @@
 
 <h1>{{club.name}} {% block club_page_title_suffix %}{% endblock %}</h1>
 
-{% if not club.email and not club.owner %}
-	We don't know, who is owner of this club. If it's you - <a href="/club/take/{{ club.id }}/">click to take club under your acoount</a>
-{% endif %}<br><br>
-
 <div id="main">
 
 <div class="hreview">
@@ -77,6 +73,10 @@
 		{% endfor %}
 	{% endif %}
 </div>
+
+{% if not club.email and not club.owner %}
+	We don't know, who is owner of this club. If it's you - <a href="/club/take/{{ club.id }}/">click</a> to take club under your acoount
+{% endif %}<br><br>
 
 {# news div #}
 <div id="news">
