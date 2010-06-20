@@ -1,0 +1,56 @@
+body { font-family:Verdana; font-size:11px; margin:0; padding:0; }
+#content { width:870px; margin:00px 0 0px 50px; padding:20px 10px 10px 10px; }
+#main { font-size:16px }
+#clubs { width:500px }
+.club_image {margin-top:10px; padding:3px; border:1px solid gray}
+h1,h2,h3,h4,h5,h6 { color:gray; border-bottom:1px dotted #cccccc }
+hr { color:#cccccc; background-color:#cccccc; height:1px; border: 0; }
+.graph li { margin:15px 0 0 0; }
+
+.Article {	
+	column-count: 3;
+	column-gap: 20px;
+	column-rule: 1px dotted #BBB;
+	background-color: #FFFFFF;
+	/*border-top: 1px solid #999;*/
+	/*border-bottom: 1px solid #999;*/
+	padding: 8px;
+	text-align: justify;
+ 	
+}
+
+.Article2Col {
+	column-count:2;
+}
+
+.Article3Col {
+	column-count:3;
+}
+
+#map_canvas {
+	height: 400px;
+	position: absolute;
+	right: 0px;
+	left: 600px;
+	margin: 50px;
+    margin-top: 300px;
+}
+
+/* News */
+#news h4 {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+#news .meta {
+    font-size: xx-small;    
+}
+
+#news .link {
+    font-style: italic;   
+    font-size: xx-small;
+}
+
+#news .body {
+    margin-bottom: 20px;
+}

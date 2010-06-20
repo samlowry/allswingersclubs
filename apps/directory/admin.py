@@ -31,7 +31,7 @@ class CityAdmin(admin.ModelAdmin):
     inlines = [ClubInline,]
     list_display = ('id', 'name', 'state_name', 'country_name')
     list_display_links = ('id', 'name')
-    list_filter = ('state',)
+    list_filter = ('state', 'country')
     search_fields = ('name',)
     list_select_related = True
 
