@@ -4,12 +4,12 @@ from directory.models import *
 
 class PhotosInline(admin.TabularInline):
     model = Photo
-    extra = 5
+    extra = 0
     max_num = 15
 
 class ClubInline(admin.TabularInline):
     model = Club
-    extra = 5
+    extra = 0
     max_num = 15
 
 class CityInline(admin.TabularInline):
@@ -25,6 +25,7 @@ class RegionAdmin(admin.ModelAdmin):
 class CountryAdmin(admin.ModelAdmin):
     list_display = ('name', 'region',)
     search_fields = ('name', 'region__name')
+    inlines = [CityInline,]
     
 
 class CityAdmin(admin.ModelAdmin):
