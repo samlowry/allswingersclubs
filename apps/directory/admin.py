@@ -49,7 +49,7 @@ class ClubAdmin(admin.ModelAdmin):
     list_filter = ('sites', 'is_closed', 'state')
     list_per_page = 20
     ordering = ('state',)
-    search_fields = ('id', 'name', 'city__name',)
+    search_fields = ('id', 'name', 'city__name', 'city__country__name')
     actions_on_bottom = True
     
     
