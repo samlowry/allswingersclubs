@@ -74,7 +74,7 @@
 	{% endif %}
 </div>
 
-{% if not club.email and not club.owner %}
+{% if not club.email and not club.owner and not club.is_closed %}
 	We don't know, who is owner of this club. If it's you - <a href="/club/take/{{ club.id }}/">click</a> to take club under your acoount
 {% endif %}<br><br>
 
