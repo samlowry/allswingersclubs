@@ -155,6 +155,15 @@ class Club(models.Model):
     city_name.short_description = 'City'
     city_name.admin_order_field = 'city'
     
+    def short_description(self):
+    	""" returns slice of desc """
+    	if len(self.description) > 100:
+    		short = "%s..." % self.description[:100]
+    	else:
+    		short = self.description
+    	return short
+
+    
     @models.permalink
     def get_absolute_url(self):
         return ('directory.views.club', (), {
