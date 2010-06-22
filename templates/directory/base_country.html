@@ -1,10 +1,10 @@
 {% extends "decorator.html" %}
 
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
-<link rel="alternate" type="application/rss+xml" title="{{state}} clubs news" href="/rss/state/{{state.usps_name|lower}}/" />
+<link rel="alternate" type="application/rss+xml" title="{{ country.name }} clubs news" href="/rss/country/{{ country.name|lower }}/" />
 {% endblock %}
 
-{% block rss_link %} | <a href="/rss/state/{{state.usps_name|lower}}/">RSS</a>{% endblock %}
+{% block rss_link %} | <a href="/rss/country/{{ country.name|lower }}/">RSS</a>{% endblock %}
 
 {% block inhead %}
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -30,14 +30,14 @@ $( document ).ready( function ()
 {% block inbodytag %}onload="initialize()"{% endblock %}
 
 {% block content %}
-<h1>{% block state_page_title_prefix %}{% endblock %} in {{state}}</h1>
+<h1>{% block state_page_title_prefix %}{% endblock %} in {{ country.name }}</h1>
 <div id="main">
 	<div id="map_canvas" ></div>
 	<div id="clubs">
-		{% for club in clubs_list%}
+		{% for club in clubs %}
 		{% load my_slugify %}
 		<div class="vcard">
-		    <a href="{{club.get_absolute_url}}" id="{{club.id}}">
+		    <a href="{{ club.get_absolute_url }}" id="{{ club.id }}">
 			{% if club.latitude %}<script type="text/javascript">
 				addItem({{club.latitude}},{{club.longitude}},{{club.id}},'{{club.name}}','{{club.get_absolute_url}}');
 			</script>{% endif %}
@@ -80,19 +80,6 @@ $( document ).ready( function ()
 	{% endfor %}
 	</table>
 {% endif %}
-
-<h2>{% block by_state_title_prefix %}{% endblock %} list by state</h2>
-
-<table>
-{% for row in all_states_list|columns:3 %}
-    <tr>
-    {% for state in row %}
-        <td class="column"><li><a href="{{ state.get_absolute_url }}">{{ state.name }} {% block by_state_item_suffix %}{% endblock %}</a></li></td>
-    {% endfor %}
-    </tr>
-{% endfor %}
-</table>
-
 
 {% endblock content %}
 
