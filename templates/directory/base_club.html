@@ -151,24 +151,30 @@
 
 {% if all_clubs_for_state %}
     <h2>Other Clubs from {{club.state.name}}</h2>
-    <div>
-    <ul>
-    {% for club in all_clubs_for_state%}
-        <li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li>
+{% load partition %}
+<table class="column">
+{% for row in all_clubs_for_state|columns:3 %}
+    <tr class="column">
+    {% for club in row %}
+        <td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li></td>
     {% endfor %}
-    </ul>
-    </div>
+    </tr>
+{% endfor %}
+</table>
 {% endif %}
 
 {% if all_clubs_for_country %}
     <h2>Other Clubs from {{ club.city.country.name }}</h2>
-    <div >
-    <ul>
-    {% for club in all_clubs_for_country %}
-        <li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</li>
+{% load partition %}
+<table class="column">
+{% for row in all_clubs_for_country|columns:3 %}
+    <tr class="column">
+    {% for club in row %}
+        <td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</li></td>
     {% endfor %}
-    </ul>
-    </div>
+    </tr>
+{% endfor %}
+</table>
 {% endif %}
 
 {% endblock content %}

@@ -9,6 +9,11 @@ hr{color:#cccccc;background-color:#cccccc;height:1px;border:0;}
 .Article{column-count:3;column-gap:20px;column-rule:1px dotted #BBB;background-color:#FFFFFF;padding:8px;text-align:justify;}
 .Article2Col{column-count:2;}
 .Article3Col{column-count:3;}
+table.column {margin: 10px 0}
+tr:first-child td.column {padding-top:5px}
+tr:last-child td.column {padding-bottom:5px}
+td.column + td.column {border-left:1px dotted #BBB;}
+td.column {width:225px;padding:0 30px 0 30px;}
 #map_canvas{height:400px;position:absolute;right:0px;left:600px;margin:50px;margin-top:300px;}
 #news h4{margin-top:0px;margin-bottom:2px;}
 #news .meta{font-size:xx-small;}

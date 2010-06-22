@@ -67,21 +67,31 @@ $( document ).ready( function ()
 
 <h2>Help us with information about this cities</h2>
 We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@{{ current_site.domain }}
-<div class="Article">
-<ul>
-	{% for city in empty_cities%}
-		<li>{{ city.name }}</a></li>
-	{% endfor %}
-</ul>
-</div>
+
+{% load partition %}
+<table class="column">
+{% for row in empty_cities|columns:3 %}
+    <tr class="column">
+    {% for city in row %}
+        <td class="column"><li>{{ city.name }}</a></li></td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+
 <h2>{% block by_state_title_prefix %}{% endblock %} list by state</h2>
-<div class="Article">
-<ul>
-	{% for state in all_states_list%}
-		<li><a href="{{ state.get_absolute_url }}">{{ state.name }} {% block by_state_item_suffix %}{% endblock %}</a></li>
-	{% endfor %}
-</ul>
-</div>
+
+<table>
+{% for row in all_states_list|columns:3 %}
+    <tr>
+    {% for state in row %}
+        <td class="column"><li><a href="{{ state.get_absolute_url }}">{{ state.name }} {% block by_state_item_suffix %}{% endblock %}</a></li></td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+
+
 {% endblock content %}
 
 {% block links_title %}<h2>Related sites</h2>{% endblock %}

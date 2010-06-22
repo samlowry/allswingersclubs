@@ -9,13 +9,17 @@
 <div id="main">
 
 <h2>{% block index_page_subtitle %}{% endblock %}</h2>
-<div class="Article">
-<ul>
-{% for state in all_states_list%}
-	<li><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></li>
+
+{% load partition %}
+<table>
+{% for row in all_states_list|columns:3 %}
+    <tr>
+    {% for state in row %}
+        <td class="column"><li><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></li></td>
+    {% endfor %}
+    </tr>
 {% endfor %}
-</ul>
-</div>
+</table>
 
 
 {% block countries %}
