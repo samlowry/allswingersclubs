@@ -41,35 +41,27 @@ def index(request):
         },
         context_instance=RequestContext(request),
     )
-    
+
+@render_to('directory/category_region.html')    
 def state(request, state_usps_name):
-    current_state = State.objects.filter(usps_name__exact=state_usps_name).get()
-    all_clubs_for_state = Club.open_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('name')
-    cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(club__id__in=all_clubs_for_state).values('id')
-    empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)
-    
-    all_states_list = State.objects.all()
-    news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__state__id__exact=current_state.id).order_by('-created')[:10]
-    
-    return render_to_response(
-        'directory/state.html',
-        {
-            'state': current_state,
-            'clubs_list': all_clubs_for_state,
-            'empty_cities': empty_cities,
-            'all_states_list': all_states_list,
-            'news': news,
-        },
-        context_instance=RequestContext(request),
-    )
+    region = State.objects.filter(usps_name__exact=state_usps_name).get()
+    region.kind = 'state'
+    clubs = Club.open_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('name')
+    cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(club__id__in=clubs).values('id')
+    empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)    
+    regions = State.objects.all()
+    news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__state__id__exact=region.id).order_by('-created')[:10]
+
+    return locals()
 
 
-@render_to('directory/country.html')
+
+@render_to('directory/category_region.html')
 def country(request, slug):
-    country = get_object_or_404(Country, slug=slug)
-    cities = country.country_cities.all()
-    clubs = Club.objects.select_related('country','city').filter(city__country=country)
-    news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=country).order_by('-created')[:10]
+    region = get_object_or_404(Country, slug=slug)
+    region.kind = 'country'
+    clubs = Club.objects.select_related('country','city').filter(city__country=region)
+    news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=region).order_by('-created')[:10]
     
     return locals()
     

@@ -1,10 +1,18 @@
 {% extends "decorator.html" %}
 
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
-<link rel="alternate" type="application/rss+xml" title="{{state}} clubs news" href="/rss/state/{{state.usps_name|lower}}/" />
+{% ifequal region.kind "state" %}
+<link rel="alternate" type="application/rss+xml" title="{{region.name}} clubs news" href="/rss/state/{{region.usps_name|lower}}/" />
+{% else %}
+<link rel="alternate" type="application/rss+xml" title="{{ region.name }} clubs news" href="/rss/country/{{ region.name|lower }}/" />
+{% endifequal %}
 {% endblock %}
 
-{% block rss_link %} | <a href="/rss/state/{{state.usps_name|lower}}/">RSS</a>{% endblock %}
+{% block rss_link %} | {% ifequal region.kind "state" %}
+    <a href="/rss/state/{{region.usps_name|lower}}/" >RSS</a>
+{% else %}
+    <a href="/rss/country/{{ region.name|lower }}/" >RSS</a>
+{% endifequal %}{% endblock %}
 
 {% block inhead %}
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -30,7 +38,7 @@ $( document ).ready( function ()
 {% block inbodytag %}onload="initialize()"{% endblock %}
 
 {% block content %}
-<h1>{% block state_page_title_prefix %}{% endblock %} in {{state}}</h1>
+<h1>{% block region_page_title_prefix %}{% endblock %} in {{region}}</h1>
 <div id="main">
 	<div id="map_canvas" ></div>
 	<div id="clubs">
@@ -46,7 +54,8 @@ $( document ).ready( function ()
 		    - <span class="adr">
 		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
 		        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
-		        <span class="region">{{club.state.usps_name}}</span>,
+		        {% ifequal region.kind 'state' %}<span class="region">{{club.state.usps_name}}</span>,{% endifequal %}
+		        {% ifequal region.kind 'country' %}<span class="country-name">{{club.city.country.name}}</span>,{% endifequal %}		
 		    </span>
 		    {% if club.phone %}<span class="tel">{{club.phone}}</span>,{% endif %}
 		    {% if club.email %}<span class="email">{{club.email}}</span>{% endif %}
@@ -81,18 +90,19 @@ $( document ).ready( function ()
 	</table>
 {% endif %}
 
-<h2>{% block by_state_title_prefix %}{% endblock %} list by state</h2>
+{% if regions %}
+	<h2>{% block by_region_title_prefix %}{% endblock %} list by {{region.kind}}</h2>
 
-<table>
-{% for row in all_states|columns:3 %}
-    <tr>
-    {% for state in row %}
-        <td class="column"><li><a href="{{ state.get_absolute_url }}">{{ state.name }} {% block by_state_item_suffix %}{% endblock %}</a></li></td>
-    {% endfor %}
-    </tr>
-{% endfor %}
-</table>
-
+	<table>
+	{% for row in regions|columns:3 %}
+	    <tr>
+	    {% for region in row %}
+	        <td class="column"><li><a href="{{ region.get_absolute_url }}">{{ region.name }} {% block by_region_item_suffix %}{% endblock %}</a></li></td>
+	    {% endfor %}
+	    </tr>
+	{% endfor %}
+	</table>
+{% endif %}
 
 {% endblock content %}
 

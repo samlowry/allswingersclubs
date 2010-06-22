@@ -61,7 +61,7 @@
         {% if club.state %}<span class="region">{{club.state.usps_name}}</span>{% endif %}
         <span class="postal-code"></span><br><br>
 		<b>Country:</b>
-        <span class="country-name">{{club.city.country|default_if_none:"USA"}}</span>
+        <span class="country-name">{% firstof club.city.country "USA" %}</span>
     </div><br>
 	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
 	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
