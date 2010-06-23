@@ -60,7 +60,7 @@ def state(request, state_usps_name):
 def country(request, slug):
     region = get_object_or_404(Country, slug=slug)
     region.kind = 'country'
-    clubs = Club.open_only.objects.select_related('country','city').filter(city__country=region)
+    clubs = Club.open_only.select_related('country','city').filter(city__country=region)
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=region).order_by('-created')[:10]
     
     return locals()
