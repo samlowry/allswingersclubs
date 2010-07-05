@@ -1,6 +1,38 @@
 from django.contrib import admin
-
 from directory.models import *
+from django.db.models.fields import FieldDoesNotExist
+import copy
+from django.db.models.fields.related import ForeignKey
+from django.db.models import options
+
+def get_field(self, name, many_to_many=True):
+	"""
+	Returns the requested field by name. Raises FieldDoesNotExist on error.
+	"""
+	to_search = many_to_many and (self.fields + self.many_to_many) or self.fields
+	if hasattr(self, '_copy_fields'):
+		to_search += self._copy_fields
+	for f in to_search:
+		if f.name == name:
+			return f
+	if not name.startswith('__') and '__' in name:
+		f = None 
+		model = self 
+		path = name.split('__') 
+		for field_name in path: 
+			f = model._get_field(field_name)
+			if isinstance(f, ForeignKey):
+				model = f.rel.to._meta
+		f = copy.deepcopy(f)
+		f.name = name
+		if not hasattr(self, "_copy_fields"):
+			self._copy_fields = list()
+		self._copy_fields.append(f)
+		return f
+	raise FieldDoesNotExist, '%s has no field named %r' % (self.object_name, name)
+
+setattr(options.Options, '_get_field', options.Options.get_field.im_func)
+setattr(options.Options, 'get_field', get_field)
 
 class PhotosInline(admin.TabularInline):
     model = Photo
@@ -46,7 +78,7 @@ class ClubAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'owner', 'city_name', 'state_name', 'country_name', 'short_description', 'is_closed', 'homepage_url', 'all_sites')
     list_display_links = ('id', 'name')
     list_editable = ('is_closed', )
-    list_filter = ('sites', 'is_closed', 'state')
+    list_filter = ('sites', 'is_closed', 'state', 'city__country')
     list_per_page = 20
     ordering = ('state',)
     search_fields = ('id', 'name', 'city__name', 'city__country__name', 'email')
