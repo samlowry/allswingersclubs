@@ -38,6 +38,7 @@ def geocoder_proxy(request):
     address = request.GET.get("q", "")
     if len(address) > 0:
         address = address.replace(" ", "+")
+        address = address.encode('utf-8')
         url = """
 http://maps.google.com/maps/geo?
 q=%s&
