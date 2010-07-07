@@ -2,59 +2,74 @@
 {% load i18n admin_modify adminmedia %}
 
 {% block extrahead %}{{ block.super }}
-    <script type="text/javascript" src="../../../jsi18n/"></script>
-    <script type="text/javascript">
-        
-        $(function() {
-            // {# adding button near cities select box for the coordinates request #} 
-            
-            var but_html = "<input id='id_get_coordinates' type='button' value='get coordinates' />";
-            $("#id_city").parent().append(but_html);            
-        
-            // {# get coordinates button click event #} 
-            $("#id_get_coordinates").click(function() { 
-                // {# retrive coordinates from local ajax proxy and fill latitude and longtitude #} 
-                var data = $("#id_address").val() + " " + $("#id_city option:selected").text();
-                var url = "/geocoder/"; 
-                $.ajax({
-                      url: url,
-                      dataType: 'json',
-                      data: {'q': data},
-                      success: function(data){	
-                            if (data.status == 0)
-                            {
-                                alert(data.error);
-                                return
-                            }
-                            var latitude = new Number(data.latitude);
-                            var longitude = new Number(data.longitude); 
-                            $("#id_latitude").val(latitude.toFixed(6));
-                            $("#id_longitude").val(longitude.toFixed(6));
-                	}
-                });
+	<script type="text/javascript" src="../../../jsi18n/"></script>
+	<script type="text/javascript">
+		
+		$(function() {
+			// {# adding button near cities select box for the coordinates request #} 
+			
+			var but_html = "<input id='id_get_coordinates' type='button' value='get coordinates' />";
+			$("#id_city").parent().append(but_html);			
+		
+			// {# get coordinates button click event #} 
+			$("#id_get_coordinates").click(function() { 
+				// {# retrive coordinates from local ajax proxy and fill latitude and longtitude #} 
+				var data = $("#id_address").val() + " " + $("#id_city option:selected").text();
+				var url = "/geocoder/"; 
+				$.ajax({
+					  url: url,
+					  dataType: 'json',
+					  data: {'q': data},
+					  success: function(data){	
+							if (data.status == 0)
+							{
+								alert(data.error);
+								return
+							}
+							var latitude = new Number(data.latitude);
+							var longitude = new Number(data.longitude); 
+							$("#id_latitude").val(latitude.toFixed(6));
+							$("#id_longitude").val(longitude.toFixed(6));
+					}
+				});
 
-            }); // {# get coordinates click end #}
-            
-            // {# state change event #}
+			}); // {# get coordinates click end #}
+			
+			// {# state change event #}
 			$("#id_state").change(function () {
+				$('#id_country').val('');
 				get_state_cities($(this).val());
 			});
 			
+			$("#id_country").change(function() {
+				$('#id_state').val('');
+				$.ajax({
+				  type: 'POST',
+				  url: '/ajax/get-country-cities/',
+				  data: 'country_id='+$(this).val(),
+				  success: function(data) {
+					$('#id_city').html(data);
+					$("#id_city").removeAttr("disabled");
+				  }
+				});
+			});
+			
+			
 			get_state_cities = function(state_id) {
 				state_url = "/state/" + state_id + "/";
-	            var data = {
-	                hash: String(Math.random()).substring(2, 15)                
-	            };
-	        
-			    $.ajax({
-	                type: "POST",
-	                url: state_url,
-	                dataType: "json",
-	                data: data,
-	                cache: false,
-	                success: function(XMLHttpRequest)
+				var data = {
+					hash: String(Math.random()).substring(2, 15)				
+				};
+			
+				$.ajax({
+					type: "POST",
+					url: state_url,
+					dataType: "json",
+					data: data,
+					cache: false,
+					success: function(XMLHttpRequest)
 						{
-		                    if (XMLHttpRequest.status == 1){                        
+							if (XMLHttpRequest.status == 1){						
 
 								$("#id_city").empty();
 
@@ -63,15 +78,15 @@
 								var cities = XMLHttpRequest.cities;								
 								for (var i=0; i<cities.length; i++)
 								{
-							        options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
+									options += '<option value="' + cities[i].id + '">' + cities[i].name + '</option>';
 								}
 								$("#id_city").html(options);
-		                    };
-                		},
-	                error: function (XMLHttpRequest, textStatus, errorThrown) 
+							};
+						},
+					error: function (XMLHttpRequest, textStatus, errorThrown) 
 						{
-	                    	alert("Error connecting server.");
-	                	}
+							alert("Error connecting server.");
+						}
 					});
 
 			}; //{# get_state_cities function end #}
@@ -99,10 +114,10 @@
 			// {# get current state id #}
 			get_current_state_id = function() {
 				var url = "/current_state/";
-                $.ajax({
-                      url: url,
-                      dataType: 'json',
-                      success: function(data){	
+				$.ajax({
+					  url: url,
+					  dataType: 'json',
+					  success: function(data){	
 						if (data.status == 0)
 						{
 							return;
@@ -111,8 +126,8 @@
 						$("#id_state").val(data.state_id);
 						get_state_cities(data.state_id);
 						
-                	}
-                });				
+					}
+				});				
 			
 			};
 			
@@ -123,8 +138,8 @@
 				get_current_state_id();
 			}
 
-        }) // {# $ function end #}
-    </script> 
+		}) // {# $ function end #}
+	</script> 
 {{ media }}
 {% endblock %}
 
@@ -136,10 +151,10 @@
 
 {% block breadcrumbs %}{% if not is_popup %}
 <div class="breadcrumbs">
-     <a href="../../../">{% trans "Home" %}</a> &rsaquo;
-     <a href="../../">{{ app_label|capfirst|escape }}</a> &rsaquo; 
-     {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &rsaquo; 
-     {% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+	 <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+	 <a href="../../">{{ app_label|capfirst|escape }}</a> &rsaquo; 
+	 {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &rsaquo; 
+	 {% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
 </div>
 {% endif %}{% endblock %}
 
@@ -156,10 +171,10 @@
 {% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
 {% if save_on_top %}{% submit_row %}{% endif %}
 {% if errors %}
-    <p class="errornote">
-    {% blocktrans count errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
-    </p>
-    <ul class="errorlist">{% for error in adminform.form.non_field_errors %}<li>{{ error }}</li>{% endfor %}</ul>
+	<p class="errornote">
+	{% blocktrans count errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+	</p>
+	<ul class="errorlist">{% for error in adminform.form.non_field_errors %}<li>{{ error }}</li>{% endfor %}</ul>
 {% endif %}
 
 {% for fieldset in adminform %}
@@ -169,7 +184,7 @@
 {% block after_field_sets %}{% endblock %}
 
 {% for inline_admin_formset in inline_admin_formsets %}
-    {% include inline_admin_formset.opts.template %}
+	{% include inline_admin_formset.opts.template %}
 {% endfor %}
 
 {% block after_related_objects %}{% endblock %}
