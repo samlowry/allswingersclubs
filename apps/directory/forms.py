@@ -17,6 +17,9 @@ class PhotoForm(forms.ModelForm):
 
 class ClubAdminForm(forms.ModelForm):
 	country = forms.ModelChoiceField(queryset=Country.objects.all(), required=False)
+	# replace sites multiple choice with checkbox
+	# sites = forms.ModelMultipleChoiceField(Site.objects.all(), widget=forms.CheckboxSelectMultiple(), required=True)
+	
 	class Meta:
 		model = Club
 		
