@@ -26,7 +26,10 @@ class ClubAdminForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ClubAdminForm, self).__init__(*args, **kwargs)		
 		if self.instance.city:
-			self.fields["country"].initial = self.instance.city.country.id
+			try:
+				self.fields["country"].initial = self.instance.city.country.id
+			except AttributeError:
+				pass
 
 		
 class ClubForm(forms.ModelForm):
