@@ -22,8 +22,22 @@
 </table>
 
 
-{% block countries %}
-{% endblock %}
+
+<h2>Find Club In Your Country</h2>
+{% for region in regions %}
+    <h3>{% block index_page_countries_subtitle %}{% endblock %} {{ region.name }}</h3>
+    {% if region.region_countries.count %}
+        <table>
+			{% for row in region.region_countries.all|columns:3 %}
+			<tr>
+	            {% for region_country in row %}
+	                <td class="column"><li><a href='{{ region_country.get_absolute_url }}'>{{ region_country.name }}</a></li></td>
+	            {% endfor %}
+			</tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endfor %}
 
 
 {# news div #}

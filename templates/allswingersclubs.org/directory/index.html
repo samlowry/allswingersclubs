@@ -12,21 +12,7 @@
 
 {% block index_page_subtitle %}Local Swing Lifestyle Clubs in{% endblock %}
 
-{% block countries %}
-    <h2>Find Club In Your Country</h2>
-    {% for region in regions %}
-        <h3>Swingers in {{ region.name }}</h3>
-        {% if region.region_countries.count %}
-            <ul>
-                {% for region_country in region.region_countries.all %}
-                    <li>
-                        <a href='{{ region_country.get_absolute_url }}'>{{ region_country.name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endfor %}
-{% endblock %}
+{% block index_page_countries_subtitle %}Swingers in{% endblock %}
 
 {% block articles_title %}Some swinger stories{% endblock %}
 
