@@ -4,10 +4,9 @@ from tagging.forms import TagAdminForm
 
 class TagAdmin(admin.ModelAdmin):
     form = TagAdminForm
-
+    fields = ["name", "sites"]
+        
 admin.site.register(TaggedItem)
-admin.site.register(Tag, TagAdmin)
-
-
+admin.site.register(Tag)
 
 

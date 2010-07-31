@@ -12,6 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import connection, models
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.sites.models import Site #nmb10 for allswingersclubs (Multisite fix)
 
 from tagging import settings
 from tagging.utils import calculate_cloud, get_tag_list, get_queryset_and_model, parse_tag_input
@@ -49,7 +50,7 @@ class TagManager(models.Manager):
                 tag, created = self.get_or_create(name=tag_name)
                 TaggedItem._default_manager.create(tag=tag, object=obj)
 
-    def add_tag(self, obj, tag_name):
+    def add_tag(self, obj, tag_name, sites=None):
         """
         Associates the given object with a tag.
         """
@@ -62,6 +63,17 @@ class TagManager(models.Manager):
         if settings.FORCE_LOWERCASE_TAGS:
             tag_name = tag_name.lower()
         tag, created = self.get_or_create(name=tag_name)
+
+        # allswingersclubs fix
+        if not sites:
+            # add current site
+            tag.sites.add(Site.objects.get_current())
+        else:
+            for s in sites:
+                tag.sites.add(s)
+                
+        # allswingersclubs fix  end
+        
         ctype = ContentType.objects.get_for_model(obj)
         TaggedItem._default_manager.get_or_create(
             tag=tag, content_type=ctype, object_id=obj.pk)
@@ -453,12 +465,14 @@ class TaggedItemManager(models.Manager):
 # Models #
 ##########
 
+
 class Tag(models.Model):
     """
     A tag.
     """
     name = models.CharField(_('name'), max_length=50, unique=True, db_index=True)
-
+    sites = models.ManyToManyField(Site) # nmb10 for allswingersclubs etc (Multisite fix)
+    
     objects = TagManager()
 
     class Meta:
@@ -469,6 +483,7 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+        
 class TaggedItem(models.Model):
     """
     Holds the relationship between a tag and the item being tagged.
