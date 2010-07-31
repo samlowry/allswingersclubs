@@ -181,7 +181,7 @@ class Club(models.Model):
         return sites_
     all_sites.short_description = 'Published on'
     
-    def save(self, create_revision=False):
+    def save(self, create_revision=False, *args, **kwargs):
         """checks the owner of club, if owner changed saves event to the ClubCapture table"""
 
         if self.id is not None:
@@ -191,7 +191,7 @@ class Club(models.Model):
                 capture.user = self.owner
                 capture.club = self
                 capture.save()
-        super(Club, self).save()
+        super(Club, self).save(*args, **kwargs)
         
         if create_revision:
             from reversion.models import ClubReversion
