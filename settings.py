@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     'reversion',
     'tapes',
     'imagekit',
+    'tagging',
 )
 
 try:
