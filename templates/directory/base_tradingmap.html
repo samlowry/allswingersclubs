@@ -2,6 +2,10 @@
 <body>
 <!-- homepage -->
 <a href="http://{{request.get_host}}/">{% block homepage_anchor %}{% endblock %}</a>
+<!-- countries -->
+{% for country in all_countries%}
+<a href="http://{{request.get_host}}{{ country.get_absolute_url }}">{% block country_anchor_prefix %}{% endblock %} in {{country}}</a>
+{% endfor %}
 <!-- states -->
 {% for state in all_states%}
 <a href="http://{{request.get_host}}{{ state.get_absolute_url }}">{% block state_anchor_prefix %}{% endblock %} in {{state}}</a>
