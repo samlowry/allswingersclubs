@@ -55,6 +55,9 @@ def tagged_object_list(request, queryset_or_model=None, tag=None,
 
     
 def clubs_by_tag(request, tag_name, template_name="tagging/clubs_by_tag.html"):
+    tag_instance = get_tag(tag_name)
+    if tag_instance is None:
+        raise Http404(_('No Tag found matching "%s".') % tag)
     return render_to_response(template_name, {"seeking_tag": tag_instance}, context_instance=RequestContext(request))
     
 def clubs_by_land(request, state_name, city_name=None, template_name="tagging/clubs_by_land.html"):
