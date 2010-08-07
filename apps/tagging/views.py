@@ -61,4 +61,5 @@ def clubs_by_tag(request, tag_name, template_name="tagging/clubs_by_tag.html"):
     return render_to_response(template_name, {"seeking_tag": tag_instance}, context_instance=RequestContext(request))
     
 def clubs_by_land(request, state_name, city_name=None, template_name="tagging/clubs_by_land.html"):
+    
     return render_to_response(template_name, {}, context_instance=RequestContext(request))

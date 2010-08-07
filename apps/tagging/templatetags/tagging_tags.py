@@ -5,6 +5,8 @@ from django.utils.translation import ugettext as _
 from tagging.models import Tag, TaggedItem
 from tagging.utils import LINEAR, LOGARITHMIC
 
+from directory.models import Club, State, Country
+
 register = Library()
 
 class TagsForModelNode(Node):
@@ -58,6 +60,50 @@ class TaggedObjectsNode(Node):
             TaggedItem.objects.get_by_model(model, self.tag.resolve(context))
         return ''
 
+        
+        
+# allswingersclubs modification. Add filtering tags by region.        
+class RegionTags(Node):
+    def __init__(self, region, model, context_var):
+        self.region = Variable(region)
+        self.context_var = context_var
+        self.model = model
+
+    def render(self, context):
+        model = get_model(*self.model.split('.'))
+        if model is None:
+            raise TemplateSyntaxError(_('region_tags tag was given an invalid model: %s') % self.model)
+        reg = self.region.resolve(context)
+        # reg may be either state or country
+        if isinstance(reg, State):
+            queryset = Club.objects.filter(state=reg)
+        elif isinstance(reg, Country):
+            queryset = Club.objects.filter(city__country=reg)
+        else:
+            queryset = Club.objects.all()
+        context[self.context_var] = Tag.objects.usage_for_queryset(queryset)
+        return ''
+        
+ 
+def do_tags_for_region(parser, token):
+    """
+    Retrieves a list of ``Tag`` objects associated with a given region and model
+    and stores them in a context variable.
+    Caution: Now it expects only the Club model. Do not pass another one.
+    Usage::
+
+       {% tags_for_region [region] [model] as [varname] %}
+    """
+    bits = token.contents.split()
+    if len(bits) != 5:
+        raise TemplateSyntaxError(_('%s tag requires exactly four arguments') % bits[0])
+    if bits[3] != 'as':
+        raise TemplateSyntaxError(_("third argument to %s tag must be 'as'") % bits[0])
+    return RegionTags(bits[1], bits[2], bits[4])
+    
+# end allswingersclubs modification
+ 
+        
 def do_tags_for_model(parser, token):
     """
     Retrieves a list of ``Tag`` objects associated with a given model
@@ -229,3 +275,4 @@ register.tag('tags_for_model', do_tags_for_model)
 register.tag('tag_cloud_for_model', do_tag_cloud_for_model)
 register.tag('tags_for_object', do_tags_for_object)
 register.tag('tagged_objects', do_tagged_objects)
+register.tag('tags_for_region', do_tags_for_region)
