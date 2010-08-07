@@ -4,7 +4,7 @@ import sys
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
-DEBUG = False
+DEBUG = True
 
 from multisite.threadlocals import SiteIDHook
 SITE_ID = SiteIDHook()
@@ -66,14 +66,14 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
 	'django.middleware.gzip.GZipMiddleware',
-	'django.middleware.cache.UpdateCacheMiddleware',
+	#'django.middleware.cache.UpdateCacheMiddleware',
 	'django.middleware.http.ConditionalGetMiddleware',
     # 'django.middleware.common.CommonMiddleware',
 	'multisite.middleware.DynamicSiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-	'django.middleware.cache.FetchFromCacheMiddleware',	
+	#'django.middleware.cache.FetchFromCacheMiddleware',	
     
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfResponseMiddleware',

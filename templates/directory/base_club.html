@@ -1,5 +1,6 @@
 {% extends "decorator.html" %}
 {% load comments %}
+{% load tagging_tags %}
 
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
 
@@ -74,7 +75,17 @@
 			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
 		{% endfor %}
 	{% endif %}
+	
+	{# tags #}
+	{% tags_for_object club as club_tags %}
+	{% if club_tags %}
+		Tags: <br />	
+		{% for tag in club_tags %}
+			<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>,&nbsp;
+		{% endfor %}
+	{% endif %}
 </div>
+<br />
 
 {% if not club.email and not club.owner and not club.is_closed %}
 	We don't know, who is owner of this club. If it's you - <a href="/club/take/{{ club.id }}/">click</a> to take club under your acoount
@@ -156,7 +167,16 @@
 {% for row in all_clubs_for_state|columns:3 %}
     <tr class="column">
     {% for club in row %}
-        <td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li></td>
+        <td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li>
+		
+		{% tags_for_object club as club_tags %}
+		{% if club_tags %}
+			Tags: 
+			{% for tag in club_tags %}
+				<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>,&nbsp;
+			{% endfor %}		
+		{% endif %}
+		</td>
     {% endfor %}
     </tr>
 {% endfor %}

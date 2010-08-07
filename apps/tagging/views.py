@@ -4,6 +4,8 @@ Tagging related views.
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
+from django.template import RequestContext
+from django.shortcuts import render_to_response
 
 from tagging.models import Tag, TaggedItem
 from tagging.utils import get_tag, get_queryset_and_model
@@ -50,3 +52,10 @@ def tagged_object_list(request, queryset_or_model=None, tag=None,
             Tag.objects.related_for_model(tag_instance, queryset_or_model,
                                           counts=related_tag_counts)
     return object_list(request, queryset, **kwargs)
+
+    
+def clubs_by_tag(request, tag_name, template_name="tagging/clubs_by_tag.html"):
+    return render_to_response(template_name, {"seeking_tag": tag_instance}, context_instance=RequestContext(request))
+    
+def clubs_by_land(request, state_name, city_name=None, template_name="tagging/clubs_by_land.html"):
+    return render_to_response(template_name, {}, context_instance=RequestContext(request))
