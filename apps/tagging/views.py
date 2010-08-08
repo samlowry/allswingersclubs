@@ -6,9 +6,13 @@ from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404
 
 from tagging.models import Tag, TaggedItem
 from tagging.utils import get_tag, get_queryset_and_model
+
+from directory.models import State, Club, Country
+
 
 def tagged_object_list(request, queryset_or_model=None, tag=None,
         related_tags=False, related_tag_counts=True, **kwargs):
@@ -54,12 +58,30 @@ def tagged_object_list(request, queryset_or_model=None, tag=None,
     return object_list(request, queryset, **kwargs)
 
     
-def clubs_by_tag(request, tag_name, template_name="tagging/clubs_by_tag.html"):
+def country_clubs(request, country_name, tag_name, template_name="tagging/clubs_by_tag.html"):
+    """ filters clubs by tag_name and and country, passes clubs, tag_name and region to the context """
+    tag_instance = get_tag(tag_name)
+    if tag_instance is None:
+        raise Http404(_('No Tag found matching "%s".') % tag_name)
+    country = get_object_or_404(Country, name=country_name)
+    clubs = Club.objects.filter(city__country=country)
+    tagged_clubs = TaggedItem.objects.get_by_model(clubs, tag_instance.name)
+    context = {}
+    context["region"] = country
+    context["clubs"] = tagged_clubs
+    context["seeking_tag"] = tag_instance    
+    return render_to_response(template_name, {"seeking_tag": tag_instance}, context_instance=RequestContext(request))
+    
+def state_clubs(request, usps, tag_name, template_name="tagging/region_clubs.html"):
+    """ filters clubs by tag_name and usps, passes clubs, tag_name and region to the context """
     tag_instance = get_tag(tag_name)
     if tag_instance is None:
         raise Http404(_('No Tag found matching "%s".') % tag)
-    return render_to_response(template_name, {"seeking_tag": tag_instance}, context_instance=RequestContext(request))
-    
-def clubs_by_land(request, state_name, city_name=None, template_name="tagging/clubs_by_land.html"):
-    
-    return render_to_response(template_name, {}, context_instance=RequestContext(request))
+    state = get_object_or_404(State, usps_name=usps)
+    clubs = Club.objects.filter(state=state)
+    tagged_clubs = TaggedItem.objects.get_by_model(clubs, tag_instance.name)
+    context = {}
+    context["region"] = state
+    context["clubs"] = tagged_clubs
+    context["seeking_tag"] = tag_instance
+    return render_to_response(template_name, context, context_instance=RequestContext(request))

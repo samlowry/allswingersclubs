@@ -64,7 +64,7 @@ urlpatterns = patterns('',
     (r'^', include('directory.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
     (r'^reversions/', include('reversion.urls')),    
-    (r'^tags/', include('tagging.urls')),    
+    (r'^tag/', include('tagging.urls')),    
 )
 
 if settings.DEBUG:

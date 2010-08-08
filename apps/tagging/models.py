@@ -482,9 +482,6 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return "/tags/tag/%s/" % self.name.lower()
         
 class TaggedItem(models.Model):
     """

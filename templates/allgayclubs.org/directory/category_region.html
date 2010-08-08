@@ -13,13 +13,17 @@
 {% block by_region_item_suffix %}Gay clubs{% endblock %}
 
 {% block content %}
-    {{ block.super }}
-    {# tags for current region #}
-    <hr />
-    <h3> Tags for {{ region.name }} </h3>
-    {% tags_for_region region directory.Club as region_tags %}
-    
-    {% for tag in region_tags %}
-        <a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a> | 
-    {% endfor %}
+	{{ block.super }}
+	{# tags for current region #}
+	<hr />
+	<h3> Tags for {{ region.name }} </h3>
+	{% tags_for_region region directory.Club as region_tags %}
+	
+	{% for tag in region_tags %}
+		{% if region.usps_name %}
+			<a href="/tag/usa/{{ region.usps_name|lower }}/{{ tag.name|lower }}/">{{ tag.name }}</a>  | 
+		{% else %}
+			<a href="/tag/{{ region.slug }}/{{ tag.name|lower }}/">{{ tag.name }}</a>  | 
+		{% endif %}
+	{% endfor %}
 {% endblock %}

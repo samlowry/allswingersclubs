@@ -5,10 +5,10 @@
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
 
 {% if club.state %}
-    <link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/" />
+	<link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/" />
 {% endif %}
 {% if club.city.country %}
-    <link rel="alternate" type="application/rss+xml" title="{{ club.city.country }} clubs news" href="/rss/country/{{ club.city.country.name|lower }}/" />
+	<link rel="alternate" type="application/rss+xml" title="{{ club.city.country }} clubs news" href="/rss/country/{{ club.city.country.name|lower }}/" />
 {% endif %}
 
 <link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/" />
@@ -47,30 +47,30 @@
 
 <div class="hreview">
 	{% if club.homepage %}
-    <b>
-        <span class="item"><span class="fn org">{{club.name}}</span></span>
-        Website:
-    </b>
-    <span class="url">
-        <a href="{{club.homepage}}">{{club.homepage}}</a>
-    </span><br><br>
+	<b>
+		<span class="item"><span class="fn org">{{club.name}}</span></span>
+		Website:
+	</b>
+	<span class="url">
+		<a href="{{club.homepage}}">{{club.homepage}}</a>
+	</span><br><br>
 	{% endif %}
-    <div class="adr">
-        <b>Address:</b>
-        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
-        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
-        {% if club.state %}<span class="region">{{club.state.usps_name}}</span>{% endif %}
-        <span class="postal-code"></span><br><br>
+	<div class="adr">
+		<b>Address:</b>
+		{% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
+		{% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+		{% if club.state %}<span class="region">{{club.state.usps_name}}</span>{% endif %}
+		<span class="postal-code"></span><br><br>
 		<b>Country:</b>
-        <span class="country-name">{% firstof club.city.country "USA" %}</span>
-    </div><br>
+		<span class="country-name">{% firstof club.city.country "USA" %}</span>
+	</div><br>
 	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
 	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
-    <b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
-    <b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
-    <b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
+	<b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
+	<b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
+	<b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
 	{% if club.photos %}
-    <b>Club photos:</b><br> <br>
+	<b>Club photos:</b><br> <br>
 		{% for photo in club.photos %}
 			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
 		{% endfor %}
@@ -81,7 +81,11 @@
 	{% if club_tags %}
 		Tags: <br />	
 		{% for tag in club_tags %}
-			<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>,&nbsp;
+			{% if club.state %}
+				<a href="/tag/usa/{{ club.state.usps_name|lower }}/{{ tag.name }}/">{{ tag.name }}</a>
+			{% else %}
+				<a href="/tag/{{ club.country.name }}/{{ tag.name }}/">{{ tag.name }}</a>
+			{% endif %},&nbsp;
 		{% endfor %}
 	{% endif %}
 </div>
@@ -161,13 +165,13 @@
 </div>
 
 {% if all_clubs_for_state %}
-    <h2>Other Clubs from {{club.state.name}}</h2>
+	<h2>Other Clubs from {{club.state.name}}</h2>
 {% load partition %}
 <table class="column">
 {% for row in all_clubs_for_state|columns:3 %}
-    <tr class="column">
-    {% for club in row %}
-        <td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li>
+	<tr class="column">
+	{% for club in row %}
+		<td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li>
 		
 		{% tags_for_object club as club_tags %}
 		{% if club_tags %}
@@ -177,22 +181,22 @@
 			{% endfor %}		
 		{% endif %}
 		</td>
-    {% endfor %}
-    </tr>
+	{% endfor %}
+	</tr>
 {% endfor %}
 </table>
 {% endif %}
 
 {% if all_clubs_for_country %}
-    <h2>Other Clubs from {{ club.city.country.name }}</h2>
+	<h2>Other Clubs from {{ club.city.country.name }}</h2>
 {% load partition %}
 <table class="column">
 {% for row in all_clubs_for_country|columns:3 %}
-    <tr class="column">
-    {% for club in row %}
-        <td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</li></td>
-    {% endfor %}
-    </tr>
+	<tr class="column">
+	{% for club in row %}
+		<td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</li></td>
+	{% endfor %}
+	</tr>
 {% endfor %}
 </table>
 {% endif %}

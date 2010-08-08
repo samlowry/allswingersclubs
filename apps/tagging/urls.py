@@ -1,16 +1,17 @@
 from django.conf.urls.defaults import *
 
-from tagging.views import clubs_by_tag
-from tagging.views import clubs_by_land
+from tagging.views import state_clubs
+from tagging.views import country_clubs
 
 urlpatterns = patterns('',
-                       url(r'tag/(?P<tag_name>[a-zA-Z0-9-]*)/$',
-                           clubs_by_tag,
-                           {'template_name': 'tagging/tag_clubs.html'},
-                           name='clubs_by_tag'), 
+                        url(r'usa/(?P<usps>[a-zA-Z]{2})/(?P<tag_name>[a-zA-Z0-9-]*)/$',
+                       #url(r'usa.*/$',
+                           state_clubs,
+                           {'template_name': 'tagging/region_clubs.html'},
+                           name='state_clubs'), 
 
-                        url(r'(?P<state_name>[a-zA-Z0-9-_]*)/(?P<city_name>[a-zA-Z0-9-_]*)/$',
-                            clubs_by_land,
-                            {'template_name': 'tagging/clubs_by_land.html'},
-                            name='clubs_by_land'),
+                        url(r'(?P<country_name>[a-zA-Z0-9-_]*)/(?P<tag_name>[a-zA-Z0-9-]*)/$',
+                            country_clubs,
+                            {'template_name': 'tagging/region_clubs.html'},
+                            name='country_clubs'),
 )
