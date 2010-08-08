@@ -177,7 +177,11 @@
 		{% if club_tags %}
 			Tags: 
 			{% for tag in club_tags %}
-				<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>,&nbsp;
+                {% if club.state %}
+                    <a href="/tag/usa/{{ club.state.usps_name|lower }}/{{ tag.name|lower }}/">{{ tag.name }}</a>,&nbsp;
+                {% else %}
+                    <a href="/tag/{{ club.city.country.slug }}/{{ tag.name|lower }}/">{{ tag.name }}</a>,&nbsp;
+                {% endif %}
 			{% endfor %}		
 		{% endif %}
 		</td>
