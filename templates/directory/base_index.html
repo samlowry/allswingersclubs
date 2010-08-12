@@ -22,8 +22,7 @@
 </table>
 
 
-
-<h2>Find Club In Your Country</h2>
+<h2>{% block index_page_countries_title %}Find Club In Your Country{% endblock %}</h2>
 {% for region in regions %}
     <h3>{% block index_page_countries_subtitle %}{% endblock %} {{ region.name }}</h3>
     {% if region.region_countries.count %}
