@@ -1,0 +1,29 @@
+{% extends "directory/base_category_region.html" %}
+{% load tagging_tags %}
+{% block title %}Gay clubs in {{ region }}{% endblock %}
+
+{% block description %}Complete List of {{ region.name }} Gay clubs in{% endblock %}
+
+{% block breadcrumbs %}&gt; Gay clubs &amp; Sex clubs in {{ region }}{% endblock %}
+
+{% block region_page_title_prefix %}Gay clubs {% endblock %}
+
+{% block by_region_title_prefix %}Gay clubs{% endblock %}
+
+{% block by_region_item_suffix %}Gay clubs{% endblock %}
+
+{% block content %}
+	{{ block.super }}
+	{# tags for current region #}
+	<hr />
+	<h3> Tags for {{ region.name }} </h3>
+	{% tags_for_region region directory.Club as region_tags %}
+	
+	{% for tag in region_tags %}
+		{% if region.usps_name %}
+			<a href="/tag/usa/{{ region.usps_name|lower }}/{{ tag.name|lower }}/">{{ tag.name }}</a>  | 
+		{% else %}
+			<a href="/tag/{{ region.slug }}/{{ tag.name|lower }}/">{{ tag.name }}</a>  | 
+		{% endif %}
+	{% endfor %}
+{% endblock %}
