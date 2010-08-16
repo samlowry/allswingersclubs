@@ -64,10 +64,20 @@
 	{% endif %}
 {% endblock links %}
 
-<hr>
 <div>
+	<div>
+		<h2>Keywords:</h2>
+		{% for word in keywords %}
+			<a href="/search/?q={{ word.text }}/">
+				{{ word.text }}
+			</a> | 
+		{% endfor %}
+	</div>
+
+<hr>
 {% block footertext %}{% endblock %}
 </div>
 </div>
+
 </body>
 </html>

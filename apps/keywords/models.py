@@ -20,4 +20,4 @@ class Keyword(models.Model):
         old = Keyword.objects.all().order_by("-id")[settings.MAX_STACK_LENGTH:]
         for word in old:
             word.delete()
-            
+

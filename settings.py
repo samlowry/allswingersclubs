@@ -86,6 +86,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.auth',
 	'django.core.context_processors.request',
 	'context_processors.get_current_site_id',
+	'context_processors.get_all_keywords',
 )
 
 INSTALLED_APPS = (
@@ -100,7 +101,7 @@ INSTALLED_APPS = (
 	'linkator',
 	'directory',
 	'comments',
-	# 'south',
+	'south',
     'registration',
     'news',
     'reversion',
