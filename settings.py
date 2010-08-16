@@ -77,6 +77,7 @@ MIDDLEWARE_CLASSES = (
     
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfResponseMiddleware',
+    'keywords.middleware.KeywordMiddleware',	
 )
 
 ROOT_URLCONF = 'urls'
@@ -99,12 +100,13 @@ INSTALLED_APPS = (
 	'linkator',
 	'directory',
 	'comments',
-	'south',
+	# 'south',
     'registration',
     'news',
     'reversion',
     'tapes',
     'imagekit',
+    'keywords',
 )
 
 try:
@@ -120,3 +122,5 @@ DEFAULT_FROM_EMAIL = "webmaster@allswingresclubs.org"
 ACCOUNT_ACTIVATION_DAYS = 14
 
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
+
+MAX_STACK_LENGTH = 10
