@@ -7,13 +7,14 @@ from keywords.models import Keyword
 
 class KeywordMiddleware(object):
     PARAMS = {
-        'google': 'q',
+        'w*\.{0,1}google': 'q',
         'search\.yahoo': 'p', 
-        '(search\.msn|w*\.bing)?': 'q',
+        'search\.msn\.': 'q',
+        'w*\.{0,1}bing\.': 'q',
         'search\.live': 'query',
-        'search\.aol': 'userQuery', # maybe 'q' ?
-        'ask\.com': 'q', 
-        'altavista': 'q',
+        'search\.aol': 'q', 
+        'w*\.{0,1}ask\.com': 'q', 
+        'w*\.{0,1}altavista': 'q',
         'feedster': 'q',
         'search\.lycos\.': 'query',
         'w*\.{0,1}alltheweb': 'q', 
@@ -33,6 +34,7 @@ class KeywordMiddleware(object):
         for engine, param in cls.PARAMS.iteritems():
             match = re.match(engine, loc_net)
             if match:
+                # print (engine, loc_net)
                 keywords = cgi.parse_qs(query).get(param)
                 if keywords and keywords[0]:
                     keywords = " ".join(keywords[0].split()).lower()

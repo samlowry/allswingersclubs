@@ -4,9 +4,20 @@
 
 {% block content %}
 	<div>
-		<form method="GET" action="">
-			<input type="text" />
+		<form method="GET" action=".">
+			{{ form }}
 			<input type="submit" value="search"/>
 		</form>
 	</div>
+	{% if clubs %}
+		{% for club in clubs %}
+			<div>
+				<a href={{ club.get_absolute_url }}>{{ club.name }}</a>
+				<span>{{ club.description }}</span>
+			</div>
+			<hr >
+		{% endfor %}
+	{% else %}
+		Empty result.
+	{% endif %}
 {% endblock %}

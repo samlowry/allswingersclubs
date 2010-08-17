@@ -54,10 +54,15 @@ class KeywordMiddlewareTest(TestCase):
         self.send_request(real_url)
         self.assertEquals(Keyword.objects.filter(text__icontains="what is yahoo").count(), 1)
 
-    def test_msn(self):
-        real_url = "http://www.bing.com/search?q=what+is+msn&x=0&y=0&form=MSNH14&qs=n"
+#    def test_msn(self):
+#        real_url = "http://www.bing.com/search?q=what+is+msn&x=0&y=0&form=MSNH14&qs=n"
+#        self.send_request(real_url)
+#        self.assertEquals(Keyword.objects.filter(text__icontains="what is msn").count(), 1)
+
+    def test_bing(self):
+        real_url = "http://www.bing.com/search?q=what+is+bing&go=&form=QBRE&filt=all"   
         self.send_request(real_url)
-        self.assertEquals(Keyword.objects.filter(text__icontains="what is msn").count(), 1)
+        self.assertEquals(Keyword.objects.filter(text__icontains="what is bing").count(), 1)
 
 ##    def test_live(self):
 #        # real_url = ""

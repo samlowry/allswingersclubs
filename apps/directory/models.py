@@ -3,6 +3,8 @@ import random
 from imagekit.models import ImageModel
 
 from django.db import models
+from django.db import backend
+from django.db import connection
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.sites.managers import CurrentSiteManager
@@ -96,9 +98,23 @@ class City(models.Model):
     country_name.short_description = 'Country'
     country_name.admin_order_field = 'country'
 
+
 class OpenClubsFromCurrentSiteManager(models.Manager):
     def get_query_set(self):
         return super(OpenClubsFromCurrentSiteManager, self).get_query_set().filter(sites__id__exact=settings.SITE_ID, is_closed=False)
+
+
+class SearchManager(models.Manager):
+    """ full text search manager """
+    def __init__(self, fields):
+        super(SearchManager, self).__init__()
+        self._search_fields = fields
+
+    def get_query_set(self):
+        return SearchQuerySet(self.model, self._search_fields)
+
+    def search(self, query):
+        return self.get_query_set().search(query)
 
 class Club(models.Model):
     name = models.CharField(max_length=50)
@@ -126,12 +142,14 @@ class Club(models.Model):
     rating = models.FloatField(choices=RATING_CHOISES, default=rating_random)
     date_of_review = models.DateField(default=datetime.date.today)
     is_closed = models.BooleanField( default=False )
-    objects = models.Manager()
-    current_site_only = CurrentSiteManager('sites')
-    open_only = OpenClubsFromCurrentSiteManager()
     sites = models.ManyToManyField(Site)
     owner = models.ForeignKey(User, null=True, blank=True)
-    
+    # managers  
+    #objects = models.Manager() 
+    objects = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
+    current_site_only = CurrentSiteManager('sites')
+    open_only = OpenClubsFromCurrentSiteManager()
+    full_text = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
     class Meta:
         ordering = ['name']
         # ordering = ['id']
@@ -221,3 +239,37 @@ class Photo(ImageModel):
         spec_module = 'directory.specs'
         cache_dir = 'resized'
         image_field = 'original_image'
+
+
+
+
+# full text search for clubs        
+
+class SearchQuerySet(models.query.QuerySet):
+    def __init__(self, model=None, fields=None, using=None, query=None):
+        super(SearchQuerySet, self).__init__(model=model, using=using, query=query)
+        self._search_fields = fields
+
+    def search(self, query):
+        meta = self.model._meta
+
+        # Get the table name and column names from the model
+        # in `table_name`.`column_name` style
+        columns = [meta.get_field(name, many_to_many=False).column
+                        for name in self._search_fields]
+        full_names = ["%s.%s" %
+                       (connection.ops.quote_name(meta.db_table),
+                        connection.ops.quote_name(column))
+                        for column in columns]
+
+        # Create the MATCH...AGAINST expressions
+        fulltext_columns = ", ".join(full_names)
+        match_expr = ("MATCH(%s) AGAINST (%%s)" %
+                               fulltext_columns)
+
+        # Add the extra SELECT and WHERE options
+        return self.extra(where=[match_expr],
+                          params=[query])
+
+
+
