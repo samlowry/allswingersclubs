@@ -266,10 +266,7 @@ class SearchQuerySet(models.query.QuerySet):
         fulltext_columns = ", ".join(full_names)
         match_expr = ("MATCH(%s) AGAINST (%%s)" %
                                fulltext_columns)
-
+        # only current site clubs
         # Add the extra SELECT and WHERE options
-        return self.extra(where=[match_expr],
+        return self.filter(sites__id__exact=settings.SITE_ID).extra(where=[match_expr],
                           params=[query])
-
-
-

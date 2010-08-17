@@ -13,7 +13,7 @@
 		{% for club in clubs %}
 			<div>
 				<a href={{ club.get_absolute_url }}>{{ club.name }}</a>
-				<span>{{ club.description }}</span>
+				<span>{{ club.description|truncatewords:10}}</span>
 			</div>
 			<hr >
 		{% endfor %}
