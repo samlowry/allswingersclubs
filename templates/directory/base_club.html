@@ -84,7 +84,7 @@
 			{% if club.state %}
 				<a href="/tag/usa/{{ club.state.usps_name|lower }}/{{ tag.name }}/">{{ tag.name }}</a>
 			{% else %}
-				<a href="/tag/{{ club.country.name }}/{{ tag.name }}/">{{ tag.name }}</a>
+				<a href="/tag/{{ club.city.country.slug }}/{{ tag.name }}/">{{ tag.name }}</a>
 			{% endif %},&nbsp;
 		{% endfor %}
 	{% endif %}
