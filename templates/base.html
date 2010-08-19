@@ -68,7 +68,7 @@
 	<div>
 		<h2>Keywords:</h2>
 		{% for word in keywords %}
-			<a href="/search/?q={{ word.text }}">
+			<a href="/search/?q={{ word.query_string }}">
 				{{ word.text }}
 			</a> | 
 		{% endfor %}
