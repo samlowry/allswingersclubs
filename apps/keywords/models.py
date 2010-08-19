@@ -4,8 +4,9 @@ from django.contrib.sites.models import Site
 from django.contrib.sites.managers import CurrentSiteManager
 
 import settings
+  
+  
 
-   
 class Keyword(models.Model):
     text = models.CharField(max_length=255)
     created = models.DateTimeField(default=datetime.datetime.now)
