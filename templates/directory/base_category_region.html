@@ -106,3 +106,5 @@ $( document ).ready( function ()
 {% endblock content %}
 
 {% block links_title %}<h2>Related sites</h2>{% endblock %}
+
+{% block footertext %}{{ block.super }}. Our niched directories is: <a href="http://allswingersclubs.org{{ request.path }}">Swingers Clubs in {{ region.name }}</a> - <a href="http://allfetishclubs.org{{ request.path }}">Fetish & BDSM Clubs in {{ region.name }}</a> - <a href="http://allgayclubs.org{{ request.path }}">Gay Clubs in {{ region.name }}</a>. We are open to any suggestions and buisiness offers.{% endblock %}
