@@ -9,6 +9,11 @@ DEBUG = False
 from multisite.threadlocals import SiteIDHook
 SITE_ID = SiteIDHook()
 
+KEYWORDS_ON_SITES = (
+                        1, # allswingersclubs
+                        2, # allfetishclubs
+                        3, # allgaysclubs
+                    )
 APPEND_SLASH = False
 
 CACHE_BACKEND = 'file:///tmp/django_cache'
@@ -21,7 +26,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media')
 MEDIA_URL = '/media/'
 
 TEMPLATE_DIRS = (
-	os.path.join(PROJECT_ROOT, 'templates'),
+    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 ADMINS = (
@@ -58,35 +63,34 @@ SECRET_KEY = '9w+@byf8+ocnvn*!_n=@p4zhp#f-_5u#8r^8644)l3^^et4-7v'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-	'multisite.template_loader.load_template_source',
+    'multisite.template_loader.load_template_source',
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
 #     'django.template.loaders.eggs.load_template_source',
 )
 
 MIDDLEWARE_CLASSES = (
-	'django.middleware.gzip.GZipMiddleware',
-	'django.middleware.cache.UpdateCacheMiddleware',
-	'django.middleware.http.ConditionalGetMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.http.ConditionalGetMiddleware',
     # 'django.middleware.common.CommonMiddleware',
-	'multisite.middleware.DynamicSiteMiddleware',
+    'multisite.middleware.DynamicSiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-	'django.middleware.cache.FetchFromCacheMiddleware',	
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',	
     
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfResponseMiddleware',
-    'keywords.middleware.KeywordMiddleware',	
 )
 
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	'django.core.context_processors.auth',
-	'django.core.context_processors.request',
-	'context_processors.get_current_site_id',
-	'context_processors.get_all_keywords',
+    'django.core.context_processors.auth',
+    'django.core.context_processors.request',
+    'context_processors.get_current_site_id',
+    'context_processors.get_all_keywords',
 )
 
 INSTALLED_APPS = (
@@ -94,26 +98,25 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-	'django.contrib.flatpages',
+    'django.contrib.flatpages',
     'django.contrib.admin',
-	'django.contrib.sitemaps',
+    'django.contrib.sitemaps',
     'django.contrib.comments',
-	'linkator',
-	'directory',
-	'comments',
-	'south',
+    'linkator',
+    'directory',
+    'comments',
+    'south',
     'registration',
     'news',
     'reversion',
     'tapes',
     'imagekit',
-    'keywords',
 )
 
 try:
-	from local_settings import *
+    from local_settings import *
 except ImportError:
-	pass
+    pass
     
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # one months
 SESSION_SAVE_EVERY_REQUEST = True
@@ -123,5 +126,9 @@ DEFAULT_FROM_EMAIL = "webmaster@allswingresclubs.org"
 ACCOUNT_ACTIVATION_DAYS = 14
 
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
-
-MAX_STACK_LENGTH = 10
+MAX_STACK_LENGTH = 10 # maximum of saved keywords
+KEYWORDS_ON = False     # is keywords application on for current site.
+if int(SITE_ID) in KEYWORDS_ON_SITES:
+    MIDDLEWARE_CLASSES += ('keywords.middleware.KeywordMiddleware',)	
+    INSTALLED_APPS += ("keywords",)
+    KEYWORDS_ON = True

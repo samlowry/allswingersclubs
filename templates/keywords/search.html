@@ -9,15 +9,31 @@
 			<input type="submit" value="search"/>
 		</form>
 	</div>
-	{% if clubs %}
-		{% for club in clubs %}
-			<div>
-				<a href={{ club.get_absolute_url }}>{{ club.name }}</a>
-				<span>{{ club.description|truncatewords:10}}</span>
-			</div>
-			<hr >
-		{% endfor %}
-	{% else %}
-		Empty result.
+	{% for club in clubs.object_list %}
+		<div>
+			<a href={{ club.get_absolute_url }}>{{ club.name }}</a>
+			<span>{{ club.description|truncatewords:10}}</span>
+		</div>
+		<hr >
+	{% endfor %}
+	{% if clubs.paginator.count > 0 %}	
+		<div class="pagination">
+			<span class="step-links">
+				{% if clubs.has_previous %}
+					<a href="{{ query_string }}&page={{ clubs.previous_page_number }}">previous</a>
+				{% endif %}
+
+				<span class="current">
+					Page {{ clubs.number }} of {{ clubs.paginator.num_pages }}.
+				</span>
+
+				{% if clubs.has_next %}
+					<a href="{{ query_string }}&page={{ clubs.next_page_number }}">next</a>
+				{% endif %}
+			</span>
+		</div>
+	{% endif %}
+	{% if clubs.paginator.count == 0 %}
+		Empty result
 	{% endif %}
 {% endblock %}
