@@ -16,3 +16,6 @@
 			- will create the full text index for directory.Club model.
 			fields are:  name, description, address, phone, email, homepage
 
+27.08.2010
+	Keywords application in pluggable now. Enable it for some site with adding site id to the 
+	KEYWORDS_ON_SITES tuple in the settings.py
