@@ -24,3 +24,24 @@ class Keyword(models.Model):
     
     def query_string(self):
         return self.text.replace(" ", "+")
+
+class IsOnForCurrentSite(models.Manager):
+    def enabled(self):
+        is_on = False
+        try:
+            is_on = Site.objects.get_current().keywordstate.is_on
+        except KeywordState.DoesNotExist:
+            pass
+        return is_on
+        
+
+class KeywordState(models.Model):
+    is_on = models.BooleanField(default=False)
+    site = models.OneToOneField(Site)
+    
+    # managers
+    objects = models.Manager()
+    state = IsOnForCurrentSite()
+
+
+

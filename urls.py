@@ -64,10 +64,9 @@ urlpatterns = patterns('',
     (r'^', include('directory.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
     (r'^reversions/', include('reversion.urls')),    
-    (r'^tag/', include('tagging.urls')),    
+    (r'^tag/', include('tagging.urls')),
+    (r'^search/', include('keywords.urls')),
 )
-if settings.KEYWORDS_ON:
-    urlpatterns += patterns('', (r'^search/', include('keywords.urls')))
 
 if settings.DEBUG:
     urlpatterns += patterns('', (r'^(?P<path>.+\.(?:css|js|jpg|gif|png))$', 'django.views.static.serve', {'document_root': 'static'}) )

@@ -2,9 +2,13 @@ import urlparse
 import cgi
 import re
 
+from django.http import Http404
 from django.http import HttpResponseRedirect
-from keywords.models import Keyword
+from django.contrib.sites.models import Site
 
+from keywords.models import Keyword
+from keywords.models import KeywordState
+ 
 class KeywordMiddleware(object):
     PARAMS = {
         'w*\.{0,1}google': 'q',
@@ -41,6 +45,13 @@ class KeywordMiddleware(object):
                     return keywords
         return None
     def process_request(self, request):
+        # is the keywords turn on for current site
+        if not KeywordState.state.enabled():
+            # no keywords for this site 
+            path = request.get_full_path()
+            if path.startswith("/search/"):
+                raise Http404
+            return None
         try:            
             referer = request.META.get('HTTP_REFERER')
             keywords = self.parse_search(referer)

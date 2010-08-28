@@ -9,11 +9,6 @@ DEBUG = False
 from multisite.threadlocals import SiteIDHook
 SITE_ID = SiteIDHook()
 
-KEYWORDS_ON_SITES = (
-                        # 1, # allswingersclubs
-                        2, # allfetishclubs
-                        # 3, # allgaysclubs
-                    )
 APPEND_SLASH = False
 
 CACHE_BACKEND = 'file:///tmp/django_cache'
@@ -82,6 +77,7 @@ MIDDLEWARE_CLASSES = (
     
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.csrf.CsrfResponseMiddleware',
+    'keywords.middleware.KeywordMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -90,6 +86,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
     'django.core.context_processors.request',
     'context_processors.get_current_site_id',
+    'context_processors.get_all_keywords',
 )
 
 INSTALLED_APPS = (
@@ -111,6 +108,7 @@ INSTALLED_APPS = (
     'tapes',
     'imagekit',
     'tagging',
+    'keywords',
 )
 
     
@@ -122,13 +120,7 @@ DEFAULT_FROM_EMAIL = "webmaster@allswingersclubs.org"
 ACCOUNT_ACTIVATION_DAYS = 14
 
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
-MAX_STACK_LENGTH = 10 # maximum of saved keywords
-KEYWORDS_ON = False     # is keywords application on for current site.
-if int(SITE_ID) in KEYWORDS_ON_SITES:
-    MIDDLEWARE_CLASSES += ('keywords.middleware.KeywordMiddleware',)
-    TEMPLATE_CONTEXT_PROCESSORS += ('context_processors.get_all_keywords',)
-    INSTALLED_APPS += ("keywords",)
-    KEYWORDS_ON = True
+MAX_STACK_LENGTH = 10 # maximum of saved keywords for each site
 
 try:
     from local_settings import *
