@@ -43,5 +43,6 @@ def search(request, template_name="keywords/search.html"):
     else:
         form = SearchForm()
     data["query_string"] = "?%s" % urlencode(p)
+    data["search_text"] = search_text
     data["form"] = form
     return render_to_response(template_name, data, context_instance=context)

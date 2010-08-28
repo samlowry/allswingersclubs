@@ -1,6 +1,6 @@
 {% extends "decorator.html" %}
 
-{% block title %} Site search {% endblock %}
+{% block title %} {{ search_text|capfirst }}: page {{ clubs.number }} of {{ clubs.paginator.num_pages }}{% endblock %}
 
 {% block content %}
 	<div>
