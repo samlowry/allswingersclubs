@@ -1,0 +1,13 @@
+{% extends "directory/base_club.html" %}
+
+{% block title %}{{club.name}} Gay club{% endblock %}
+
+{% block breadcrumbs %}
+    {% if club.state %}
+        &gt; <a href="{{ club.state.get_absolute_url }}">Gays clubs in {{ club.state }}</a> &gt; {{club.name}} Gays club
+    {% else %}
+        &gt; <a href="{{ club.city.country.get_absolute_url }}">Gays clubs in {{ club.city.country.name }}</a> &gt; {{club.name}} Gays club
+    {% endif %}
+{% endblock %}
+
+{% block club_page_title_suffix %}Gays club{% endblock %}

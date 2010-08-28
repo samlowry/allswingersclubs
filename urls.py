@@ -63,7 +63,8 @@ urlpatterns = patterns('',
     #Main app urls
     (r'^', include('directory.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
-    (r'^reversions/', include('reversion.urls')),   
+    (r'^reversions/', include('reversion.urls')),    
+    (r'^tag/', include('tagging.urls')),    
 )
 if settings.KEYWORDS_ON:
     urlpatterns += patterns('', (r'^search/', include('keywords.urls')))
