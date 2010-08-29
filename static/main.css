@@ -1,6 +1,7 @@
 body{font-family:Verdana;font-size:11px;margin:0;padding:0;}
 #content{width:870px;margin:00px 0 0px 50px;padding:20px 10px 10px 10px;}
 #main{font-size:16px}
+#description{margin-bottom:15px;}
 #clubs{width:500px}
 .club_image{margin-top:10px;padding:3px;border:1px solid gray}
 h1,h2,h3,h4,h5,h6{color:gray;border-bottom:1px dotted #cccccc}
@@ -11,7 +12,7 @@ tr:first-child td.column {padding-top:5px}
 tr:last-child td.column {padding-bottom:5px}
 td.column + td.column {border-left:1px dotted #BBB;}
 td.column {width:225px;padding:0 30px 0 30px;}
-#map_canvas{height:400px;position:absolute;right:0px;left:600px;margin:50px;margin-top:300px;}
+#map_canvas{height:400px;position:absolute;right:0px;left:600px;margin:50px;margin-top:450px;}
 #news h4{margin-top:0px;margin-bottom:2px;}
 #news .meta{font-size:xx-small;}
 #news .link{font-style:italic;font-size:xx-small;}
