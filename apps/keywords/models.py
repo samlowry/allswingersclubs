@@ -14,13 +14,16 @@ class Keyword(models.Model):
     on_site = CurrentSiteManager('sites')
     def save(self, site=None):
         """ saves model and removes elder. site - is site object which to keyword"""
-        super(Keyword, self).save()
+        # checking keyword existance
         if site is None:
             site = Site.objects.get_current()
-        self.sites.add(site)
-        old = Keyword.objects.all().order_by("-id")[settings.MAX_STACK_LENGTH:]
-        for word in old:
-            word.delete()
+        kws = Keyword.objects.filter(text=self.text, sites=site)
+        if kws.count() == 0:
+            super(Keyword, self).save()
+            self.sites.add(site)
+            old = Keyword.on_site.all().order_by("-id")[settings.MAX_STACK_LENGTH:]
+            for word in old:
+                word.delete()
     
     def query_string(self):
         return self.text.replace(" ", "+")
