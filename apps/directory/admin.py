@@ -60,7 +60,6 @@ class RegionAdmin(admin.ModelAdmin):
 class CountryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'region', 'short_description', )
 	search_fields = ('name', 'region__name')
-	inlines = [CityInline,]
 	
 
 class CityAdmin(admin.ModelAdmin):
@@ -74,7 +73,6 @@ class CityAdmin(admin.ModelAdmin):
 class StateAdmin(admin.ModelAdmin):
 	list_display = ('id', 'name', 'usps_name', 'short_description', )
 	list_display_links = ('id', 'name',)
-	inlines = [CityInline,]
 
 class ClubAdmin(admin.ModelAdmin):
 	inlines = [PhotosInline,]
