@@ -40,6 +40,11 @@ $( document ).ready( function ()
 {% block content %}
 <h1>{% block region_page_title_prefix %}{% endblock %} in {{region}}</h1>
 <div id="main">
+    {% if region.description %}
+	<div id="description">
+	    {{region.description}}
+    </div
+    {% endif %}
 	<div id="map_canvas" ></div>
 	<div id="clubs">
 		{% for club in clubs%}

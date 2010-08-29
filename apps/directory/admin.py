@@ -58,7 +58,7 @@ class RegionAdmin(admin.ModelAdmin):
 
 
 class CountryAdmin(admin.ModelAdmin):
-	list_display = ('name', 'region',)
+	list_display = ('name', 'region', 'short_description', )
 	search_fields = ('name', 'region__name')
 	inlines = [CityInline,]
 	
@@ -72,7 +72,7 @@ class CityAdmin(admin.ModelAdmin):
 	list_select_related = True
 
 class StateAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'usps_name')
+	list_display = ('id', 'name', 'usps_name', 'short_description', )
 	list_display_links = ('id', 'name',)
 	inlines = [CityInline,]
 

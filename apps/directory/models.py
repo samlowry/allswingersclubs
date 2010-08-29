@@ -18,7 +18,20 @@ from django.template.defaultfilters import slugify
 
 def rating_random():
     return random.choice([3.0, 3.5, 4.0])
-    
+
+def short_description(self):
+	""" returns slice of desc """
+	try:
+		if len(self.description) > 100:
+			short = "%s..." % self.description[:100]
+		else:
+			short = self.description
+		return short
+	except Exception, err:
+		return ''
+short_description.short_description = 'Desc'
+short_description.admin_order_field = 'description'
+
     
 class Region(models.Model): # Europe, Australia etc
     name = models.CharField('Region name', max_length=50, unique=True)
@@ -34,6 +47,8 @@ class Country(models.Model): # Germany, UK etc
     name = models.CharField('Country name', max_length=50, unique=True)
     region = models.ForeignKey(Region, related_name='region_countries')
     slug = models.SlugField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    short_description = short_description
 
     def __unicode__(self):
         return self.name
@@ -58,6 +73,8 @@ class Country(models.Model): # Germany, UK etc
 class State(models.Model):
     name = models.CharField('state name', max_length=20, unique=True)
     usps_name = models.CharField('USPS 2 letters state codename', max_length=2, unique=True)
+    description = models.TextField(blank=True, null=True)
+    short_description = short_description    
     
     def __unicode__(self):
         return '%s (%s)' % (self.name, self.usps_name)
@@ -150,6 +167,7 @@ class Club(models.Model):
     current_site_only = CurrentSiteManager('sites')
     open_only = OpenClubsFromCurrentSiteManager()
     full_text = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
+    short_description = short_description
     class Meta:
         ordering = ['name']
         # ordering = ['id']
@@ -162,7 +180,6 @@ class Club(models.Model):
     country_name.short_description = 'Country'
     country_name.admin_order_field = 'city__country'
 
-
     def state_name(self):
         return self.state
     state_name.short_description = 'State'
@@ -171,16 +188,7 @@ class Club(models.Model):
     def city_name(self):
         return self.city.name
     city_name.short_description = 'City'
-    city_name.admin_order_field = 'city'
-    
-    def short_description(self):
-    	""" returns slice of desc """
-    	if len(self.description) > 100:
-    		short = "%s..." % self.description[:100]
-    	else:
-    		short = self.description
-    	return short
-
+    city_name.admin_order_field = 'city'    
     
     @models.permalink
     def get_absolute_url(self):
