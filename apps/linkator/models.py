@@ -3,11 +3,13 @@ from django.contrib.sites.models import Site
 
 # Create your models here.
 class Page(models.Model):
-	path = models.CharField(max_length=100, unique=True)
+	path = models.CharField(max_length=100)
 	site = models.ForeignKey(Site)
 	
 	class Meta:
 		ordering = ['id']
+		unique_together = (("site", "path"),)
+		
 	
 	def __unicode__(self):
 		return '%s%s' % (self.site, self.path,)
