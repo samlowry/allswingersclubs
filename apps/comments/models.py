@@ -42,6 +42,14 @@ def get_poster_url(self):
 get_poster_url.allow_tags = True
 Comment.poster_url = get_poster_url
 
+def get_club_edit_url(self):
+	""" returns html formatted url to admin form of club edit """
+	if self.content_type.name == "club":
+		return "<a href='/admin/directory/club/%s/'>Edit club</a>" % (self.id,)
+get_club_edit_url.allow_tags = True
+Comment.club_edit_url = get_club_edit_url
+
+
 def comment_by_owner(self):
     """returns true if it's club's owner's comment. if not returns false"""
 

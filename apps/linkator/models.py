@@ -10,7 +10,8 @@ class Page(models.Model):
 		ordering = ['id']
 	
 	def __unicode__(self):
-		return '%s' % (self.path,)
+		return '%s%s' % (self.site, self.path,)
+	
 
 class Tradelink(models.Model):
 	url = models.URLField('Partner\'s link', verify_exists=False)
@@ -24,4 +25,4 @@ class Tradelink(models.Model):
 	
 	def __unicode__(self):
 		return '%s' % (self.url, )
-		
+	
