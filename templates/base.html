@@ -54,7 +54,7 @@
 	{% get_tradelinks as tradelinks %}
 	{% if tradelinks %}
 		{% block links_title %}
-			<h2>Links</h2>
+			<h2>Related links</h2>
 		{% endblock %}
 			<ul>				
 				{% for tradelink in tradelinks %}
@@ -64,10 +64,24 @@
 	{% endif %}
 {% endblock links %}
 
-<hr>
+{% block recent_searches %}
+{% if keywords %}
+<h2>Recent searches</h2>
+<ul>
+{% for word in keywords %}
+	<li><a href="/search/?q={{ word.query_string }}">
+		{{ word.text }}
+	</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock recent_searches %}
+
 <div>
+<hr>
 {% block footertext %}{% endblock %}
 </div>
 </div>
+
 </body>
 </html>
