@@ -47,8 +47,6 @@ class Country(models.Model): # Germany, UK etc
     name = models.CharField('Country name', max_length=50, unique=True)
     region = models.ForeignKey(Region, related_name='region_countries')
     slug = models.SlugField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    short_description = short_description
 
     def __unicode__(self):
         return self.name
@@ -69,12 +67,22 @@ class Country(models.Model): # Germany, UK etc
         verbose_name_plural = "countries"
     
     
-# Create your models here.
+class CountryDescription(models.Model):
+    description = models.TextField(blank=True, null=True)
+    short_description = short_description
+    country = models.ForeignKey(Country)
+    site = models.ForeignKey(Site)
+    objects = models.Manager()
+    current_site_only = CurrentSiteManager('site')
+
+
+    def __unicode__(self):
+        return self.description
+
+
 class State(models.Model):
     name = models.CharField('state name', max_length=20, unique=True)
     usps_name = models.CharField('USPS 2 letters state codename', max_length=2, unique=True)
-    description = models.TextField(blank=True, null=True)
-    short_description = short_description    
     
     def __unicode__(self):
         return '%s (%s)' % (self.name, self.usps_name)
@@ -88,6 +96,16 @@ class State(models.Model):
             'state_usps_name': str(self.usps_name.lower()),
         })
 
+class StateDescription(models.Model):
+    description = models.TextField(blank=True, null=True)
+    short_description = short_description
+    state = models.ForeignKey(State)
+    site = models.ForeignKey(Site)
+    objects = models.Manager()
+    current_site_only = CurrentSiteManager('site')
+
+    def __unicode__(self):
+        return self.description
 
 class City(models.Model):
     name = models.CharField('City name', max_length=50)

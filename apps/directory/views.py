@@ -46,6 +46,10 @@ def index(request):
 def state(request, state_usps_name):
     region = State.objects.filter(usps_name__exact=state_usps_name).get()
     region.kind = 'state'
+    try:
+        region.description = StateDescription.current_site_only.filter(state=region).get()
+    except StateDescription.DoesNotExist:
+        pass
     clubs = Club.open_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('name')
     cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(club__id__in=clubs).values('id')
     empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)    
@@ -60,6 +64,10 @@ def state(request, state_usps_name):
 def country(request, slug):
     region = get_object_or_404(Country, slug=slug)
     region.kind = 'country'
+    try:
+        region.description = CountryDescription.current_site_only.filter(country=region).get()
+    except CountryDescription.DoesNotExist:
+        pass
     clubs = Club.open_only.select_related('country','city').filter(city__country=region)
     regions = Country.objects.all()
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=region).order_by('-created')[:10]

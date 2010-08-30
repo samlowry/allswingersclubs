@@ -58,9 +58,11 @@ class RegionAdmin(admin.ModelAdmin):
 
 
 class CountryAdmin(admin.ModelAdmin):
-	list_display = ('name', 'region', 'short_description', )
-	search_fields = ('name', 'region__name')
-	
+	list_display = ('name', 'region', )
+	search_fields = ('name', 'region__name')	
+    
+class CountryDescriptionAdmin(admin.ModelAdmin):
+    list_display = ('short_description', 'country', 'site', )
 
 class CityAdmin(admin.ModelAdmin):
 	inlines = [ClubInline,]
@@ -71,8 +73,12 @@ class CityAdmin(admin.ModelAdmin):
 	list_select_related = True
 
 class StateAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', 'usps_name', 'short_description', )
-	list_display_links = ('id', 'name',)
+    list_display = ('id', 'name', 'usps_name', )
+    list_display_links = ('id', 'name',)
+    
+class StateDescriptionAdmin(admin.ModelAdmin):
+    list_display = ('short_description', 'state', 'site', )
+    
 
 class ClubAdmin(admin.ModelAdmin):
 	inlines = [PhotosInline,]
@@ -141,9 +147,11 @@ class PhotoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(State, StateAdmin)
+admin.site.register(StateDescription, StateDescriptionAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Club, ClubAdmin)
 admin.site.register(Photo, PhotoAdmin)
 
 admin.site.register(Region, RegionAdmin)
 admin.site.register(Country, CountryAdmin)
+admin.site.register(CountryDescription, CountryDescriptionAdmin)
