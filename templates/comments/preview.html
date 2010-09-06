@@ -1,0 +1,60 @@
+{% extends "comments/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Preview your comment" %}{% endblock %}
+
+{% block content %}
+	{% load comments %}
+
+
+		<script src="http://www.google.com/jsapi?key=ABCDE"></script>
+		<script type="text/javascript">
+			google.load("jquery", "1.3.2");
+		</script>
+		<script type="text/javascript">
+			$(function(){
+				$("#id_submit_post, #id_submit_preview").click(function(e){
+					var comment = $("#id_comment").val();
+					if (comment.match(new RegExp("<a[\\s\\w]*?>", "gi"))){
+						alert("Please, remove <a> from comment");
+						e.preventDefault();
+						return;
+					}
+					var matched = comment.match(new RegExp("http://", "gi")) || [];
+					if (matched.length > 2){
+						alert("Do not enter more then 2 http:");
+						e.preventDefault();
+						return;
+					}
+				});
+			});
+		</script>
+		<form action="{% comment_form_target %}" method="post">{% csrf_token %}
+		{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+	{% if form.errors %}
+		<h1>{% blocktrans count form.errors|length as counter %}Please correct the error below{% plural %}Please correct the errors below{% endblocktrans %}</h1>
+	{% else %}
+		<h1>{% trans "Preview your comment" %}</h1>
+		<blockquote>{{ comment|linebreaks }}</blockquote>
+		<p>
+		{% trans "and" %} <input type="submit" name="submit" class="submit-post" value="{% trans "Post your comment" %}" id="submit" /> {% trans "or make changes" %}:
+		</p>
+		{% endif %}
+		{% for field in form %}
+		{% if field.is_hidden %}
+		{{ field }}
+		{% else %}
+		{% if field.errors %}{{ field.errors }}{% endif %}
+		<p
+			{% if field.errors %} class="error"{% endif %}
+			{% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+			{{ field.label_tag }} {{ field }}
+			</p>
+			{% endif %}
+		{% endfor %}
+		<p class="submit">
+			<input type="submit" id="id_submit_post" name="submit" class="submit-post" value="{% trans "Post" %}" />
+			<input type="submit" id="id_submit_preview" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
+		</p>
+	</form>
+{% endblock %}
