@@ -180,8 +180,8 @@ class Club(models.Model):
     sites = models.ManyToManyField(Site)
     owner = models.ForeignKey(User, null=True, blank=True)
     # managers  
-    #objects = models.Manager() 
-    objects = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
+    objects = models.Manager() 
+    # objects = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
     current_site_only = CurrentSiteManager('sites')
     open_only = OpenClubsFromCurrentSiteManager()
     full_text = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
