@@ -16,7 +16,7 @@ def my_slugify(value):
     """
     import unicodedata
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
-    value = unicode(re.sub('[^\w\s-]', '', value).strip())
+    value = unicode(re.sub('[^\w\s-]', '-', value).strip())
     return mark_safe(re.sub('[-\s]+', '-', value))
 my_slugify.is_safe = True
 my_slugify = stringfilter(my_slugify)
