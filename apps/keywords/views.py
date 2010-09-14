@@ -27,7 +27,7 @@ def search(request, template_name="keywords/search.html"):
         p[k] = params[k]
     search_text = request.GET.get("q")
     if search_text:
-        clubs = Club.objects.search(search_text)
+        clubs = Club.full_text.search(search_text)
         form = SearchForm(p)
         try:
             page = int(request.GET.get('page', '1'))
