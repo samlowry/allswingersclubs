@@ -109,8 +109,9 @@ INSTALLED_APPS = (
     'imagekit',
     'tagging',
     'keywords',
+    'extra_comments',
 )
-
+COMMENTS_APP = 'extra_comments'
     
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # one months
 SESSION_SAVE_EVERY_REQUEST = True

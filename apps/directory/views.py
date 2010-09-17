@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 
-from comments.forms import get_comment_form
+from extra_comments.forms import get_comment_form
 from directory.models import *
 from news.models import News
 from directory.forms import PhotoForm, ClubForm
@@ -107,7 +107,6 @@ def club(request, club_id, club_urlsafe_title):
             all_clubs_for_country = None
 
         news = current_club.news_set.all()
-        
         form = get_comment_form(request, target_object=current_club)     
         return render_to_response(
             'directory/club.html',

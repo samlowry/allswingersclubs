@@ -28,7 +28,7 @@
 		$(function(){
 			$("#id_submit_post, #id_submit_preview").click(function(e){
 				var comment = $("#id_comment").val();
-				if (comment.match(new RegExp("<a[\\s\\w]*?>", "gi"))){
+				if (comment.match(new RegExp("<a(.|\n|\r)*?>", "gi"))){
 					alert("Please, remove <a> from comment");
 					e.preventDefault();
 					return;

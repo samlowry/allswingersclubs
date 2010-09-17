@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.contrib.comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
-from comments.forms import OwnerCommentForm
+from extra_comments.forms import OwnerCommentForm
 from directory.models import Club
 
 
@@ -24,9 +24,11 @@ def post_wrapper(request, next=None):
 		# saving poster_name, poster_email and poster_url
 		# to the session. it's not the same as the django users,
 		# it's just not authenticated users who post comments
-        request.session["poster_name"] = poster_name
-        request.session["poster_email"] = poster_email
-        request.session["poster_url"] = poster_url
+		request.session["poster_name"] = poster_name
+		request.session["poster_email"] = poster_email
+		request.session["poster_url"] = poster_url
+	if not next:
+		next = request.META['HTTP_REFERER']
 	return post_comment(request, next)
 	
 @login_required
