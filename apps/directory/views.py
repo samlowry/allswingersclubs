@@ -132,6 +132,18 @@ def tradingmap(request):
     all_clubs = Club.current_site_only.all()
     return locals()
 
+@login_required
+@render_to('directory/csvmap.html')
+def csvmap(request):
+    if not request.user.is_superuser:
+        raise Http404
+    all_countries = Country.objects.all()
+    all_states = State.objects.all()
+    all_flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
+    all_clubs = Club.current_site_only.all()
+    return locals()
+
+
 @login_required    
 def change_club(request, club_id, template_name="change_club.html"):
     context = RequestContext(request)

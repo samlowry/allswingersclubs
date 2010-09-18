@@ -14,6 +14,7 @@ urlpatterns = patterns('directory.views',
 	(r'^ajax/get-country-cities/$', 'ajax_get_country_cities'),
     
 	(r'^tradingmap\.html$', 'tradingmap'),	
+	(r'^csvmap\.csv$', 'csvmap'),	
 )
 
 # urls for admin_views functions

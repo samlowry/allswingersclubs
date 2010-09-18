@@ -1,0 +1,6 @@
+{# <!-- homepage --> #}http://{{current_site.domain}}/   {% block homepage_anchor %}{% endblock %}
+{# <!-- countries --> #}{% for country in all_countries%}http://{{current_site.domain}}{{ country.get_absolute_url }}	{% block country_anchor_prefix %}{% endblock %}
+{% endfor %}{# <!-- states --> #}{% for state in all_states%}http://{{current_site.domain}}{{ state.get_absolute_url }}	{% block state_anchor_prefix %}{% endblock %}
+{% endfor %}{# <!-- clubs --> #}{% for club in all_clubs%}http://{{current_site.domain}}{{ club.get_absolute_url }}	{% block club_anchor_suffix %}{% endblock %}
+{% endfor %}{# <!-- articles --> #}{% for article in all_flatpages%}http://{{current_site.domain}}{{ article.get_absolute_url }}	{{ article.title }}
+{% endfor %}
