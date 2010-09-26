@@ -45,7 +45,11 @@ Comment.poster_url = get_poster_url
 def get_club_edit_url(self):
 	""" returns html formatted url to admin form of club edit """
 	if self.content_type.name == "club":
-		return "<a href='/admin/directory/club/%s/'>Edit club</a>" % (self.id,)
+		try:
+			club = Club.objects.get(id=self.object_pk)
+		except club.DoesNotExist:
+			return "-"	    
+	return "<a href='/admin/directory/club/%s/'>Edit club</a>" % (club.id,)
 get_club_edit_url.allow_tags = True
 Comment.club_edit_url = get_club_edit_url
 
