@@ -239,7 +239,7 @@ def _send_invitations():
     """sends invitations for registration to clubs owners"""
     for club in Club.objects.all():
         if email_re.match(club.email):               
-            # user may be owner of som club, but must to get only 1 invitations
+            # user may be owner of some clubs, but must to get only 1 invitations
             inv, created = Invitation.objects.get_or_create(email=club.email)
             if created:                
                 inv.email = club.email

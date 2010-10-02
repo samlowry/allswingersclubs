@@ -253,11 +253,30 @@ class RegistrationProfile(models.Model):
             framework for details regarding these objects' interfaces.
 
         """
+
         ctx_dict = { 'activation_key': self.activation_key,
                      'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-                     'site': site}        
+                     'site': site }        
         # users that we invite to register (all of them are in Invitation)
         try:
+            # get user's clubs
+            clubs = Club.objects.filter(email=self.user.email)
+            ctx_dict['clubs'] = clubs
+            if clubs.count() > 1:
+                sites = [x.sites.all() for x in Club.objects.filter(email=self.user.email)]
+                club_sites_list = []
+                    
+                # debugging log to catch owners of clubs from different sites.
+                # for club_sites in sites:
+                #    for st in club_sites:
+                #        club_sites_list.append(st.domain)
+                # with open('log1.txt', 'a') as f:
+                #    f.write('%s has several clubs: \n\tclubs are:%s\n\tsites are: %s\n' % (self.user.email,
+                #                                                            ','.join([x.name for x in clubs]),
+                #                                                            ','.join(club_sites_list)))
+            if clubs.count() > 0:
+                # replace site passed to the template with the club's site
+                ctx_dict['site'] = clubs[0].sites.all()[0]
             inv = Invitation.objects.get(email=self.user.email)
             email_template = 'registration/owner_activation_email.txt'
             subject = render_to_string('registration/owner_activation_email_subject.txt',
@@ -279,13 +298,12 @@ class RegistrationProfile(models.Model):
         
         message = render_to_string(email_template,
                                    ctx_dict)
-        
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
 
 # nmb10 need to send invitations for all clubs owners. 
 # DO NOT RESEND INVITATION HERE
 # IT MAY CAUSE SOME PROBLEM, BECAUSE PROFILES ARE CREATED, USERS ARE SAVED, INVITATION LOG NOT EMPTY
-# CREATE FUNCTION INSTEAT THAT LOOPS THROUGH INVITATION MODEL, GET EMAIL THERE AND SEND INVITATION.
+# CREATE FUNCTION INSTEAD THAT LOOPS THROUGH INVITATION MODEL, GET EMAIL THERE AND SEND INVITATION.
 
 class Invitation(models.Model):
     email = models.EmailField('e-mail address', blank=True, db_index=True)
