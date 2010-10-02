@@ -17,3 +17,6 @@ td.column {width:225px;padding:0 30px 0 30px;}
 #news .meta{font-size:xx-small;}
 #news .link{font-style:italic;font-size:xx-small;}
 #news .body{margin-bottom:20px;}
+
+div#dialog {display: none; position: absolute; z-index: 9990; background-color: #fff; }
+div#mask {display: none; z-index: 9000; left: 0px; top: 0px; position: absolute; background-color: #000; }
