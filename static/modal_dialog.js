@@ -1,5 +1,4 @@
 $(document).ready(function() {	
-
 	var id = "#dialog";
 
 	//Get the screen height and width
@@ -22,7 +21,7 @@ $(document).ready(function() {
 	$(id).css('left', winW/2-$(id).width()/2);
 
 	//transition effect
-	$(id).fadeIn(2000); 
+	$(id).fadeIn(1000); 
 
 	//if close button is clicked
 	$('.window .close').click(function (e) {
