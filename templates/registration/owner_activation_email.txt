@@ -1,6 +1,6 @@
 Hello!
 
-Your e-mail is mentioned in {% for club in clubs %}{{ club.name }}(right here: {{ club.get_absolute_url }}){% endfor %} club details on website {{ site.name }} (site is a member of growing network of niched adult club directories, our websites stay in tops of Google searches). 
+Your e-mail is mentioned in {% for club in clubs %}{{ club.name }} club details (right here: http://{{ site.domain }}{{ club.get_absolute_url }}){% endfor %} on website {{ site.name }} (site is a member of growing network of niched adult club directories, our websites stay in tops of Google searches). 
 
 We want to ask a favour of you and want to give you an ability in return.
 
