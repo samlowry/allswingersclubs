@@ -57,12 +57,11 @@ if options.clubs_count:
     for club in Club.objects.all():
         if total_clubs_processed >= options.clubs_count: sys.exit()
         if email_re.match(club.email):       
-            print 'processing club with email', club.email
             # send invitation only if it just has been created
             inv, is_created = Invitation.objects.get_or_create(email=club.email)
             if is_created:
+                print 'processing club with email', club.email                
                 inv.email = club.email
                 inv.save()
                 inv.send()
-                
                 total_clubs_processed += 1
