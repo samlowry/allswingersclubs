@@ -1,1 +1,1 @@
-Your clubs listings on {{ site.domain }}
+Questions about {{clubs|first}}
