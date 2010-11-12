@@ -1,6 +1,9 @@
 Hello!
 
-Your e-mail is mentioned in {% for club in clubs %}{{ club.name }} club details (right here: http://{{ site.domain }}{{ club.get_absolute_url }}){% endfor %} on website {{ site.name }} (site is a member of growing network of niched adult club directories, our websites stay in tops of Google searches). 
+Somebody mentioned your e-mail as owner's e-mail in {% for club in clubs %}{{ club.name }} club details (right here: http://{{ site.domain }}{{ club.get_absolute_url }}){% endfor %} on website {{ site.name }} (site is a member of growing network of niched adult club directories, our websites stay in tops of Google searches). 
+
+Notice: if this message was sent to a wrong address - don't activate the acc and contact us (webmaster@allswingersclubs.org), we will remove your e-mail from club details.
+
 
 We want to ask a favour of you and want to give you an ability in return.
 
