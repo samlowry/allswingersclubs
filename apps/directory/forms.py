@@ -74,7 +74,7 @@ class ClubForm(forms.ModelForm):
 			if club:
 				if club.state:
 					self.fields["city"].queryset = club.state.city_set.all()
-				elif club.country:
+				elif club.city:
 					self.fields["city"].queryset = club.city.country.country_cities.all()
 			else:
 				self.fields["city"].widget.attrs["disabled"] = True
