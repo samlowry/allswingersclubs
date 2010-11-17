@@ -230,11 +230,15 @@ class Club(models.Model):
 
         if self.id is not None:
             from tapes.models import ClubCapture
-            if Club.objects.get(id=self.id).owner != self.owner:
-                capture = ClubCapture()
-                capture.user = self.owner
-                capture.club = self
-                capture.save()
+            if self.owner:
+                if Club.objects.get(id=self.id).owner != self.owner:
+                    capture = ClubCapture()
+                    capture.user = self.owner
+                    capture.club = self
+                    capture.save()
+            else:
+                # admin removes owner
+                self.email = ''
         super(Club, self).save(*args, **kwargs)
         
         if create_revision:
