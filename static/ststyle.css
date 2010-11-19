@@ -1,0 +1,151 @@
+body {
+ background-color: #ccc;
+ font: 1em Verdana, Tahoma, Arial, sans-serif;
+ color: black;
+ margin: 0 0 0 50%;
+ padding: 0;
+ position: relative;
+}
+div.clear {
+ float: left;
+ clear: both;
+ width: 100%;
+}
+.current {
+ font-weight: bold;
+}
+div#container {
+ position: relative;
+ width: 760px;
+ padding: 0;
+ margin: 0 0 0 -380px;
+ overflow: hidden;
+ text-align: left;
+}
+div#header {
+ display: block;
+ height: 147px;
+ background-color: #FF7800;
+}
+div#header h2 {
+ color: white;
+ padding: 0;
+ margin: 0;
+ position: absolute;
+ top: 0;
+ right: 23px;
+ font-size: 34pt;
+ line-height: 18pt;
+ text-transform: uppercase;
+}
+div#logo {
+ position: absolute;
+ top: 0;
+ left: 23px;
+ display: block;
+ width: 225px;
+ height: 190px;
+ background: url('img/stlogo.gif') top left no-repeat;
+}
+div#center {
+ border-left: solid 23px #e8e8e8;
+ border-right: solid 23px #e8e8e8;
+ padding: 0;
+ margin: 0;
+ width: 714px;
+ overflow: hidden;
+ background: white url('img/sidebg.gif') top left repeat-y;
+}
+div#content {
+ padding: 40px 15px 70px 204px;
+ z-index: 10;
+}
+div#content a {
+ color: #c30;
+ text-decoration: underline;
+}
+div#content a:visited {
+ color: #FF7800;
+}
+div#content a:hover {
+ text-decoration: none;
+}
+div#menu {
+ background-color: #ffd4c3;
+ width: 189px;
+ display: block;
+ float: left;
+ clear: right;
+ margin: 43px 0 60px 0;
+ z-index: 100;
+}
+div#menu a {
+ color: black;
+ text-decoration: underline;
+ z-index: 10;
+}
+div#menu a:visited {
+ color: #606060;
+}
+div#menu a:hover {
+ text-decoration: none;
+}
+h1 {
+ color: #c30;
+ font-size: 1.1em;
+}
+h3 {
+ color: #c30;
+ font-size: 1em;
+ margin: 0;
+ margin-left: 1em;
+}
+h4 {
+ color: #c30;
+ margin: 0;
+ padding: 0;
+ font-size: 1em;
+ font-weight: normal;
+ margin-left: 2em;
+}
+p {
+ margin: 0;
+ margin-bottom: 30px;
+ margin-left: 2em;
+}
+div#menu ul {
+ margin: 10px;
+ padding: 0;
+}
+div#menu ul li {
+ padding: 5px;
+ list-style-type: none;
+}
+div#footer {
+ display: block;
+ background-color: #FF7800;
+ font-size: 0.7em;
+ position: absolute;
+ bottom: 10px;
+ left: 0;
+ width: 760px;
+}
+div#footer a, div#footer .current {
+ white-space: nowrap;
+}
+div#footer a {
+ color: white;
+ text-decoration: underline;
+}
+div#footer a:hover {
+ text-decoration: none;
+}
+div#footer ul {
+ margin: 5px 50px 10px 50px;
+ padding: 0px;
+ text-align: center;
+}
+div#footer ul li {
+ padding: 5px;
+ display: inline;
+}

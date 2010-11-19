@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<link rel="stylesheet" href="/ststyle.css" type="text/css">
+
+<title>{% block title %}Sex tourism?{% endblock %}</title>
+</head>
+
+<body>
+<div id=container>
+	<div id=header>
+		<h2>Sex tourism</h2>
+	</div>
+<a href="index.html"><div id=logo title="Sex tourism logo">
+	</div></a>
+
+
+	<div id=center>
+
+		<div id=menu>
+			<ul>
+				<li><a href="/">Sex tourism: FAQ</a></li>
+                {% for flatpage in flatpages %}
+        		<li><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></li>
+            	{% endfor %}
+			</ul>
+		</div>
+
+		<div id=content>
+{% block content %}
+{% endblock content %}
+			
+		</div>
+
+	</div>
+
+	<div id=footer>
+		<ul>
+				<li><a href="/">Sex tourism: FAQ</a></li>
+                {% for flatpage in flatpages %}
+        		<li><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></li>
+				{% endfor %}
+		</ul>
+	</div>
+
+</div>
+</body>
+</html>

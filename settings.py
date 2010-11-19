@@ -87,6 +87,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'context_processors.get_current_site_id',
     'context_processors.get_all_keywords',
+    'context_processors.get_current_site_flatpages',
 )
 
 INSTALLED_APPS = (
