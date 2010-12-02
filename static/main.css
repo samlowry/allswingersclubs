@@ -1,4 +1,5 @@
-body{font-family:Verdana;font-size:11px;margin:0;padding:0;overflow:hidden !important;}
+body{font-family:Verdana;font-size:11px;margin:0;padding:0;}
+body#shorturl{overflow:hidden !important;}
 #content{width:870px;margin:00px 0 0px 50px;padding:20px 10px 10px 10px;}
 #main{font-size:16px}
 #description{margin-bottom:15px;}

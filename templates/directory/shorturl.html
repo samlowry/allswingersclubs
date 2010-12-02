@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}{{ club.title }}{% endblock %}
+{% block title %}{{ club.name }}{% endblock %}
 
 
 {% block description %}{{club.description|striptags|truncatewords:40|force_escape}}{% endblock %}
+
+{% block inbodytag %}id="shorturl"{% endblock %}
 
 {% block body %}
 <div id="bar" class="">
