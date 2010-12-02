@@ -1,4 +1,6 @@
 from django.conf.urls.defaults import *
+from django.views.generic import list_detail
+from directory.models import Club
 
 urlpatterns = patterns('directory.views',
 	(r'^$', 'index'),
@@ -15,6 +17,11 @@ urlpatterns = patterns('directory.views',
     
 	(r'^tradingmap\.html$', 'tradingmap'),	
 	(r'^csvmap\.csv$', 'csvmap'),	
+)
+
+# redirect url for club
+urlpatterns += patterns('',
+    (r'^shorturl/(?P<object_id>\d+)/$', list_detail.object_detail, {'queryset':Club.objects.all(), 'template_name':'directory/shorturl.html', 'template_object_name':'club'}),
 )
 
 # urls for admin_views functions

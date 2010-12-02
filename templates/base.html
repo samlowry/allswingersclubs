@@ -25,6 +25,7 @@
 </head>
 
 <body {% block inbodytag %}{% endblock %}>
+{% block body %}
 <div id="content">
 {% block topbanner %}{% endblock %}
 <p>
@@ -84,6 +85,6 @@
 {% block footertext %}{% endblock %}
 </div>
 </div>
-
+{% endblock body %}
 </body>
 </html>

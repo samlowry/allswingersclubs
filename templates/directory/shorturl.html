@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ club.title }}{% endblock %}
+
+
+{% block description %}{{club.description|striptags|truncatewords:40|force_escape}}{% endblock %}
+
+{% block body %}
+<div id="bar" class="">
+<a href="{{ club.get_absolute_url }}">←Bck</a>
+<a id="offer" href="http://swingsystem.net/in.cgi?20">Take the Sexual Compatibility Survey to find the best matches!</a>
+<a href="{{ club.homepage }}">×</a>
+</div>
+<iframe src="{{ club.homepage }}" id="source" frameborder="0" scrolling="auto"></iframe>
+
+{% endblock body %}

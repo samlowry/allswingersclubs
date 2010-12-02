@@ -1,4 +1,4 @@
-body{font-family:Verdana;font-size:11px;margin:0;padding:0;}
+body{font-family:Verdana;font-size:11px;margin:0;padding:0;overflow:hidden !important;}
 #content{width:870px;margin:00px 0 0px 50px;padding:20px 10px 10px 10px;}
 #main{font-size:16px}
 #description{margin-bottom:15px;}
@@ -7,16 +7,19 @@ body{font-family:Verdana;font-size:11px;margin:0;padding:0;}
 h1,h2,h3,h4,h5,h6{color:gray;border-bottom:1px dotted #cccccc}
 hr{color:#cccccc;background-color:#cccccc;height:1px;border:0;}
 .graph li{margin:15px 0 0 0;}
-table.column {margin: 10px 0}
-tr:first-child td.column {padding-top:5px}
-tr:last-child td.column {padding-bottom:5px}
-td.column + td.column {border-left:1px dotted #BBB;}
-td.column {width:225px;padding:0 30px 0 30px;}
+table.column{margin:10px 0}
+tr:first-child td.column{padding-top:5px}
+tr:last-child td.column{padding-bottom:5px}
+td.column + td.column{border-left:1px dotted #BBB;}
+td.column{width:225px;padding:0 30px 0 30px;}
 #map_canvas{height:400px;position:absolute;right:0px;left:600px;margin:50px;margin-top:450px;}
 #news h4{margin-top:0px;margin-bottom:2px;}
 #news .meta{font-size:xx-small;}
 #news .link{font-style:italic;font-size:xx-small;}
 #news .body{margin-bottom:20px;}
-
-div#dialog {display: none; position: absolute; z-index: 9990; background-color: #fff; }
-div#mask {display: none; z-index: 9000; left: 0px; top: 0px; position: absolute; background-color: #000; }
+div#dialog{display:none;position:absolute;z-index:9990;background-color:#fff;}
+div#mask{display:none;z-index:9000;left:0px;top:0px;position:absolute;background-color:#000;}
+iframe#source{position:absolute;left:0px;right:0px;top:70px;margin:0px;padding:0px;overflow-x:hidden;overflow-y:auto;width:100%;height:100%;z-index:200;}
+#bar{white-space:nowrap;border-bottom:1px solid #b6b6b6;background:#fff;width:100%;position:absolute;left:0px;right:0px;top:0px;min-width:950px;z-index:202;height:60px;padding:10px 5px 0px 5px;font-size:14px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){}
+#offer{font-size:35px;padding:10px;width:90%;}

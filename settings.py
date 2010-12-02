@@ -11,7 +11,7 @@ SITE_ID = SiteIDHook()
 
 APPEND_SLASH = False
 
-CACHE_BACKEND = 'file:///tmp/django_cache'
+CACHE_BACKEND = 'file:///tmp/django_cache/asc'
 CACHE_MIDDLEWARE_SECONDS = 60*60*24
 CACHE_MIDDLEWARE_KEY_PREFIX = SITE_ID
 

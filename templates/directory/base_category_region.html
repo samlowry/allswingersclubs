@@ -55,7 +55,7 @@ $( document ).ready( function ()
 				addItem({{club.latitude}},{{club.longitude}},{{club.id}},'{{club.name}}','{{club.get_absolute_url}}');
 			</script>{% endif %}
 			<span class="fn org">{{club.name}}</span></a>
-		    {% if club.homepage %}&nbsp;&nbsp;<a href="{{club.homepage}}" class="url">#</a>{% endif %}
+		    {% if club.homepage %}&nbsp;&nbsp;<a href="{{club.homepage}}" class="url" onclick="document.location='/shorturl/{{club.id}}/';return false">#</a>{% endif %}
 		    - <span class="adr">
 		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
 		        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
