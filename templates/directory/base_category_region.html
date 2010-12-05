@@ -84,6 +84,7 @@ $( document ).ready( function ()
 	We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@{{ current_site.domain }}
 
 	{% load partition %}
+	<ul>
 	<table class="column">
 	{% for row in empty_cities|columns:3 %}
 	    <tr class="column">
@@ -93,11 +94,12 @@ $( document ).ready( function ()
 	    </tr>
 	{% endfor %}
 	</table>
+	</ul>
 {% endif %}
 
 {% if regions %}
 	<h2>{% block by_region_title_prefix %}{% endblock %} list by {{region.kind}}</h2>
-
+	<ul>
 	<table>
 	{% for row in regions|columns:3 %}
 	    <tr>
@@ -107,6 +109,7 @@ $( document ).ready( function ()
 	    </tr>
 	{% endfor %}
 	</table>
+	</ul>
 {% endif %}
 {% endblock content %}
 
