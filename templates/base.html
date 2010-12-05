@@ -4,6 +4,7 @@
 <title>{% block title %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
 <meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 {% block rss_inheader %}{% endblock %}
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen" />
 {% block inhead %}{% endblock %}
@@ -34,7 +35,7 @@
 {% block start_text %}{% endblock %}
 <br><br />
 
-<div align="right">
+<div style="float:right">
     {% if user.is_authenticated %}
         Welcome, <a href="/accounts/profile/">{{ user.username }}</a> |
         <a href="/accounts/logout/">Logout</a> |
