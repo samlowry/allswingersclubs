@@ -6,12 +6,12 @@
 	<div>
 		<form method="GET" action=".">
 			{{ form }}
-			<input type="submit" value="search"/>
+			<input type="submit" value="search">
 		</form>
 	</div>
 	{% for club in clubs.object_list %}
 		<div>
-			<a href={{ club.get_absolute_url }}>{{ club.name }}</a>
+			<a href="{{ club.get_absolute_url }}">{{ club.name }}</a>
 			<span>{{ club.description|truncatewords:10}}</span>
 		</div>
 		<hr >
@@ -20,7 +20,7 @@
 		<div class="pagination">
 			<span class="step-links">
 				{% if clubs.has_previous %}
-					<a href="{{ query_string }}&page={{ clubs.previous_page_number }}">previous</a>
+					<a href="{{ query_string }}&amp;page={{ clubs.previous_page_number }}">previous</a>
 				{% endif %}
 
 				<span class="current">
@@ -28,7 +28,7 @@
 				</span>
 
 				{% if clubs.has_next %}
-					<a href="{{ query_string }}&page={{ clubs.next_page_number }}">next</a>
+					<a href="{{ query_string }}&amp;page={{ clubs.next_page_number }}">next</a>
 				{% endif %}
 			</span>
 		</div>
