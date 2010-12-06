@@ -8,7 +8,7 @@
 		$(function() {
 			// {# adding button near cities select box for the coordinates request #} 
 			
-			var but_html = "<input id='id_get_coordinates' type='button' value='get coordinates' />";
+			var but_html = "<input id='id_get_coordinates' type='button' value='get coordinates'>";
 			$("#id_city").parent().append(but_html);			
 		
 			// {# get coordinates button click event #} 
@@ -105,7 +105,7 @@
 					var ext = re.exec(image_url)[1];
 					
 					image_url = image_url.replace("." + ext, '_admin_thumbnail.' + ext);
-					var img = "<img  src='" + image_url + "' />";
+					var img = "<img  src='" + image_url + "'>";
 					$(this).parent().prepend(img);
 				});
 				
@@ -143,7 +143,7 @@
 {{ media }}
 {% endblock %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css">{% endblock %}
 
 {% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
 
@@ -168,7 +168,7 @@
 {% endblock %}
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}{% block form_top %}{% endblock %}
 <div>
-{% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+{% if is_popup %}<input type="hidden" name="_popup" value="1">{% endif %}
 {% if save_on_top %}{% submit_row %}{% endif %}
 {% if errors %}
 	<p class="errornote">

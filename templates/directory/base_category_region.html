@@ -1,10 +1,10 @@
 {% extends "decorator.html" %}
 
-{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
+{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
 {% ifequal region.kind "state" %}
-<link rel="alternate" type="application/rss+xml" title="{{region.name}} clubs news" href="/rss/state/{{region.usps_name|lower}}/" />
+<link rel="alternate" type="application/rss+xml" title="{{region.name}} clubs news" href="/rss/state/{{region.usps_name|lower}}/">
 {% else %}
-<link rel="alternate" type="application/rss+xml" title="{{ region.name }} clubs news" href="/rss/country/{{ region.name|lower }}/" />
+<link rel="alternate" type="application/rss+xml" title="{{ region.name }} clubs news" href="/rss/country/{{ region.name|lower }}/">
 {% endifequal %}
 {% endblock %}
 
@@ -15,7 +15,7 @@
 {% endifequal %}{% endblock %}
 
 {% block inhead %}
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi?key=ABCDE"></script>
 <script type="text/javascript">
@@ -65,7 +65,7 @@ $( document ).ready( function ()
 		    {% if club.phone %}<span class="tel">{{club.phone}}</span>,{% endif %}
 		    {% if club.email %}<span class="email">{{club.email}}</span>{% endif %}
 		    - <span class="title">{{club.description|truncatewords:25}}</span>
-		</div><br />
+		</div><br>
 		{% endfor %}
 	</div>
 

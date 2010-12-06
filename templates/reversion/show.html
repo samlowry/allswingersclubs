@@ -12,25 +12,25 @@
 	<h1>Revision {{ revision.created|date:"d M Y H:i" }} for {{ revision.reverted.name }} club</h1>
 <div id="main">	
     <span>Name: {{ revision.reverted.name }}</span>
-    <br />
+    <br>
     <span>Descripttion: {{ revision.reverted.description }}</span>    
-    <br />
+    <br>
     <span>Address: {{ revision.reverted.address }}</span>    
-    <br />
+    <br>
     <span>State: {{ revision.reverted.state }}</span>    
-    <br />
+    <br>
     <span>City: {{ revision.reverted.city }}</span>    
-    <br />    
+    <br>    
     <span>Phone: {{ revision.reverted.phone }}</span>    
-    <br />
+    <br>
     <span>Email: {{ revision.reverted.email }}</span>    
-    <br />    
+    <br>    
     <span>Longitude: {{ revision.reverted.longitude }}</span>    
-    <br />
+    <br>
     <span>Latitude: {{ revision.reverted.latitude }}</span>    
-    <br />
+    <br>
     <span>Rating: {{ revision.reverted.rating }}</span>    
-    <br />    
+    <br>    
     <big><a title="revert" href="/reversions/revert/{{ revision.id }}/"> Revert </a></big>
 </div>
 {% endblock %}

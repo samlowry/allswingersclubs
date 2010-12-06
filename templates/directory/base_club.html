@@ -2,16 +2,16 @@
 {% load comments %}
 {% load tagging_tags %}
 
-{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/" />
+{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
 
 {% if club.state %}
-	<link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/" />
+	<link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/">
 {% endif %}
 {% if club.city.country %}
-	<link rel="alternate" type="application/rss+xml" title="{{ club.city.country }} clubs news" href="/rss/country/{{ club.city.country.name|lower }}/" />
+	<link rel="alternate" type="application/rss+xml" title="{{ club.city.country }} clubs news" href="/rss/country/{{ club.city.country.name|lower }}/">
 {% endif %}
 
-<link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/" />
+<link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/">
 {% endblock %}
 
 {% block rss_link %} | <a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
@@ -97,7 +97,7 @@
 	{# tags #}
 	{% tags_for_object club as club_tags %}
 	{% if club_tags %}
-		Tags: <br />	
+		Tags: <br>	
 		{% for tag in club_tags %}
 			{% if club.state %}
 				<a href="/tag/usa/{{ club.state.usps_name|lower }}/{{ tag.name }}/">{{ tag.name }}</a>
@@ -107,7 +107,7 @@
 		{% endfor %}
 	{% endif %}
 </div>
-<br />
+<br>
 
 {% if not club.email and not club.owner and not club.is_closed %}
 	We don't know, who is owner of this club. If it's you - <a href="/club/take/{{ club.id }}/">click</a> to take club under your acoount
@@ -141,7 +141,7 @@
 						{{ comment.submit_date|timesince }} ago said:
 					</div>
 			  <div class="body">{{ comment.comment }}</div>
-			  <hr />
+			  <hr>
 		</div>
 		{% endfor %}
 		<h4>Leave your opinion about the club</h4>
@@ -156,21 +156,21 @@
 		{% endfor %}
 
 		{% if not user.is_authenticated %}
-			<label for="id_name">Name:</label>{{ form.name }}<br />
+			<label for="id_name">Name:</label>{{ form.name }}<br>
 			{{ form.email.errors }}
-			<label for="id_email">Email address:</label>{{ form.email }}<br />
+			<label for="id_email">Email address:</label>{{ form.email }}<br>
 			{{ form.url.errors }}
-			<label for="id_url">URL:</label>{{ form.url }}<br />
+			<label for="id_url">URL:</label>{{ form.url }}<br>
 		{% endif %}
 
 		{{ form.comment.errors }}
-		<label for="id_comment">Comment:</label>{{ form.comment }}<br />
+		<label for="id_comment">Comment:</label>{{ form.comment }}<br>
 		<p style="display: none;">
 			<label for="id_honeypot">If you enter anything in this field your comment will be treated as spam</label> 
 			{{ form.honeypot }}
 		</p>
 
-		<input type="hidden" name="next" value="{{ club.get_absolute_url }}" />
+		<input type="hidden" name="next" value="{{ club.get_absolute_url }}">
 
 		<p class="submit">
 			<input name="post" id="id_submit_post" class="submit-post" value="Post" type="submit">

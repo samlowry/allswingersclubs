@@ -308,7 +308,7 @@ function CSS3MultiColumn() {
 				var splitE = secondSplitPoint;
 			}
 			if(!splitE) {
-				debug("<hr />No split point found for " + elem.tagName + ' ' + newHeight);
+				debug("<hr>No split point found for " + elem.tagName + ' ' + newHeight);
 				return;
 			}
 			

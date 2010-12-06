@@ -126,43 +126,43 @@
 	<div id="main">
 	{% if not add_club %}
     <a href="/reversions/list/{{ club.id }}/">History of edits</a>
-    <br /><br>
+    <br><br>
 	{% endif %}
 
     <form action='.' method='POST' enctype="multipart/form-data">{% csrf_token %}
         {{ form.name.errors }}
-        Name*: {{ form.name }}  <br />
+        Name*: {{ form.name }}  <br>
         
         {{ form.description.errors }}
-        Description*: {{ form.description }}  <br />
+        Description*: {{ form.description }}  <br>
         
         {{ form.state.errors }}
         State: {{ form.state }} 
         
         {{ form.country.errors }}
-        or country: {{ form.country }}  <br />
+        or country: {{ form.country }}  <br>
         
         {{ form.city.errors }}
-        City*: {{ form.city }}  <br />
+        City*: {{ form.city }}  <br>
 
         {{ form.address.errors }} 
-        Address: {{ form.address }} <br />
+        Address: {{ form.address }} <br>
         
         {{ form.phone.errors }}
-        Phone: {{ form.phone }}  <br />
+        Phone: {{ form.phone }}  <br>
         
         {{ form.email.errors }}
-        e-mail*: {{ form.email }}  <br />
+        e-mail*: {{ form.email }}  <br>
         
         {{ form.homepage.errors }} 
-        Homepage: {{ form.homepage }} <br />
+        Homepage: {{ form.homepage }} <br>
 		<small>Correct coordinates can be retrieved with filled Country, State, City and Address fields only!</small><br>
-        <input type="button" value="Get coordinates" id="retrieve_coordinates" /> 
+        <input type="button" value="Get coordinates" id="retrieve_coordinates"> 
 
         {{ form.latitude.errors }}  
         Lat: {{ form.latitude }} 
         {{ form.longitude.errors }}
-        Long: {{ form.longitude }}  <br /><br />
+        Long: {{ form.longitude }}  <br><br>
         
         {{ form.sites.errors }}
         Publish on sites*: {{ form.sites }}
@@ -170,12 +170,12 @@
         {{ formset.management_form }}
         {% for frm in formset.forms %}
             {% if frm.show_url %}
-                <img src="{{ frm.show_url }}" alt="club image" /> 
+                <img src="{{ frm.show_url }}" alt="club image"> 
             {% endif %}
-            {{ frm }} <br />
+            {{ frm }} <br>
         {% endfor %}
 
-        <input type="submit" value="Save" />
+        <input type="submit" value="Save">
     </form>
 	</div>
 

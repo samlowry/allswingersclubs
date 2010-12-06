@@ -8,7 +8,7 @@
 {% block title %} Change comment{% endblock %}
 
 {% block content %}
-    Comment <br />
+    Comment <br>
     <p>
         User: {{ comment.user_name }}
     </p>
@@ -23,6 +23,6 @@
     </p>    
     <form method="POST" action=".">{% csrf_token %}
         {{ form.as_ul }}
-        <input type="submit" value="save" />
+        <input type="submit" value="save">
     </form>
 {% endblock %}
