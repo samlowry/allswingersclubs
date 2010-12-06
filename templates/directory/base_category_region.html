@@ -50,9 +50,9 @@ $( document ).ready( function ()
 		{% for club in clubs%}
 		{% load my_slugify %}
 		<div class="vcard">
-		    <a href="{{club.get_absolute_url}}" id="{{club.id}}">
+		    <a href="{{club.get_absolute_url}}" id="club_{{club.id}}">
 			{% if club.latitude %}<script type="text/javascript">
-				addItem({{club.latitude}},{{club.longitude}},{{club.id}},'{{club.name}}','{{club.get_absolute_url}}');
+				addItem({{club.latitude}},{{club.longitude}},'club_{{club.id}}','{{club.name}}','{{club.get_absolute_url}}');
 			</script>{% endif %}
 			<span class="fn org">{{club.name}}</span></a>
 		    {% if club.homepage %}&nbsp;&nbsp;<a href="{{club.homepage}}" class="url" onclick="document.location='/shorturl/{{club.id}}/';return false">#</a>{% endif %}
@@ -84,32 +84,29 @@ $( document ).ready( function ()
 	We are still unaware if there are any clubs in these places or not. If you have any information - pls, send it to webmaster@{{ current_site.domain }}
 
 	{% load partition %}
-	<ul>
 	<table class="column">
 	{% for row in empty_cities|columns:3 %}
 	    <tr class="column">
 	    {% for city in row %}
-	        <td class="column"><li>{{ city.name }}</li></td>
+	        <td class="column">{{ city.name }}</td>
 	    {% endfor %}
 	    </tr>
 	{% endfor %}
 	</table>
-	</ul>
 {% endif %}
 
 {% if regions %}
 	<h2>{% block by_region_title_prefix %}{% endblock %} list by {{region.kind}}</h2>
-	<ul>
+
 	<table>
 	{% for row in regions|columns:3 %}
 	    <tr>
 	    {% for region in row %}
-	        <td class="column"><li><a href="{{ region.get_absolute_url }}">{{ region.name }} {% block by_region_item_suffix %}{% endblock %}</a></li></td>
+	        <td class="column"><a href="{{ region.get_absolute_url }}">{{ region.name }} {% block by_region_item_suffix %}{% endblock %}</a></td>
 	    {% endfor %}
 	    </tr>
 	{% endfor %}
 	</table>
-	</ul>
 {% endif %}
 {% endblock content %}
 

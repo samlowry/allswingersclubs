@@ -12,7 +12,8 @@ table.column{margin:10px 0}
 tr:first-child td.column{padding-top:5px}
 tr:last-child td.column{padding-bottom:5px}
 td.column + td.column{border-left:1px dotted #BBB;}
-td.column{width:225px;padding:0 30px 0 30px;}
+td.column{width:225px;padding:0 30px 3px 30px;}
+td.column:before{content:"\25cf\00a0"}
 #map_canvas{height:400px;position:absolute;right:0px;left:600px;margin:50px;margin-top:450px;}
 #news h4{margin-top:0px;margin-bottom:2px;}
 #news .meta{font-size:xx-small;}

@@ -17,7 +17,7 @@
 {% for row in all_states_list|columns:3 %}
     <tr>
     {% for state in row %}
-        <td class="column"><li><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></li></td>
+        <td class="column"><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></td>
     {% endfor %}
     </tr>
 {% endfor %}
@@ -32,7 +32,7 @@
 			{% for row in region.region_countries.all|columns:3 %}
 			<tr>
 	            {% for region_country in row %}
-	                <td class="column"><li><a href='{{ region_country.get_absolute_url }}'>{{ region_country.name }}</a></li></td>
+	                <td class="column"><a href='{{ region_country.get_absolute_url }}'>{{ region_country.name }}</a></td>
 	            {% endfor %}
 			</tr>
             {% endfor %}

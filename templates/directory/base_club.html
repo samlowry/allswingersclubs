@@ -189,20 +189,7 @@
 {% for row in all_clubs_for_state|columns:3 %}
 	<tr class="column">
 	{% for club in row %}
-		<td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></li>
-		
-		{% tags_for_object club as club_tags %}
-		{% if club_tags %}
-			Tags: 
-			{% for tag in club_tags %}
-                {% if club.state %}
-                    <a href="/tag/usa/{{ club.state.usps_name|lower }}/{{ tag.name|lower }}/">{{ tag.name }}</a>,&nbsp;
-                {% else %}
-                    <a href="/tag/{{ club.city.country.slug }}/{{ tag.name|lower }}/">{{ tag.name }}</a>,&nbsp;
-                {% endif %}
-			{% endfor %}		
-		{% endif %}
-		</td>
+		<td class="column"><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></td>
 	{% endfor %}
 	</tr>
 {% endfor %}
@@ -216,7 +203,7 @@
 {% for row in all_clubs_for_country|columns:3 %}
 	<tr class="column">
 	{% for club in row %}
-		<td class="column"><li><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</li></td>
+		<td class="column"><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</td>
 	{% endfor %}
 	</tr>
 {% endfor %}
