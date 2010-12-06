@@ -9,8 +9,7 @@ from settings import *
 from directory.models import *
 
 
-# CLUBS = Club.objects.all()
-CLUBS = Club.objects.filter(id__in=[817, 591, 788, 946, 836])
+CLUBS = Club.objects.all()
 for club in CLUBS:
     if club.homepage:
         try:
