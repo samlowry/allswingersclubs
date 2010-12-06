@@ -16,6 +16,6 @@ for club in CLUBS:
         try:
             urllib2.urlopen(club.homepage)
         except Exception, error:
-            club.homepage = False
+            club.homepage = ''
             club.save()
             print "%s (%s) has error %s" % (club.id, club.homepage, error)
