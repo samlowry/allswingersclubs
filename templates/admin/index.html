@@ -24,7 +24,7 @@
                 {# if you will translate model name, it will break too #}
                 
 				{% ifequal model.name 'Clubs' %}
-					<th scope="row"><a href="{{ model.admin_url }}?sites__id__exact={{ current_site.id }}">{{ model.name }}</a></th>
+					<th scope="row"><a href="{{ model.admin_url }}?sites__id__exact={{ current_site.id }}&id__gt=0">{{ model.name }}</a></th>
 				{% else %}
 					<th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
 				{% endifequal %}
@@ -40,7 +40,7 @@
 
             {% if model.perms.change %}
 				{% ifequal model.name 'Clubs' %}
-					<td><a href="{{ model.admin_url }}?sites__id__exact={{ current_site.id }}" class="changelink">{% trans 'Change' %}</a></td>
+					<td><a href="{{ model.admin_url }}?sites__id__exact={{ current_site.id }}&id__gt=0" class="changelink">{% trans 'Change' %}</a></td>
 				{% else %}
 					<td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
 				{% endifequal %}
