@@ -68,7 +68,7 @@ def country(request, slug):
         region.description = CountryDescription.current_site_only.filter(country=region).get()
     except CountryDescription.DoesNotExist:
         pass
-    clubs = Club.open_only.select_related('country','city').filter(city__country=region)
+    clubs = Club.open_only.select_related('city__country','city').filter(city__country=region)
     regions = Country.objects.all()
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__city__country=region).order_by('-created')[:10]
     
