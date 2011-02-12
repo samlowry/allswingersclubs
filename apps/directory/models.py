@@ -186,6 +186,7 @@ class Club(models.Model):
     open_only = OpenClubsFromCurrentSiteManager()
     full_text = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
     short_description = short_description
+
     class Meta:
         ordering = ['name']
         # ordering = ['id']
@@ -193,6 +194,10 @@ class Club(models.Model):
     def __unicode__(self):
         return self.name
 
+    def description_length(self):
+        return len(self.description)
+    description_length.short_description = 'Length'
+    
     def country_name(self):
         return self.city.country.name
     country_name.short_description = 'Country'
