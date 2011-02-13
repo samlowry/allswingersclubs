@@ -221,8 +221,9 @@ class Club(models.Model):
         })
     def homepage_url(self):
         """ returns html formatted homepage url """
-        return "<a href='%(url)s'>%(url)s</a>" % {"url": self.homepage}
+        return "<a href='%(url)s' target='_blank'>%(url)s</a>" % {"url": self.homepage}
     homepage_url.allow_tags = True
+    homepage_url.admin_order_field = 'homepage'
 
     def all_sites(self):
         sites_ = ",".join([s.name for s in self.sites.all()]) 
