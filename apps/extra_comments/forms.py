@@ -36,7 +36,7 @@ class ExtraCommentForm(CommentForm):
        
         # more then 2 http:// filter
         matched = re.findall(r"http://", comment_) or []
-        if len(matched) > 2:
+        if len(matched) > 0:
             raise forms.ValidationError("Do not enter more then 2 http:")
         
         return comment_
