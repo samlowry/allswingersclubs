@@ -1,0 +1,52 @@
+diff --git a/apps/multisite/middleware.py b/apps/multisite/middleware.py
+index f9e1bd3..46a666a 100644
+--- a/apps/multisite/middleware.py
++++ b/apps/multisite/middleware.py
+@@ -15,24 +15,35 @@ class DynamicSiteMiddleware(object):
+         #     return
+         # except KeyError:
+         #     pass
+-
+-        try: # get by whole hostname
+-            site = Site.objects.get(domain=host)
+-            HOST_CACHE[host] = site.pk
+-            settings.SITE_ID.set(site.pk)
+-            return
+-        except Site.DoesNotExist:
+-            pass
+-
+-        if shost != host: # get by hostname without port
+-            try:
+-                site = Site.objects.get(domain=shost)
++        #copypast here! it can be replace with function
++        
++        index = 0
++        for i in xrange(len(host.split('.')) - 1):
++            host = host[index:]
++            index = host.index('.') + 1
++            
++            try: # get by whole hostname
++                site = Site.objects.get(domain=host)
+                 HOST_CACHE[host] = site.pk
+                 settings.SITE_ID.set(site.pk)
+                 return
+             except Site.DoesNotExist:
+                 pass
+ 
++        if shost != host: # get by hostname without port
++            index = 0
++            for i in xrange(len(shost.split('.')) - 1):
++                shost = shost[index:]
++                index = shost.index('.') + 1
++                
++                try:
++                    site = Site.objects.get(domain=shost)
++                    HOST_CACHE[host] = site.pk
++                    settings.SITE_ID.set(site.pk)
++                    return
++                except Site.DoesNotExist:
++                    pass
++
+         # try: # get by settings.SITE_ID
+         #     site = Site.objects.get(pk=settings.SITE_ID)
+         #     HOST_CACHE[host] = site.pk
