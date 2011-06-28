@@ -1,0 +1,167 @@
+{% extends "decorator.html" %}
+
+{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">{% endblock %}
+
+{% block inhead %}
+<style type="text/css" title="currentStyle">
+	@import "/css/demo_page.css";
+	@import "/css/demo_table_jui.css";
+</style>
+<script type="text/javascript" charset="utf-8">
+	window.onclick = false
+</script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi?key=ABCDE"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.3.2");
+	google.load("jqueryui", "1.7.2");
+</script>
+<script type="text/JavaScript" src="/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$('.display').dataTable( {
+					"bPaginate": false,
+					"bFilter": false,
+					"bInfo": false,
+				} );
+			} );
+		</script>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+  <script type='text/javascript'>
+   google.load('visualization', '1', {'packages': ['corechart']});
+   google.setOnLoadCallback(drawSomething);
+
+    function drawSomething() {
+	  var data = new google.visualization.DataTable();
+      data.addRows({{ all_regions_list.count }});
+      data.addColumn('string', 'Country');
+      data.addColumn('number', 'Clubs number');
+{% for place in all_regions_list %}
+      data.setValue({{ forloop.counter0 }}, 0, '{{ place.name }}');
+      data.setValue({{ forloop.counter0 }}, 1, {{ place.clubs_number }});
+{% endfor %}
+      var container = document.getElementById('chart_continents');
+      var chart = new google.visualization.BarChart(container);
+      chart.draw(data, {
+		width:870,
+		height:300,
+		legend:'none',
+		chartArea:{left:'auto',top:0,width:'auto',height:"90%"}
+		});
+
+	  var data = new google.visualization.DataTable();
+      data.addRows({{ all_countries_list.count }});
+      data.addColumn('string', 'Country');
+      data.addColumn('number', 'Clubs number');
+{% for place in all_countries_list %}
+      data.setValue({{ forloop.counter0 }}, 0, '{{ place.name }}');
+      data.setValue({{ forloop.counter0 }}, 1, {{ place.clubs_number }});
+{% endfor %}
+      var container = document.getElementById('chart_countries');
+      var chart = new google.visualization.BarChart(container);
+      chart.draw(data, {
+		width:870,
+		height:2000,
+		legend:'none',
+		chartArea:{left:'auto',top:0,width:'auto',height:"98%"}
+		});
+
+
+	  var data = new google.visualization.DataTable();
+      data.addRows({{ all_states_list.count }});
+      data.addColumn('string', 'Country');
+      data.addColumn('number', 'Clubs number');
+{% for place in all_states_list %}
+      data.setValue({{ forloop.counter0 }}, 0, '{{ place.name }}');
+      data.setValue({{ forloop.counter0 }}, 1, {{ place.clubs_number }});
+{% endfor %}
+      var container = document.getElementById('chart_states');
+      var chart = new google.visualization.BarChart(container);
+      chart.draw(data, {
+		width:870,
+		height:2000,
+		legend:'none',
+		chartArea:{left:'auto',top:0,width:'auto',height:"98%"}
+		});
+  };
+  </script>		
+		{% endblock %}
+
+{% block rss_link %} | <a href="/rss/site/">RSS</a>{% endblock %}
+
+{% block inbodytag %}onclick="return false"{% endblock %}
+
+{% block topbanner %}<h1 style="font-size:70px;margin-top:10px">All Swingers Clubs</h1>{% endblock %}
+
+{% block content %}
+<h1>{% block index_page_title %}{% endblock %}</h1>
+<div id="main">
+
+{% block index_page_intro %}{% endblock %}
+
+<h3>Number of clubs by continent (except of USA)</h3>
+<div id='chart_continents'></div>
+<table cellpadding="0" cellspacing="0" border="0" id="table_continent" class="display">
+	<thead>
+		<tr>
+			<th>Continent</th>
+			<th>Number of clubs</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for place in all_regions_list %}
+	    <tr class="gradeU">
+	        <td>{{ place.name }}</td>
+	        <td class="center">{{ place.clubs_number }}</td>
+	    </tr>
+{% endfor %}		
+	</tbody>
+</table>
+
+<h3>Number of clubs by country (except of USA)</h3>
+<div id='chart_countries'></div>
+<table cellpadding="0" cellspacing="0" border="0" id="table_contry" class="display">
+	<thead>
+		<tr>
+			<th>Country</th>
+			<th>Number of clubs</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for place in all_countries_list %}
+	    <tr class="gradeU">
+	        <td>{{ place.name }}</td>
+	        <td class="center">{{ place.clubs_number }}</td>
+	    </tr>
+{% endfor %}		
+	</tbody>
+</table>
+
+<h3>Number of clubs by U.S. state</h3>
+<div id='chart_states'></div>
+<table cellpadding="0" cellspacing="0" border="0" id="table_usa" class="display">
+	<thead>
+		<tr>
+			<th>State</th>
+			<th>Number of clubs</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for place in all_states_list %}
+	    <tr class="gradeU">
+	        <td>{{ place.name }}</td>
+	        <td class="center">{{ place.clubs_number }}</td>
+	    </tr>
+{% endfor %}		
+	</tbody>
+</table>
+
+
+
+
+</div>
+{% endblock content %}
+
+{% block links %}{% endblock links %}
+
+{% block footertext %}{{ block.super }}. Our niched directories is: <a href="http://allswingersclubs.org/">Swingers Clubs</a> - <a href="http://allfetishclubs.org/">Fetish & BDSM Clubs</a> - <a href="http://allgayclubs.org/">Gay Clubs</a>. We are open to any suggestions and buisiness offers.{% endblock %}

@@ -4,6 +4,7 @@ from directory.models import Club
 
 urlpatterns = patterns('directory.views',
 	(r'^$', 'index'),
+	(r'^analytics\.html$', 'analytics'),	
 	(r'^country/(?P<slug>[a-zA-Z -]+)/$', 'country'),
 	(r'^(?P<state_usps_name>[a-z]{2})-clubs\.html$', 'state'),
 	(r'^club/(?P<club_id>\d+)/(?:(?P<club_urlsafe_title>[\w-]+)\.html)?$', 'club'),
