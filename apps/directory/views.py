@@ -21,26 +21,25 @@ from decorators import *
 from django.forms.models import inlineformset_factory
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
+from django.db.models import Count
 
-
+@render_to('directory/index.html')
 def index(request):
     all_states_list = State.objects.all()
     flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
-    
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).order_by('-created')[:10]
-    
     regions = Region.objects.all()
-    
-    return render_to_response(
-        'directory/index.html',
-        {
-            'all_states_list': all_states_list,
-            'flatpages': flatpages,
-            'news': news,
-            'regions': regions,
-        },
-        context_instance=RequestContext(request),
-    )
+    return locals()
+
+@render_to('directory/analytics.html')
+def analytics(request):
+    all_states_list = State.objects.all().annotate(clubs_number=Count('clubs'))
+    # Country.objects.annotate(highest_city_population = Max('city__population'))
+    # regions = Region.objects.all()
+    all_countries_list = Country.objects.all().annotate(clubs_number=Count('country_cities__clubs'))
+    all_regions_list = Region.objects.all().annotate(clubs_number=Count('region_countries__country_cities__clubs'))
+    return locals()
+
 
 @render_to('directory/category_region.html')    
 def state(request, state_usps_name):
