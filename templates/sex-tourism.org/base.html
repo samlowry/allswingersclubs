@@ -5,6 +5,19 @@
 <link rel="stylesheet" href="/ststyle.css" type="text/css">
 
 <title>{% block title %}Sex tourism?{% endblock %}</title>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{% block google_analytics_id %}{% endblock %}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </head>
 
 <body>
@@ -12,7 +25,7 @@
 	<div id=header>
 		<h2>Sex tourism</h2>
 	</div>
-<a href="index.html"><div id=logo title="Sex tourism logo">
+<a href="/"><div id=logo title="Sex tourism logo">
 	</div></a>
 
 
@@ -30,8 +43,11 @@
 		<div id=content>
 {% block content %}
 {% endblock content %}
-			
+
+{% block aftercontent %}
+{% endblock aftercontent %}			
 		</div>
+
 
 	</div>
 
