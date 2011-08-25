@@ -122,6 +122,7 @@ class City(models.Model):
             return '%s, %s' % (self.name, self.state.usps_name)
         if self.country:
             return '%s, %s' % (self.name, self.country.name)
+        return self.name
         
     def state_name(self):
         return self.state
