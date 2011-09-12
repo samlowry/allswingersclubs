@@ -59,7 +59,7 @@
 </div>
 {% endif %}
 
-<div class="hreview">
+<div class="hreview-aggregate">
 <h1><span class="item"><span class="fn org">{{club.name}}</span></span> {% block club_page_title_suffix %}{% endblock %}</h1>
 
 <div id="main">
@@ -85,6 +85,7 @@
 	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
 	<b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
 	<b>Rating:</b> <span class="rating">{{club.rating}}</span><br><br>
+	<b>Votes:</b> <span class="votes">37</span><br><br>	
 	<b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
 	{% if club.photos %}
 	<b>Club photos:</b><br> <br>
