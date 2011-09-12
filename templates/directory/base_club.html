@@ -59,15 +59,13 @@
 </div>
 {% endif %}
 
-<h1>{{club.name}} {% block club_page_title_suffix %}{% endblock %}</h1>
+<div class="hreview">
+<h1><span class="item"><span class="fn org">{{club.name}}</span></span> {% block club_page_title_suffix %}{% endblock %}</h1>
 
 <div id="main">
-
-<div class="hreview">
-	<div class="item place">
 	{% if club.homepage %}
 	<b>
-		<span class="item"><span class="fn org">{{club.name}}</span></span>
+		<span>{{club.name}}</span>
 		Website:
 	</b>
 	<span class="url">
@@ -107,8 +105,6 @@
 			{% endif %},&nbsp;
 		{% endfor %}
 	{% endif %}
-	</div>
-</div>
 <br>
 
 {% if not club.email and not club.owner and not club.is_closed %}
@@ -180,6 +176,8 @@
 		</p>
 
 	</form>
+</div>
+
 </div>
 
 </div>
