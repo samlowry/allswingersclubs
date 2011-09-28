@@ -25,3 +25,4 @@ iframe#source{position:absolute;left:0px;right:0px;top:70px;margin:0px;padding:0
 #bar{white-space:nowrap;border-bottom:1px solid #b6b6b6;background:#fff;width:100%;position:absolute;left:0px;right:0px;top:0px;min-width:950px;z-index:202;height:60px;padding:10px 5px 0px 5px;font-size:14px;}
 @media screen and (-webkit-min-device-pixel-ratio:0){}
 #offer{font-size:35px;padding:10px;width:90%;}
+#addthis{clear:all;margin:20px 0;}
