@@ -7,11 +7,9 @@ from django.views.generic.list_detail import object_list
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
-
 from tagging.models import Tag, TaggedItem
 from tagging.utils import get_tag, get_queryset_and_model
-
-from directory.models import State, Club, Country
+from directory.models import *
 
 
 def tagged_object_list(request, queryset_or_model=None, tag=None,
@@ -64,8 +62,10 @@ def country_clubs(request, country_name, tag_name, template_name="tagging/region
     if tag_instance is None:
         raise Http404(_('No Tag found matching "%s".') % tag_name)
     country = get_object_or_404(Country, slug=country_name)
-    clubs = Club.objects.filter(city__country=country)
+    clubs = Club.current_site_only.filter(city__country=country)
     tagged_clubs = TaggedItem.objects.get_by_model(clubs, tag_instance.name)
+    if len(tagged_clubs) == 0:
+	    raise Http404(_('No Tag found matching "%s".') % tag_name)        
     context = {}
     context["region"] = country
     context["clubs"] = tagged_clubs
@@ -78,8 +78,10 @@ def state_clubs(request, usps, tag_name, template_name="tagging/region_clubs.htm
     if tag_instance is None:
         raise Http404(_('No Tag found matching "%s".') % tag)
     state = get_object_or_404(State, usps_name=usps)
-    clubs = Club.objects.filter(state=state)
+    clubs = Club.current_site_only.filter(state=state)
     tagged_clubs = TaggedItem.objects.get_by_model(clubs, tag_instance.name)
+    if len(tagged_clubs) == 0:
+	    raise Http404(_('No Tag found matching "%s".') % tag_name)    
     context = {}
     context["region"] = state
     context["clubs"] = tagged_clubs
