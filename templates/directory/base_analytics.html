@@ -160,6 +160,21 @@
 
 
 </div>
+
+{% if regions %}
+{% load partition %}
+	<h2>{% block by_region_title_prefix %}{% endblock %} list by {{region.kind}}</h2>
+
+	<table>
+	{% for row in regions|columns:3 %}
+	    <tr>
+	    {% for region in row %}
+	        <td class="column"><a href="{{ region.get_absolute_url }}">{{ region.name }} {% block by_region_item_suffix %}{% endblock %}</a></td>
+	    {% endfor %}
+	    </tr>
+	{% endfor %}
+	</table>
+{% endif %}
 {% endblock content %}
 
 {% block links %}{% endblock links %}

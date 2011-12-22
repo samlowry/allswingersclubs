@@ -38,6 +38,7 @@ def analytics(request):
     # regions = Region.objects.all()
     all_countries_list = Country.objects.all().annotate(clubs_number=Count('country_cities__clubs'))
     all_regions_list = Region.objects.all().annotate(clubs_number=Count('region_countries__country_cities__clubs'))
+    regions = State.objects.all()
     return locals()
 
 
