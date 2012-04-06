@@ -2,4 +2,5 @@ Sitemap: http://allswingersclubs.org/sitemap.xml
 
 User-agent: *
 Disallow: /accounts/
+Disallow: /shorturl/
 Allow: /
