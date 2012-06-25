@@ -1,4 +1,4 @@
-static/media/*
+#static/media/*
 static/__debug__/
 .*
 !.gitignore
