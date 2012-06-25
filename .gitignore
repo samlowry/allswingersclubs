@@ -2,9 +2,9 @@
 static/__debug__/
 .*
 !.gitignore
-*.jpg
-*.gif
-*.png
+#*.jpg
+#*.gif
+#*.png
 *.py[co]
 local_settings.py
 local_site_id*.py
