@@ -64,6 +64,7 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -115,7 +116,7 @@ INSTALLED_APPS = (
 COMMENTS_APP = 'extra_comments'
     
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # one months
-SESSION_SAVE_EVERY_REQUEST = True
+SESSION_SAVE_EVERY_REQUEST = False
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = 1025
 DEFAULT_FROM_EMAIL = "webmaster@allswingersclubs.org"
