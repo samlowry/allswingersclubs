@@ -19,6 +19,8 @@ ADMIN_MEDIA_PREFIX = '/media/'
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media')
 MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates'),
@@ -29,6 +31,17 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'clubs',
+        'USER': 'clubs',
+        'PASSWORD': 'clubs123',
+        'HOST': '',
+        'PORT': '',
+    }
+}
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'clubs'             # Or path to database file if using sqlite3.
@@ -59,8 +72,10 @@ SECRET_KEY = '9w+@byf8+ocnvn*!_n=@p4zhp#f-_5u#8r^8644)l3^^et4-7v'
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'multisite.template_loader.load_template_source',
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+    # 'django.template.loaders.filesystem.load_template_source',
+    # 'django.template.loaders.app_directories.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader'
 #     'django.template.loaders.eggs.load_template_source',
 )
 
@@ -77,18 +92,21 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.FetchFromCacheMiddleware',	
     
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.csrf.CsrfResponseMiddleware',
+    # 'django.middleware.csrf.CsrfResponseMiddleware',
     'keywords.middleware.KeywordMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
+    'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
     'context_processors.get_current_site_id',
     'context_processors.get_all_keywords',
     'context_processors.get_current_site_flatpages',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.static',
 )
 
 INSTALLED_APPS = (
@@ -112,6 +130,8 @@ INSTALLED_APPS = (
     'tagging',
     'keywords',
     'extra_comments',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 )
 COMMENTS_APP = 'extra_comments'
     

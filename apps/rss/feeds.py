@@ -1,6 +1,6 @@
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 # works only for django before 1.2
-from django.contrib.syndication.feeds import FeedDoesNotExist
+from django.contrib.syndication.views import FeedDoesNotExist
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
 from news.models import News

@@ -11,7 +11,7 @@ feeds = {
 urlpatterns = patterns('',
 
                         url(r'(?P<url>.*)/$',
-                            'django.contrib.syndication.views.feed', 
+                            'django.contrib.syndication.views.Feed', 
                             {'feed_dict': feeds}, 
                             name="news_feed"),
                            

@@ -16,7 +16,7 @@ class Page(models.Model):
 	
 
 class Tradelink(models.Model):
-	url = models.URLField('Partner\'s link', verify_exists=False)
+	url = models.URLField('Partner\'s link')
 	title = models.CharField('Text of the link', max_length=100)
 	description = models.CharField('Additional description', max_length=255, blank=True)
 	page = models.ForeignKey(Page)

@@ -160,7 +160,7 @@ class Club(models.Model):
     city = models.ForeignKey(City, blank=True, null=True, related_name = 'clubs')
     phone = models.CharField(max_length=30, blank=True)
     email = models.EmailField('e-mail', blank=True)
-    homepage = models.URLField(blank=True, verify_exists=False)
+    homepage = models.URLField(blank=True)
     latitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     RATING_CHOISES = (

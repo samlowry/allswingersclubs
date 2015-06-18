@@ -1,6 +1,9 @@
 from django.conf.urls.defaults import *
 from django.views.generic import list_detail
 from directory.models import Club
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('directory.views',
 	(r'^$', 'index'),
@@ -31,3 +34,9 @@ urlpatterns += patterns('directory.admin_views',
 	(r'geocoder/$', 'geocoder_proxy'),
 	(r'current_state/$', 'get_current_state'),
 )
+
+if settings.DEBUG:
+   # add one of these for every non-static root you want to serve
+   urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+   # this take cares of static media (i.e. bundled in apps, and specified in settings)
+   urlpatterns+= staticfiles_urlpatterns()

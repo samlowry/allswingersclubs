@@ -4,7 +4,7 @@
 
 {% block content %}
 	<div>
-		<form method="GET" action=".">
+		<form method="GET" action=".">{% csrf_token %}
 			{{ form }}
 			<input type="submit" value="search">
 		</form>
