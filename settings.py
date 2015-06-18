@@ -30,7 +30,7 @@ CACHES = {
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media')
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-STATIC_URL = '/static/'
+STATIC_URL = '/'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates'),
