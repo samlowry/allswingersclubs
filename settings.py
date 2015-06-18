@@ -25,7 +25,7 @@ CACHES = {
     }
 }
 
-ADMIN_MEDIA_PREFIX = '/media/'
+# ADMIN_MEDIA_PREFIX = '/media/'
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media')
 MEDIA_URL = '/media/'
