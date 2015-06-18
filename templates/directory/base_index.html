@@ -24,6 +24,20 @@
 </table>
 
 
+{% block index_page_hookups %}
+<h2>{% block index_page_hookuptitle %}{% endblock %}</h2>
+<table>
+{% for row in all_states_list|columns:3 %}
+    <tr>
+    {% for state in row %}
+        <td class="column"><a href="{{ state.get_absolute_url_hookups }}">{{ state.name }}</a></td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
+
+
 <h2>{% block index_page_countries_title %}Find Club In Your Country{% endblock %}</h2>
 {% for region in regions %}
     <h3>{% block index_page_countries_subtitle %}{% endblock %} {{ region.name }}</h3>
