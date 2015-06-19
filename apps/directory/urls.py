@@ -1,5 +1,8 @@
+# import warnings
+# warnings.simplefilter('error', DeprecationWarning)
+
 from django.conf.urls.defaults import *
-from django.views.generic import list_detail
+from django.views.generic.list import ListView
 from directory.models import Club
 from django.conf.urls.static import static
 from django.conf import settings
@@ -25,7 +28,7 @@ urlpatterns = patterns('directory.views',
 
 # redirect url for club
 urlpatterns += patterns('',
-    (r'^shorturl/(?P<object_id>\d+)/$', list_detail.object_detail, {'queryset':Club.objects.all(), 'template_name':'directory/shorturl.html', 'template_object_name':'club'}),
+    (r'^shorturl/(?P<object_id>\d+)/$', ListView.as_view, {'queryset':Club.objects.all(), 'template_name':'directory/shorturl.html', 'template_object_name':'club'}),
 )
 
 # urls for admin_views functions

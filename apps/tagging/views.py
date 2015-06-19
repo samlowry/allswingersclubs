@@ -3,7 +3,9 @@ Tagging related views.
 """
 from django.http import Http404
 from django.utils.translation import ugettext as _
-from django.views.generic.list_detail import object_list
+# from django.views.generic.list_detail import object_list
+from django.views.generic.list import ListView
+
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
@@ -53,7 +55,7 @@ def tagged_object_list(request, queryset_or_model=None, tag=None,
         kwargs['extra_context']['related_tags'] = \
             Tag.objects.related_for_model(tag_instance, queryset_or_model,
                                           counts=related_tag_counts)
-    return object_list(request, queryset, **kwargs)
+    return ListView.as_view(request, queryset, **kwargs)
 
     
 def country_clubs(request, country_name, tag_name, template_name="tagging/region_clubs.html"):

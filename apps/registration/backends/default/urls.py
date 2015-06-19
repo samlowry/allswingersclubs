@@ -19,7 +19,9 @@ up your own URL patterns for these views instead.
 
 
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+#from django.views.generic.simple import direct_to_template
+from django.views.generic.base import TemplateView
+
 from registration.forms import RegistrationFormUniqueEmail # user will login using email, so make email unique
 
 from registration.views import activate
@@ -30,7 +32,7 @@ from registration.views import change_profile
 
 urlpatterns = patterns('',
                        url(r'activate/complete/$',
-                           direct_to_template,
+                           TemplateView.as_view,
                            { 'template': 'registration/activation_complete.html' },
                            name='registration_activation_complete'),
                        # Activation keys get matched by \w+ instead of the more specific
@@ -47,11 +49,11 @@ urlpatterns = patterns('',
                            'form_class': RegistrationFormUniqueEmail},
                            name='registration_register'),
                        url(r'register/complete/$',
-                           direct_to_template,
+                           TemplateView.as_view,
                            { 'template': 'registration/registration_complete.html' },
                            name='registration_complete'),
                        url(r'register/closed/$',
-                           direct_to_template,
+                           TemplateView.as_view,
                            { 'template': 'registration/registration_closed.html' },
                            name='registration_disallowed'),
                        url(r'profile/$', 
@@ -62,7 +64,7 @@ urlpatterns = patterns('',
                             name='change_profile'),                             
                        (r'', include('registration.auth_urls')),
                        url(r'anonymous/$',
-                           direct_to_template,
+                           TemplateView.as_view,
                            { 'template': 'registration/anonymous.html' },
                            name='registration_anonymous'),                       
                        )
