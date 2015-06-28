@@ -125,7 +125,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'rating': ('django.db.models.fields.FloatField', [], {'default': '3.0'}),
+            'rating': ('django.db.models.fields.FloatField', [], {'default': '4.0'}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
             'state': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'clubs'", 'null': 'True', 'to': "orm['directory.State']"})
         },

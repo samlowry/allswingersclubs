@@ -167,7 +167,7 @@ class Hookup(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     address = models.CharField('Street address', max_length=100, blank=True)
-    state = models.ForeignKey(State, blank=True, null=True, related_name = 'hookups')
+    state = models.ForeignKey(State2, blank=True, null=True, related_name = 'hookups')
     city = models.ForeignKey(City, blank=True, null=True, related_name = 'hookups')
     date_of_publish = models.DateField(default=datetime.date.today)
     age =  models.CharField(max_length=100)
