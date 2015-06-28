@@ -27,10 +27,10 @@
 {% block index_page_hookups %}
 <h2>{% block index_page_hookuptitle %}{% endblock %}</h2>
 <table>
-{% for row in all_states_list|columns:3 %}
+{% for row in all_states_list2|columns:3 %}
     <tr>
-    {% for state in row %}
-        <td class="column"><a href="{{ state.get_absolute_url_hookups }}">{{ state.name }}</a></td>
+    {% for state2 in row %}
+        <td class="column"><a href="{{ state2.get_absolute_url }}">{{ state2.name }}</a></td>
     {% endfor %}
     </tr>
 {% endfor %}

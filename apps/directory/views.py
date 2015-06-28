@@ -26,6 +26,7 @@ from django.db.models import Count
 @render_to('directory/index.html')
 def index(request):
     all_states_list = State.objects.all()
+    all_states_list2 = State2.objects.all()
     flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).order_by('-created')[:10]
     regions = Region.objects.all()
@@ -58,6 +59,20 @@ def state(request, state_usps_name):
 
     return locals()
 
+@render_to('directory/category_region.html')    
+def state2(request, state_usps_name):
+    region = State2.objects.filter(usps_name__exact=state_usps_name).get()
+    region.kind = 'state'
+    try:
+        region.description = StateDescription.current_site_only.filter(state=region).get()
+    except StateDescription.DoesNotExist:
+        pass
+    clubs = Hookup.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('-date_of_publish')
+    cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(clubs__id__in=clubs).values('id')
+    empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)    
+    regions = State2.objects.all()
+
+    return locals()
 
 
 @render_to('directory/category_region.html')
@@ -119,6 +134,52 @@ def club(request, club_id, club_urlsafe_title):
             },
             context_instance=RequestContext(request),
         )
+
+@csrf_protect
+def hookup(request, hookup_id, hookup_urlsafe_title):
+    try:
+        current_hookup = Hookup.current_site_only.select_related('state','city').filter(id__exact=hookup_id).get()
+    except Hookup.DoesNotExist:
+        raise Http404
+    real_hookup_urlsafe_title=my_slugify(current_hookup.name)
+    # # here we do 301 redirect if hookup is closed
+    # if(current_hookup.is_closed):
+    #     return HttpResponsePermanentRedirect(
+    #         current_hookup.state.get_absolute_url()
+    #     )
+    if(hookup_urlsafe_title != real_hookup_urlsafe_title):
+        return HttpResponsePermanentRedirect(
+            current_hookup.get_absolute_url()
+        )
+    else:
+        current_hookup.photos = current_hookup.photo_set.all()
+        if current_hookup.state:
+            all_hookups_for_state = Hookup.filter(state__usps_name__exact=current_hookup.state.usps_name).exclude(pk=current_hookup.pk)
+        else:
+            all_hookups_for_state = None
+            
+        try:
+            if current_hookup.city.country:
+                all_hookups_for_country = Hookup.select_related('state','city').filter(city__country=current_hookup.city.country).exclude(pk=current_hookup.pk)
+            else:
+                all_hookups_for_country = None
+        except AttributeError:
+            all_hookups_for_country = None
+
+        news = current_hookup.news_set.all()
+        form = get_comment_form(request, target_object=current_hookup)     
+        return render_to_response(
+            'directory/hookup.html',
+            {
+                'hookup': current_hookup,
+                'all_hookups_for_state': all_hookups_for_state,
+                'all_hookups_for_country': all_hookups_for_country,
+                'form': form,
+                'news': news,
+            },
+            context_instance=RequestContext(request),
+        )
+
 
 @login_required
 @render_to('directory/tradingmap.html')

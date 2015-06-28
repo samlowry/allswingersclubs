@@ -96,6 +96,17 @@ class State(models.Model):
             'state_usps_name': str(self.usps_name.lower()),
         })
 
+class State2(State):
+    class Meta:
+        proxy = True
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('directory.views.state2', (), {
+            'state_usps_name': str(self.usps_name.lower()),
+        })
+
+
 class StateDescription(models.Model):
     description = models.TextField(blank=True, null=True)
     short_description = short_description
@@ -151,6 +162,80 @@ class SearchManager(models.Manager):
 
     def search(self, query):
         return self.get_query_set().search(query)
+
+class Hookup(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+    address = models.CharField('Street address', max_length=100, blank=True)
+    state = models.ForeignKey(State, blank=True, null=True, related_name = 'hookups')
+    city = models.ForeignKey(City, blank=True, null=True, related_name = 'hookups')
+    date_of_publish = models.DateField(default=datetime.date.today)
+    age =  models.CharField(max_length=100)
+    body = models.CharField(max_length=100)
+    height = models.CharField(max_length=100)
+    weight = models.CharField(max_length=100)
+    body_art =  models.CharField(max_length=100)
+    diet =  models.CharField(max_length=100)
+    dislikes =  models.CharField(max_length=100)
+    drinks =  models.CharField(max_length=100)
+    drugs =  models.CharField(max_length=100)
+    education =  models.CharField(max_length=100)
+    ethnicity =  models.CharField(max_length=100)
+    eye_color =  models.CharField(max_length=100)
+    facial_hair =  models.CharField(max_length=100)
+    fears =  models.CharField(max_length=100)
+    hair =  models.CharField(max_length=100)
+    hiv_hsv_hpv =  models.CharField(max_length=100)
+    interests =  models.CharField(max_length=100)
+    kids_have =  models.CharField(max_length=100)
+    kids_want =  models.CharField(max_length=100)
+    likes =  models.CharField(max_length=100)
+    native_language =  models.CharField(max_length=100)
+    occupation =  models.CharField(max_length=100)
+    personality =  models.CharField(max_length=100)
+    pets =  models.CharField(max_length=100)
+    politics =  models.CharField(max_length=100)
+    religion =  models.CharField(max_length=100)
+    resembles =  models.CharField(max_length=100)
+    smokes =  models.CharField(max_length=100)
+    zodiac =  models.CharField(max_length=100)
+
+
+    class Meta:
+        ordering = ['title']
+        # ordering = ['id']
+    
+    def __unicode__(self):
+        return self.title
+
+    def description_length(self):
+        return len(self.description)
+    description_length.short_description = 'Length'
+    
+    def country_name(self):
+        return self.city.country.name
+    country_name.short_description = 'Country'
+    country_name.admin_order_field = 'city__country'
+
+    def state_name(self):
+        return self.state
+    state_name.short_description = 'State'
+    state_name.admin_order_field = 'state'
+
+    def city_name(self):
+        return self.city.name
+    city_name.short_description = 'City'
+    city_name.admin_order_field = 'city'    
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('directory.views.hookup', (), {
+            'hookup_id': int(self.id),
+            'hookup_urlsafe_title': str(my_slugify(self.name)),
+        })
+
+            
+
 
 class Club(models.Model):
     name = models.CharField(max_length=50)
@@ -265,11 +350,22 @@ class Club(models.Model):
                 rev.serialized_data = current_data
                 rev.save()                
             
-    
+  
 
 class Photo(ImageModel):
     original_image = models.ImageField(upload_to='photos')
     club = models.ForeignKey(Club)
+
+    class IKOptions:
+        # This inner class is where we define the ImageKit options for the model
+        spec_module = 'directory.specs'
+        cache_dir = 'resized'
+        image_field = 'original_image'
+
+
+class Photo2(ImageModel):
+    original_image = models.ImageField(upload_to='photos')
+    hookup = models.ForeignKey(Hookup)
 
     class IKOptions:
         # This inner class is where we define the ImageKit options for the model
