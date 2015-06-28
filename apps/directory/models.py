@@ -118,6 +118,17 @@ class StateDescription(models.Model):
     def __unicode__(self):
         return self.description
 
+class StateDescription2(models.Model):
+    description = models.TextField(blank=True, null=True)
+    short_description = short_description
+    state = models.ForeignKey(State2)
+    site = models.ForeignKey(Site)
+    objects = models.Manager()
+    current_site_only = CurrentSiteManager('site')
+
+    def __unicode__(self):
+        return self.description
+
 class City(models.Model):
     name = models.CharField('City name', max_length=50)
     state = models.ForeignKey(State, blank=True, null=True) # US state

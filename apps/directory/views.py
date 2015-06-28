@@ -59,13 +59,13 @@ def state(request, state_usps_name):
 
     return locals()
 
-@render_to('directory/category_region.html')    
+@render_to('directory/category_region2.html')    
 def state2(request, state_usps_name):
     region = State2.objects.filter(usps_name__exact=state_usps_name).get()
     region.kind = 'state'
     try:
-        region.description = StateDescription.current_site_only.filter(state=region).get()
-    except StateDescription.DoesNotExist:
+        region.description = StateDescription2.current_site_only.filter(state=region).get()
+    except StateDescription2.DoesNotExist:
         pass
     clubs = Hookup.objects.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('-date_of_publish')
     cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(clubs__id__in=clubs).values('id')
