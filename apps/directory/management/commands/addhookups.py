@@ -59,13 +59,9 @@ class Command(BaseCommand):
 
                 # parse attr data
                 row['attr']=row['attr'].split(';')
-                # pprint.pprint(row['attr'])
-                # print "\n"
                 for attr in row['attr'] :
                     if len(attr) :
-                        attr = attr.split(' : ')
-                        # pprint.pprint(attr,width=1)
-                        # print "\n"              
+                        attr = attr.split(' : ')          
                         setattr(record,attr[0],attr[1].strip())
 
                 pprint.pprint(record.__dict__,width=1)
@@ -81,14 +77,18 @@ class Command(BaseCommand):
                         photo = Photo2(
                                 hookup=record,
                             )
+
                         name = urlparse(image_url).path.split('/')[-1]
+
+                        print image_url;print "\n"
+
                         content = urllib.urlretrieve(image_url)
 
                         # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
                         photo.original_image.save(name, File(open(content[0])), save=True)
 
                 # 7) delete record in pool
-                cur.execute("DELETE FROM header WHERE id='%s'" % rows['id'] )
+                cur.execute("DELETE FROM header WHERE id='%s'" % row['id'] )
 
 
         

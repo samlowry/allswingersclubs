@@ -1,0 +1,96 @@
+{% extends "decorator.html" %}
+
+{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
+{% ifequal region.kind "state" %}
+<link rel="alternate" type="application/rss+xml" title="{{region.name}} clubs news" href="/rss/state/{{region.usps_name|lower}}/">
+{% else %}
+<link rel="alternate" type="application/rss+xml" title="{{ region.name }} clubs news" href="/rss/country/{{ region.name|lower }}/">
+{% endifequal %}
+{% endblock %}
+
+{% block rss_link %} | {% ifequal region.kind "state" %}
+    <a href="/rss/state/{{region.usps_name|lower}}/" >RSS</a>
+{% else %}
+    <a href="/rss/country/{{ region.name|lower }}/" >RSS</a>
+{% endifequal %}{% endblock %}
+
+{% block inhead %}
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi?key=ABCDE"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.3.2");
+	google.load("jqueryui", "1.7.2");
+</script>
+{% endblock %}
+
+{% block inbodytag %}onload="initialize()"{% endblock %}
+
+{% block content %}
+<h1>{% block region_page_title_prefix %}{% endblock %} in {{region}}</h1>
+<div id="main">
+    {% if region.description %}
+	<div id="description">
+	    {{region.description}}
+    </div>
+    {% endif %}
+	<div id="clubs">
+		{% for club in clubs%}
+		{% load my_slugify %}
+		<div class="vcard">
+		    <a href="{{club.get_absolute_url}}" id="club_{{club.id}}">
+			<span class="fn org">{{club.title}}</span></a>
+		    - <span class="adr">
+		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+		        {% ifequal region.kind 'state' %}<span class="region">{{club.state.usps_name}}</span>,{% endifequal %}
+		        {% ifequal region.kind 'country' %}<span class="country-name">{{club.city.country.name}}</span>,{% endifequal %}		
+		    </span>
+		    - <span class="title">{{club.description|truncatewords:25}}</span>
+		</div><br>
+		{% endfor %}
+	</div>
+
+{# news div #}
+<div id="news">
+{% if news %}
+{% include "news/news_block.html" %}
+{% endif %}
+</div>
+{# news div end #}	
+
+</div>
+
+{% if empty_cities %}
+	<h2>Help us with information about this cities</h2>
+	We are still unaware if there are any {% block item_name %}clubs{% endblock %} in these places or not. If you have any information - pls, send it to webmaster@{{ current_site.domain }}
+
+	{% load partition %}
+	<table class="column">
+	{% for row in empty_cities|columns:3 %}
+	    <tr class="column">
+	    {% for city in row %}
+	        <td class="column">{{ city.name }}</td>
+	    {% endfor %}
+	    </tr>
+	{% endfor %}
+	</table>
+{% endif %}
+
+{% if regions %}
+	<h2>{% block by_region_title_prefix %}{% endblock %} list by {{region.kind}}</h2>
+
+	<table>
+	{% for row in regions|columns:3 %}
+	    <tr>
+	    {% for region in row %}
+	        <td class="column"><a href="{{ region.get_absolute_url }}">{{ region.name }} {% block by_region_item_suffix %}{% endblock %}</a></td>
+	    {% endfor %}
+	    </tr>
+	{% endfor %}
+	</table>
+{% endif %}
+{% endblock content %}
+
+{% block links_title %}<h2>Related sites</h2>{% endblock %}
+
+{% block footertext %}{{ block.super }}. Our niched directories is: <a href="http://allswingersclubs.org{{ request.path }}">Swingers Clubs in {{ region.name }}</a> - <a href="http://allfetishclubs.org{{ request.path }}">Fetish & BDSM Clubs in {{ region.name }}</a> - <a href="http://allgayclubs.org{{ request.path }}">Gay Clubs in {{ region.name }}</a>. We are open to any suggestions and buisiness offers.{% endblock %}
