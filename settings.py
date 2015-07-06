@@ -50,6 +50,8 @@ DATABASES = {
         'PASSWORD': 'clubs123',
         'HOST': '',
         'PORT': '',
+        'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",},
+        'STORAGE_ENGINE': 'MyISAM / INNODB / ETC',
     }
 }
 

@@ -175,7 +175,7 @@ class SearchManager(models.Manager):
         return self.get_query_set().search(query)
 
 class Hookup(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     address = models.CharField('Street address', max_length=100, blank=True)
     state = models.ForeignKey(State2, blank=True, null=True, related_name = 'hookups')

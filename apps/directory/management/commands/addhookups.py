@@ -47,6 +47,7 @@ class Command(BaseCommand):
                 try:
                     city = City.objects.get(name=row['town'].strip(),state=state)
                 except City.DoesNotExist:
+                    print "!!!!!City.DoesNotExist!!!!\n"
                     city = City(name=row['town'].strip(),state=state)
 
                 record = Hookup(
@@ -67,7 +68,7 @@ class Command(BaseCommand):
                         # print "\n"              
                         setattr(record,attr[0],attr[1].strip())
 
-                # pprint.pprint(record.__dict__,width=1)
+                pprint.pprint(record.__dict__,width=1)
                 print "\n"
 
                 record.save()
