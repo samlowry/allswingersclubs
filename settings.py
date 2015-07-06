@@ -51,7 +51,7 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",},
-        'STORAGE_ENGINE': 'MyISAM / INNODB / ETC',
+        'STORAGE_ENGINE': 'MyISAM',
     }
 }
 

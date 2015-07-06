@@ -211,6 +211,14 @@ class Hookup(models.Model):
     smokes =  models.CharField(max_length=100)
     zodiac =  models.CharField(max_length=100)
 
+    sites = models.ManyToManyField(Site)
+
+    # managers  
+    objects = models.Manager() 
+    # objects = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
+    current_site_only = CurrentSiteManager('sites')
+    short_description = short_description
+
 
     class Meta:
         ordering = ['title']
