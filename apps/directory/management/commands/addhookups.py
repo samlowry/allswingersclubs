@@ -5,11 +5,27 @@ import random
 import MySQLdb
 
 import urllib
+import requests
+
+import HTMLParser
+
 from urlparse import urlparse
 from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 
 from django.core.management.base import BaseCommand, CommandError
 from directory.models import *
+
+from django.contrib.sites.models import Site
+
+def clean_string(self):
+    self=self.strip()
+    self=self.replace("\"\\'", "'")
+
+    h = HTMLParser.HTMLParser()
+    self = h.unescape(self)
+    
+    return self
 
 class Command(BaseCommand):
     args = '<min_records_per_state max_records_per_state>'
@@ -32,11 +48,11 @@ class Command(BaseCommand):
 
         for state in all_states_list2 :
             
-            # number_of_records = random.randint(1,7)
-            number_of_records = 1
+            number_of_records = random.randint(1,7)
+            # number_of_records = 1
             
-            # cur.execute("SELECT * FROM header WHERE state='%s' LIMIT %s" % (state.name, number_of_records) )
-            cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
+            cur.execute("SELECT * FROM header WHERE state='%s' LIMIT %s" % (state.name, number_of_records) )
+            # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
             rows = cur.fetchall()
             for row in rows :
                 pprint.pprint(row)
@@ -53,21 +69,27 @@ class Command(BaseCommand):
                 record = Hookup(
                         city = city,
                         state = state,
-                        title = row['header'].strip(),
-                        description = row['body'].strip(),
+                        title = clean_string(row['header']),
+                        description = clean_string(row['body']),
                     )
 
                 # parse attr data
+                row['attr']=clean_string(row['attr'])
                 row['attr']=row['attr'].split(';')
                 for attr in row['attr'] :
                     if len(attr) :
-                        attr = attr.split(' : ')          
-                        setattr(record,attr[0],attr[1].strip())
+                        pprint.pprint(attr)
+                        print "\n"
+                        attr = attr.split(' : ')
+                        pprint.pprint(attr)
+                        print "\n"
+                        setattr(record,attr[0],attr[1])
 
                 pprint.pprint(record.__dict__,width=1)
                 print "\n"
 
                 record.save()
+                record.sites.add(Site.objects.get_current())
 
                 # parse images data
                 row['images']=row['images'].split(';')
@@ -82,13 +104,25 @@ class Command(BaseCommand):
 
                         print image_url;print "\n"
 
-                        content = urllib.urlretrieve(image_url)
+                        # content = urllib.urlretrieve(image_url)
+                        try:
+                            r = requests.get(image_url)
 
-                        # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
-                        photo.original_image.save(name, File(open(content[0])), save=True)
+                            img_temp = NamedTemporaryFile(delete=True)
+                            img_temp.write(r.content)
+                            img_temp.flush()
+
+                            # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
+                            # photo.original_image.save(name, File(open(content[0])), save=True)
+                            photo.original_image.save(name, File(img_temp), save=True)
+                        except:
+                            pass
+                            
 
                 # 7) delete record in pool
-                cur.execute("DELETE FROM header WHERE id='%s'" % row['id'] )
+                # print "DELETE FROM header WHERE id=%s \n" % row['id']
+                cur.execute("DELETE FROM header WHERE id=%s" % row['id'] )
+                db.commit()
 
 
         

@@ -141,7 +141,7 @@ def hookup(request, hookup_id, hookup_urlsafe_title):
         current_hookup = Hookup.current_site_only.select_related('state','city').filter(id__exact=hookup_id).get()
     except Hookup.DoesNotExist:
         raise Http404
-    real_hookup_urlsafe_title=my_slugify(current_hookup.name)
+    real_hookup_urlsafe_title=my_slugify(current_hookup.title)
     # # here we do 301 redirect if hookup is closed
     # if(current_hookup.is_closed):
     #     return HttpResponsePermanentRedirect(
@@ -152,9 +152,9 @@ def hookup(request, hookup_id, hookup_urlsafe_title):
             current_hookup.get_absolute_url()
         )
     else:
-        current_hookup.photos = current_hookup.photo_set.all()
+        current_hookup.photos = current_hookup.photo2_set.all()
         if current_hookup.state:
-            all_hookups_for_state = Hookup.filter(state__usps_name__exact=current_hookup.state.usps_name).exclude(pk=current_hookup.pk)
+            all_hookups_for_state = Hookup.objects.filter(state__usps_name__exact=current_hookup.state.usps_name).exclude(pk=current_hookup.pk)
         else:
             all_hookups_for_state = None
             
@@ -166,16 +166,12 @@ def hookup(request, hookup_id, hookup_urlsafe_title):
         except AttributeError:
             all_hookups_for_country = None
 
-        news = current_hookup.news_set.all()
-        form = get_comment_form(request, target_object=current_hookup)     
         return render_to_response(
             'directory/hookup.html',
             {
-                'hookup': current_hookup,
+                'club': current_hookup,
                 'all_hookups_for_state': all_hookups_for_state,
                 'all_hookups_for_country': all_hookups_for_country,
-                'form': form,
-                'news': news,
             },
             context_instance=RequestContext(request),
         )

@@ -50,7 +50,7 @@ DATABASES = {
         'PASSWORD': 'clubs123',
         'HOST': '',
         'PORT': '',
-        'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",},
+        'OPTIONS': {"init_command": "SET foreign_key_checks = 0,character_set_connection=utf8,collation_connection=utf8_unicode_ci",},
         'STORAGE_ENGINE': 'MyISAM',
     }
 }

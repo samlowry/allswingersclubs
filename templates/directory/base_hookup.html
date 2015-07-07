@@ -1,0 +1,103 @@
+{% extends "decorator.html" %}
+{% load comments %}
+{% load tagging_tags %}
+
+{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
+
+{% if club.state %}
+	<link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/">
+{% endif %}
+{% if club.city.country %}
+	<link rel="alternate" type="application/rss+xml" title="{{ club.city.country }} clubs news" href="/rss/country/{{ club.city.country.name|lower }}/">
+{% endif %}
+
+<link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/">
+{% endblock %}
+
+{% block rss_link %} | <a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
+
+
+{% block title_suffix %} in {% if club.state %}{{ club.state }}{% else %}{{ club.city.country.name }}{% endif %}{% endblock %}
+
+{% block inhead %}
+	<script type="text/javascript" src="http://www.google.com/jsapi?key=ABCDE"></script>
+	<script type="text/javascript">
+		google.load("jquery", "1.3.2");
+	</script>
+{% endblock %}
+
+{% block description %}{{club.description|striptags|truncatewords:40|force_escape}}{% endblock %}
+
+
+{% block content %}
+
+<div class="hreview-aggregate">
+<h1><span class="item"><span class="fn org">{{club.title}}</span></span> {% block club_page_title_suffix %}{% endblock %}</h1>
+
+<div id="main">
+	{% if club.homepage %}
+	<b>
+		<span>{{club.title}}</span>
+		Website:
+	</b>
+	<span class="url">
+		<a href="{{club.homepage}}" onclick="document.location='/shorturl/{{club.id}}/';return false">{{club.homepage}}</a>
+	</span><br><br>
+	{% endif %}
+	<div class="adr">
+		<b>Address:</b>
+		{% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
+		{% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+		{% if club.state %}<span class="region">{{club.state.usps_name}}</span>{% endif %}
+		<span class="postal-code"></span><br><br>
+		<b>Country:</b>
+		<span class="country-name">{% firstof club.city.country "USA" %}</span>
+	</div><br>
+	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
+	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
+	<b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
+	<b>Rating:</b> <span class="rating">{{club.rating}}</span><span class="best" title="5" /><br><br>
+	<b>Votes:</b> <span class="votes">37</span><br><br>	
+	<b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
+	{% if club.photos %}
+	<b>Club photos:</b><br> <br>
+		{% for photo in club.photos %}
+			<a href="{{photo.display.url}}"><img src="{{photo.thumbnail_image.url}}"></a>
+		{% endfor %}
+	{% endif %}
+	
+<br>
+
+</div>
+
+</div>
+
+{% if all_clubs_for_state %}
+	<h2>Other Clubs from {{club.state.name}}</h2>
+{% load partition %}
+<table class="column">
+{% for row in all_clubs_for_state|columns:3 %}
+	<tr class="column">
+	{% for club in row %}
+		<td class="column"><a href="{{ club.get_absolute_url }}">{{ club.name }}</a></td>
+	{% endfor %}
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if all_clubs_for_country %}
+	<h2>Other Clubs from {{ club.city.country.name }}</h2>
+{% load partition %}
+<table class="column">
+{% for row in all_clubs_for_country|columns:3 %}
+	<tr class="column">
+	{% for club in row %}
+		<td class="column"><a href="{{ club.get_absolute_url }}">{{ club.name }}</a>, {{ club.city.name }}</td>
+	{% endfor %}
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% endblock content %}
