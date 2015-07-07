@@ -24,6 +24,8 @@ def clean_string(self):
 
     h = HTMLParser.HTMLParser()
     self = h.unescape(self)
+
+    self=unicode(self, errors='ignore')
     
     return self
 
@@ -47,6 +49,8 @@ class Command(BaseCommand):
         all_states_list2 = State2.objects.all()
 
         for state in all_states_list2 :
+
+            # if state.name != 'Wyoming': continue
             
             number_of_records = random.randint(1,7)
             # number_of_records = 1
