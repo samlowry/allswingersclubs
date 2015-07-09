@@ -41,6 +41,8 @@
 		    <a href="{{club.get_absolute_url}}" id="club_{{club.id}}">
 			<span class="fn org">{{club.title}}</span></a>
 		    - <span class="adr">
+			    <span class="date">{{club.date_of_publish}}</span>,
+		    	<span class="locality">{{club.city.name}}</span>
 		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
 		        {% ifequal region.kind 'state' %}<span class="region">{{club.state.usps_name}}</span>,{% endifequal %}
 		        {% ifequal region.kind 'country' %}<span class="country-name">{{club.city.country.name}}</span>,{% endifequal %}		

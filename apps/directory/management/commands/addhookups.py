@@ -20,12 +20,12 @@ from django.contrib.sites.models import Site
 
 def clean_string(self):
     self=self.strip()
-    self=self.replace("\"\\'", "'")
+    self=self.replace("\"'", "'")
+
+    self=unicode(self, errors='ignore')
 
     h = HTMLParser.HTMLParser()
     self = h.unescape(self)
-
-    self=unicode(self, errors='ignore')
     
     return self
 
@@ -50,7 +50,7 @@ class Command(BaseCommand):
 
         for state in all_states_list2 :
 
-            # if state.name != 'Wyoming': continue
+            # if state.name != 'Texas': continue
             
             number_of_records = random.randint(1,7)
             # number_of_records = 1
@@ -82,11 +82,7 @@ class Command(BaseCommand):
                 row['attr']=row['attr'].split(';')
                 for attr in row['attr'] :
                     if len(attr) :
-                        pprint.pprint(attr)
-                        print "\n"
                         attr = attr.split(' : ')
-                        pprint.pprint(attr)
-                        print "\n"
                         setattr(record,attr[0],attr[1])
 
                 pprint.pprint(record.__dict__,width=1)
@@ -127,17 +123,3 @@ class Command(BaseCommand):
                 # print "DELETE FROM header WHERE id=%s \n" % row['id']
                 cur.execute("DELETE FROM header WHERE id=%s" % row['id'] )
                 db.commit()
-
-
-        
-
-        # for poll_id in args:
-        #     try:
-        #         poll = Poll.objects.get(pk=int(poll_id))
-        #     except Poll.DoesNotExist:
-        #         raise CommandError('Poll "%s" does not exist' % poll_id)
-
-        #     poll.opened = False
-        #     poll.save()
-
-        #     self.stdout.write('Successfully closed poll "%s"\n' % poll_id)

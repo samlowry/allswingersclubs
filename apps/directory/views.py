@@ -170,8 +170,8 @@ def hookup(request, hookup_id, hookup_urlsafe_title):
             'directory/hookup.html',
             {
                 'club': current_hookup,
-                'all_hookups_for_state': all_hookups_for_state,
-                'all_hookups_for_country': all_hookups_for_country,
+                'all_clubs_for_state': all_hookups_for_state,
+                'all_clubs_for_country': all_hookups_for_country,
             },
             context_instance=RequestContext(request),
         )
