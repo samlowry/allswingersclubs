@@ -2,6 +2,7 @@
 {% load comments %}
 {% load tagging_tags %}
 
+
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
 
 {% if club.state %}
@@ -16,8 +17,9 @@
 
 {% block rss_link %} | <a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
 
+{% block title %}{{club.title}} Hookup{% endblock %}
 
-{% block title_suffix %} in {% if club.state %}{{ club.state }}{% else %}{{ club.city.country.name }}{% endif %}{% endblock %}
+{% block title_suffix %} in {% if club.state %}{{ club.city }}{% else %}{{ club.city.country.name }}{% endif %}{% endblock %}
 
 {% block inhead %}
 	<script type="text/javascript" src="http://www.google.com/jsapi?key=ABCDE"></script>

@@ -20,7 +20,7 @@ urlpatterns = patterns('directory.views',
 	(r'^clubs/$', 'clubs'),
 	(r'^club/take/(?P<club_id>\d+)/$', 'take_club'),
 	(r'^club/add/$', 'add_club'),
-	(r'^hooukup/(?P<hookup_id>\d+)/(?:(?P<hookup_urlsafe_title>[\w-]+)\.html)?$', 'hookup'),
+	(r'^hookup/(?P<hookup_id>\d+)/(?:(?P<hookup_urlsafe_title>[\w-]+)\.html)?$', 'hookup'),
  
 	(r'^ajax/get-country-cities/$', 'ajax_get_country_cities'),
     

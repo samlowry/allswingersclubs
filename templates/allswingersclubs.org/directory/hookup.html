@@ -1,7 +1,5 @@
 {% extends "directory/base_hookup.html" %}
 
-{% block title %}{{club.name}} Hookup{% endblock %}
-
 {% block breadcrumbs %}
     {% if club.state %}
         &gt; <a href="{{ club.state.get_absolute_url }}">Casual Hookups in {{ club.state }}</a> &gt; {{club.name}} Hookup

@@ -50,9 +50,9 @@ class Command(BaseCommand):
 
         for state in all_states_list2 :
 
-            if state.name != 'Texas': continue
+            # if state.name != 'Texas': continue
             
-            number_of_records = random.randint(1,7)
+            number_of_records = random.randint(1,10)
             # number_of_records = 1
             
             cur.execute("SELECT * FROM header WHERE state='%s' GROUP BY `town` ORDER BY rand() LIMIT %s" % (state.name, number_of_records) )

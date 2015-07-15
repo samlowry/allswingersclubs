@@ -22,6 +22,13 @@ class StateSitemap(Sitemap):
     def items(self):
         return State.objects.all()
 
+class State2Sitemap(Sitemap):
+    changefreq = "always"
+    priority = 0.8
+
+    def items(self):
+        return State2.objects.all()
+
 
 class CountrySitemap(Sitemap):
     changefreq = "always"
@@ -41,11 +48,23 @@ class ClubSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.date_of_review
 
+class HookupSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.5
+
+    def items(self):
+        return Hookup.current_site_only.all()
+
+    def lastmod(self, obj):
+        return obj.date_of_publish
+
 sitemaps = {
     'index': IndexSitemap,
     'state': StateSitemap,
+    'state2': State2Sitemap,
     'country': CountrySitemap,
     'clubs': ClubSitemap,
+    'hookups': HookupSitemap,
     'flatpages': FlatPageSitemap,
 }
 
