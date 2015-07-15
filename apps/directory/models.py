@@ -181,6 +181,7 @@ class Hookup(models.Model):
     state = models.ForeignKey(State2, blank=True, null=True, related_name = 'hookups')
     city = models.ForeignKey(City, blank=True, null=True, related_name = 'hookups')
     date_of_publish = models.DateField(default=datetime.date.today)
+    datetime_of_publish = models.DateTimeField(default=datetime.datetime.today)
     age =  models.CharField(max_length=100)
     body = models.CharField(max_length=100)
     height = models.CharField(max_length=100)

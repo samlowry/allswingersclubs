@@ -55,10 +55,39 @@
 	</div><br>
 	{% if club.phone %}<b>Phone:</b> <span class="tel">{{club.phone}}</span><br><br>{% endif %}
 	{% if club.email %}<b>E-mail:</b> <span class="email">{{club.email}}</span><br><br>{% endif %}
-	<b>About club:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
-	<b>Rating:</b> <span class="rating">{{club.rating}}</span><span class="best" title="5" /><br><br>
-	<b>Votes:</b> <span class="votes">37</span><br><br>	
-	<b>Added:</b> <span class="dtreviewed">{{club.date_of_review}}</span><br><br>
+	<b>Ad:</b> <span class="summary">{{club.description|linebreaksbr}}</span><br><br>
+	<!-- <b>Rating:</b> <span class="rating">{{club.rating}}</span><span class="best" title="5" /><br><br>
+	<b>Votes:</b> <span class="votes">37</span><br><br>	 -->
+	{% if club.age %}<b>Age:</b> <span class="age">{{club.age}}</span><br><br>{% endif %}
+	{% if club.body %}<b>Body:</b> <span class="body">{{club.body}}</span><br><br>{% endif %}
+	{% if club.height %}<b>Height:</b> <span class="height">{{club.height}}</span><br><br>{% endif %}
+	{% if club.weight %}<b>Weight:</b> <span class="weight">{{club.weight}}</span><br><br>{% endif %}
+	{% if club.body_art %}<b>Body_art:</b> <span class="body_art">{{club.body_art}}</span><br><br>{% endif %}
+	{% if club.diet %}<b>Diet:</b> <span class="diet">{{club.diet}}</span><br><br>{% endif %}
+	{% if club.dislikes %}<b>Dislikes:</b> <span class="dislikes">{{club.dislikes}}</span><br><br>{% endif %}
+	{% if club.drinks %}<b>Drinks:</b> <span class="drinks">{{club.drinks}}</span><br><br>{% endif %}
+	{% if club.drugs %}<b>Drugs:</b> <span class="drugs">{{club.drugs}}</span><br><br>{% endif %}
+	{% if club.education %}<b>Education:</b> <span class="education">{{club.education}}</span><br><br>{% endif %}
+	{% if club.ethnicity %}<b>Ethnicity:</b> <span class="ethnicity">{{club.ethnicity}}</span><br><br>{% endif %}
+	{% if club.eye_color %}<b>Eye_color:</b> <span class="eye_color">{{club.eye_color}}</span><br><br>{% endif %}
+	{% if club.facial_hair %}<b>Facial_hair:</b> <span class="facial_hair">{{club.facial_hair}}</span><br><br>{% endif %}
+	{% if club.fears %}<b>Fears:</b> <span class="fears">{{club.fears}}</span><br><br>{% endif %}
+	{% if club.hair %}<b>Hair:</b> <span class="hair">{{club.hair}}</span><br><br>{% endif %}
+	{% if club.hiv_hsv_hpv %}<b>Hiv_hsv_hpv:</b> <span class="hiv_hsv_hpv">{{club.hiv_hsv_hpv}}</span><br><br>{% endif %}
+	{% if club.interests %}<b>Interests:</b> <span class="interests">{{club.interests}}</span><br><br>{% endif %}
+	{% if club.kids_have %}<b>Kids_have:</b> <span class="kids_have">{{club.kids_have}}</span><br><br>{% endif %}
+	{% if club.kids_want %}<b>Kids_want:</b> <span class="kids_want">{{club.kids_want}}</span><br><br>{% endif %}
+	{% if club.likes %}<b>Likes:</b> <span class="likes">{{club.likes}}</span><br><br>{% endif %}
+	{% if club.native_language %}<b>Native_language:</b> <span class="native_language">{{club.native_language}}</span><br><br>{% endif %}
+	{% if club.occupation %}<b>Occupation:</b> <span class="occupation">{{club.occupation}}</span><br><br>{% endif %}
+	{% if club.personality %}<b>Personality:</b> <span class="personality">{{club.personality}}</span><br><br>{% endif %}
+	{% if club.pets %}<b>Pets:</b> <span class="pets">{{club.pets}}</span><br><br>{% endif %}
+	{% if club.politics %}<b>Politics:</b> <span class="politics">{{club.politics}}</span><br><br>{% endif %}
+	{% if club.religion %}<b>Religion:</b> <span class="religion">{{club.religion}}</span><br><br>{% endif %}
+	{% if club.resembles %}<b>Resembles:</b> <span class="resembles">{{club.resembles}}</span><br><br>{% endif %}
+	{% if club.smokes %}<b>Smokes:</b> <span class="smokes">{{club.smokes}}</span><br><br>{% endif %}
+	{% if club.zodiac %}<b>Zodiac:</b> <span class="zodiac">{{club.zodiac}}</span><br><br>{% endif %}	
+	<b>Added:</b> <span class="dtreviewed">{{club.date_of_publish}}</span><br><br>
 	{% if club.photos %}
 	<b>Club photos:</b><br> <br>
 		{% for photo in club.photos %}

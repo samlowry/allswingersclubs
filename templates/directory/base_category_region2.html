@@ -1,5 +1,7 @@
 {% extends "decorator.html" %}
 
+{% load paging_extras %}
+
 {% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
 {% ifequal region.kind "state" %}
 <link rel="alternate" type="application/rss+xml" title="{{region.name}} clubs news" href="/rss/state/{{region.usps_name|lower}}/">
@@ -35,21 +37,23 @@
     </div>
     {% endif %}
 	<div id="clubs">
-		{% for club in clubs%}
-		{% load my_slugify %}
-		<div class="vcard">
-		    <a href="{{club.get_absolute_url}}" id="club_{{club.id}}">
-			<span class="fn org">{{club.title}}</span></a>
-		    - <span class="adr">
-			    <span class="date">{{club.date_of_publish}}</span>,
-		    	<span class="locality">{{club.city.name}}</span>
-		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
-		        {% ifequal region.kind 'state' %}<span class="region">{{club.state.usps_name}}</span>,{% endifequal %}
-		        {% ifequal region.kind 'country' %}<span class="country-name">{{club.city.country.name}}</span>,{% endifequal %}		
-		    </span>
-		    - <span class="title">{{club.description|truncatewords:25}}</span>
+		{% paginate clubs from request as clubs2 per_page 25 False %}
+		{{ clubs2.paging }}
+			{% for club in clubs2.objects %}
+			{% load my_slugify %}
+			  <div class="vcard">
+			    <a href="{{club.get_absolute_url}}" id="club_{{club.id}}">
+				<span class="fn org">{{club.title}}</span></a>
+			    - <span class="adr">
+				    <span class="date">{{club.date_of_publish}}</span>,
+			        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
+			        {% ifequal region.kind 'state' %}<span class="region">{{club.state.usps_name}}</span>{% endifequal %}
+			        {% ifequal region.kind 'country' %}<span class="country-name">{{club.city.country.name}}</span>{% endifequal %}		
+			    </span>
+			    - <span class="title">{{club.description|truncatewords:25}}</span>
 		</div><br>
-		{% endfor %}
+			{% endfor %}
+		{{ clubs2.paging }}
 	</div>
 
 {# news div #}

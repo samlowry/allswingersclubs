@@ -50,74 +50,81 @@ class Command(BaseCommand):
 
         for state in all_states_list2 :
 
-            # if state.name != 'Texas': continue
+            if state.name != 'Texas': continue
             
             number_of_records = random.randint(1,7)
             # number_of_records = 1
             
-            cur.execute("SELECT * FROM header WHERE state='%s' LIMIT %s" % (state.name, number_of_records) )
+            cur.execute("SELECT * FROM header WHERE state='%s' GROUP BY `town` ORDER BY rand() LIMIT %s" % (state.name, number_of_records) )
             # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
             rows = cur.fetchall()
             for row in rows :
-                pprint.pprint(row)
-                print "\n"
-                
-                state = State2.objects.get(name=row['state'].strip())
 
-                try:
-                    city = City.objects.get(name=row['town'].strip(),state=state)
-                except City.DoesNotExist:
-                    print "!!!!!City.DoesNotExist!!!!\n"
-                    city = City(name=row['town'].strip(),state=state)
+                print "\n\n====================R=E=C=O=R=D====================\n\n"
 
-                record = Hookup(
-                        city = city,
-                        state = state,
-                        title = clean_string(row['header']),
-                        description = clean_string(row['body']),
-                    )
+                if len(row['body'])>0:
 
-                # parse attr data
-                row['attr']=clean_string(row['attr'])
-                row['attr']=row['attr'].split(';')
-                for attr in row['attr'] :
-                    if len(attr) :
-                        attr = attr.split(' : ')
-                        setattr(record,attr[0],attr[1])
+                    pprint.pprint(row)
+                    print "\n"
+                    
+                    state = State2.objects.get(name=row['state'].strip())
 
-                pprint.pprint(record.__dict__,width=1)
-                print "\n"
+                    try:
+                        city = City.objects.get(name=row['town'].strip(),state=state)
+                    except City.DoesNotExist:
+                        print "!!!!!City.DoesNotExist!!!!\n"
+                        city = City(name=row['town'].strip(),state=state)
 
-                record.save()
-                record.sites.add(Site.objects.get_current())
+                    record = Hookup(
+                            city = city,
+                            state = state,
+                            title = clean_string(row['header']),
+                            description = clean_string(row['body']),
+                        )
 
-                # parse images data
-                row['images']=row['images'].split(';')
-                for image_url in row['images'] :
-                    if len(image_url) :
+                    # parse attr data
+                    row['attr']=clean_string(row['attr'])
+                    row['attr']=row['attr'].split(';')
+                    for attr in row['attr'] :
+                        if len(attr) :
+                            attr = attr.split(' : ')
+                            setattr(record,attr[0],attr[1])
 
-                        photo = Photo2(
-                                hookup=record,
-                            )
+                    pprint.pprint(record.__dict__,width=1)
+                    print "\n"
 
-                        name = urlparse(image_url).path.split('/')[-1]
+                    record.save()
+                    db.commit()
+                    record.sites.add(Site.objects.get_current())
+                    db.commit()
 
-                        print image_url;print "\n"
+                    # parse images data
+                    row['images']=row['images'].split(';')
+                    for image_url in row['images'] :
+                        if len(image_url) :
 
-                        # content = urllib.urlretrieve(image_url)
-                        try:
-                            r = requests.get(image_url)
+                            photo = Photo2(
+                                    hookup=record,
+                                )
 
-                            img_temp = NamedTemporaryFile(delete=True)
-                            img_temp.write(r.content)
-                            img_temp.flush()
+                            name = urlparse(image_url).path.split('/')[-1]
 
-                            # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
-                            # photo.original_image.save(name, File(open(content[0])), save=True)
-                            photo.original_image.save(name, File(img_temp), save=True)
-                        except:
-                            pass
-                            
+                            print image_url;print "\n"
+
+                            # content = urllib.urlretrieve(image_url)
+                            try:
+                                r = requests.get(image_url)
+
+                                img_temp = NamedTemporaryFile(delete=True)
+                                img_temp.write(r.content)
+                                img_temp.flush()
+
+                                # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
+                                # photo.original_image.save(name, File(open(content[0])), save=True)
+                                photo.original_image.save(name, File(img_temp), save=True)
+                            except:
+                                pass
+                                
 
                 # 7) delete record in pool
                 # print "DELETE FROM header WHERE id=%s \n" % row['id']

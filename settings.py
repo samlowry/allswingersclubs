@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'imagekit',
     'tagging',
     'keywords',
+    'paging',    
     'extra_comments',
     'django.contrib.messages',
     'django.contrib.staticfiles',

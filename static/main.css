@@ -26,3 +26,4 @@ iframe#source{position:absolute;left:0px;right:0px;top:70px;margin:0px;padding:0
 @media screen and (-webkit-min-device-pixel-ratio:0){}
 #offer{font-size:35px;padding:10px;width:90%;}
 #addthis{clear:all;margin:20px 0;}
+ul.paging-numeric li{display:inline;margin: 5px;}
