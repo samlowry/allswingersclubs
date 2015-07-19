@@ -38,9 +38,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         
         db = MySQLdb.connect(host="localhost", # your host, usually localhost
-                     user="prs", # your username
-                      passwd="prs", # your password
-                      db="prs",
+                     user="addhookups", # your username
+                      passwd="addhookups", # your password
+                      db="addhookups",
                       cursorclass=MySQLdb.cursors.DictCursor
                       ) # name of the data base
 
