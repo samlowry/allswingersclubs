@@ -38,8 +38,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         
         db = MySQLdb.connect(host="localhost", # your host, usually localhost
-                     user="root", # your username
-                      passwd="", # your password
+                     user="prs", # your username
+                      passwd="prs", # your password
                       db="prs",
                       cursorclass=MySQLdb.cursors.DictCursor
                       ) # name of the data base
