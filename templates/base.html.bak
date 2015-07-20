@@ -65,7 +65,18 @@
 {% endblock content %}
 
 {% block links %}
-
+	{% load linkator_tags %}
+	{% get_tradelinks as tradelinks %}
+	{% if tradelinks %}
+		{% block links_title %}
+			<h2>Related links</h2>
+		{% endblock %}
+			<ul>				
+				{% for tradelink in tradelinks %}
+					<li><a href="{{ tradelink.url }}">{{ tradelink.title }}</a>{% if tradelink.description %} - {{tradelink.description}}{% endif %}</li>						
+				{% endfor %}
+			</ul>
+	{% endif %}
 {% endblock links %}
 
 {% block recent_searches %}
