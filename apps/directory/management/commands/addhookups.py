@@ -74,6 +74,9 @@ class Command(BaseCommand):
                     except City.DoesNotExist:
                         print "!!!!!City.DoesNotExist!!!!\n"
                         city = City(name=row['town'].strip(),state=state)
+                    except IndexError:
+                        print "!!!!!City IndexError!!!!\n"
+                        city = City(name=row['town'].strip(),state=state)
 
                     record = Hookup(
                             city = city,
