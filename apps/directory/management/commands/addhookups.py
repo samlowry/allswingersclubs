@@ -70,7 +70,7 @@ class Command(BaseCommand):
                     state = State2.objects.get(name=row['state'].strip())
 
                     try:
-                        city = City.objects.get(name=row['town'].strip(),state=state)[0]
+                        city = City.objects.filter(name=row['town'].strip(),state=state)[0]
                     except City.DoesNotExist:
                         print "!!!!!City.DoesNotExist!!!!\n"
                         city = City(name=row['town'].strip(),state=state)
