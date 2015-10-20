@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 
+{% block inhead %}
+<script type="text/javascript">
+var news_url="http://swingsystem.net/in.cgi?11";
+</script>
+{% endblock %}
+
 {% block topbanner %}<script language="JavaScript" src="http://swingsystem.net/in.cgi?9&RANDOM={% now "U" %}"></script>{% endblock %}
 
 {% block bottombanner %}{% endblock %}
