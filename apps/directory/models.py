@@ -156,6 +156,14 @@ class City(models.Model):
     country_name.short_description = 'Country'
     country_name.admin_order_field = 'country'
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('directory.views.city', (), {
+            'city_id': str(self.id),
+            'city_urlsafe_name': str(my_slugify(self.name.lower())),
+        })
+
+
 
 class OpenClubsFromCurrentSiteManager(models.Manager):
     def get_query_set(self):

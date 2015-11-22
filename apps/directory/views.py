@@ -44,6 +44,9 @@ def analytics(request):
     return locals()
 
 
+
+
+
 @render_to('directory/category_region.html')    
 def state(request, state_usps_name):
     region = State.objects.filter(usps_name__exact=state_usps_name).get()
@@ -59,6 +62,21 @@ def state(request, state_usps_name):
     news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).filter(club__state__id__exact=region.id).order_by('-created')[:10]
 
     return locals()
+
+@render_to('directory/category_region_city.html')    
+def city(request, city_id, city_urlsafe_name):
+    region = City.objects.filter(id=city_id).get()
+    clubs = Club.open_only.filter(city__id=city_id).order_by('name') 
+    if region.state:
+        regions = City.objects.filter(state__id=region.state.id)
+    else:
+        regions = City.objects.filter(state__id=region.country.id)
+
+    return locals()
+
+
+
+
 
 @render_to('directory/category_region2.html')    
 def state2(request, state_usps_name):

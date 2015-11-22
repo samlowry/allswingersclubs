@@ -57,7 +57,7 @@ $( document ).ready( function ()
 			<span class="fn org">{{club.name}}</span></a>
 		    {% if club.homepage %}&nbsp;&nbsp;<a href="{{club.homepage}}" class="url" onclick="document.location='/shorturl/{{club.id}}/';return false">#</a>{% endif %}
 		    - <span class="adr">
-		        {% if club.city %}<span class="locality"><a href="{{club.city.get_absolute_url}}">{{club.city.name}}</a></span>,{% endif %}
+		        {% if club.city %}<span class="locality">{{club.city.name}}</span>,{% endif %}
 		        {% if club.address %}<span class="street-address">{{club.address}}</span>,{% endif %}
 		        {% ifequal region.kind 'state' %}<span class="region">{{club.state.usps_name}}</span>,{% endifequal %}
 		        {% ifequal region.kind 'country' %}<span class="country-name">{{club.city.country.name}}</span>,{% endifequal %}		
@@ -68,14 +68,6 @@ $( document ).ready( function ()
 		</div><br>
 		{% endfor %}
 	</div>
-
-{# news div #}
-<div id="news">
-{% if news %}
-{% include "news/news_block.html" %}
-{% endif %}
-</div>
-{# news div end #}	
 
 </div>
 
