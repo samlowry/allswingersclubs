@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.contrib.sitemaps import FlatPageSitemap, Sitemap
-from directory.views import index
+from directory.views import *
 from directory.models import *
 import settings
 
@@ -35,8 +35,14 @@ class CountrySitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Country.objects.all()        
+        return Country.objects.all()      
 
+class CitySitemap(Sitemap):
+    changefreq = "always"
+    priority = 0.6
+
+    def items(self):
+        return City.objects.all()
 
 class ClubSitemap(Sitemap):
     changefreq = "daily"
@@ -63,6 +69,7 @@ sitemaps = {
     'state': StateSitemap,
     'state2': State2Sitemap,
     'country': CountrySitemap,
+    'city': CitySitemap,
     'clubs': ClubSitemap,
     'hookups': HookupSitemap,
     'flatpages': FlatPageSitemap,

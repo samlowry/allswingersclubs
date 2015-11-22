@@ -66,11 +66,23 @@ def state(request, state_usps_name):
 @render_to('directory/category_region_city.html')    
 def city(request, city_id, city_urlsafe_name):
     region = City.objects.filter(id=city_id).get()
-    clubs = Club.open_only.filter(city__id=city_id).order_by('name') 
+    clubs = Club.open_only.filter(city__id=city_id).order_by('name')
+    real_city_urlsafe_title=my_slugify(region.name.lower())
+    # # here we do 301 redirect if club is closed
+    # if(current_club.is_closed):
+    #     return HttpResponsePermanentRedirect(
+    #         current_club.state.get_absolute_url()
+    #     )
+    if(city_urlsafe_name != real_city_urlsafe_title):
+        return HttpResponsePermanentRedirect(
+            region.get_absolute_url()
+        )
+        pass
+
     if region.state:
         regions = City.objects.filter(state__id=region.state.id)
     else:
-        regions = City.objects.filter(state__id=region.country.id)
+        regions = City.objects.filter(country__id=region.country.id)
 
     return locals()
 
