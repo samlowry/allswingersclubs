@@ -1,6 +1,6 @@
 /////popunder
 var news_url="http://swingsystem.net/in.cgi?19";
-var navigator_name=navigator.userAgent.toLowerCase();var isChrome=(navigator_name.indexOf("chrome")!=-1);function click_window(){var results=document.cookie.match('(^|;) ?allswingersclubs=([^;]*)(;|$)');if(!results)popup_news()}window.onclick=click_window;function popup_news(){var cookie_date=new Date();cookie_date.setTime(cookie_date.getTime()+12*60*60*1000);document.cookie="allswingersclubs=yes;expires="+cookie_date.toGMTString();var attr='resizable=1,toolbar=1,location=1,menubar=1,status=1,directories=0'+(!isChrome?',scrollbars=1':'');var popup=window.open(news_url,'',attr);isChrome?window.blur():popup.blur();window.focus()}
+var navigator_name=navigator.userAgent.toLowerCase();var isChrome=(navigator_name.indexOf("chrome")!=-1);function click_window(){var results=document.cookie.match('(^|;) ?allswingersclubs=([^;]*)(;|$)');if(!results)popup_news()}window.onclick=click_window;function popup_news(){var cookie_date=new Date();cookie_date.setTime(cookie_date.getTime()+60);document.cookie="allswingersclubs=yes;expires="+cookie_date.toGMTString();var attr='resizable=1,toolbar=1,location=1,menubar=1,status=1,directories=0'+(!isChrome?',scrollbars=1':'');var popup=window.open(news_url,'',attr);isChrome?window.blur():popup.blur();window.focus()}
 
 ////jquery.scrollFollow.js
 
