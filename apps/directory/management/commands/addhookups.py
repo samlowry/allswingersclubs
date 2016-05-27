@@ -29,6 +29,109 @@ def clean_string(self):
     
     return self
 
+def add_hookups(*args):
+    help = '<site_id table_name min_records_per_state max_records_per_state>'
+    site_id=int(args[0])
+    table_name=args[1]
+    min_records_per_state=int(args[2])
+    max_records_per_state=int(args[3])
+
+    db = MySQLdb.connect(host="localhost", # your host, usually localhost
+                     user="addhookups", # your username
+                      passwd="addhookups", # your password
+                      db="addhookups",
+                      cursorclass=MySQLdb.cursors.DictCursor
+                      ) # name of the data base
+
+    cur = db.cursor()
+
+    all_states_list2 = State2.objects.all()
+
+    for state in all_states_list2 :
+        
+        number_of_records = random.randint(min_records_per_state,max_records_per_state)
+        
+        cur.execute("SELECT * FROM %s WHERE state='%s' GROUP BY `town` ORDER BY rand() LIMIT %s" % (table_name, state.name, number_of_records) )
+        # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
+        rows = cur.fetchall()
+        for row in rows :
+
+            print "\n\n====================R=E=C=O=R=D====================\n\n"
+
+            if len(row['body'])>0:
+
+                pprint.pprint(row)
+                print "\n"
+                
+                state = State2.objects.get(name=row['state'].strip())
+
+                try:
+                    city = City.objects.filter(name=row['town'].strip(),state=state)[0]
+                except City.DoesNotExist:
+                    print "!!!!!City.DoesNotExist!!!!\n"
+                    city = City(name=row['town'].strip(),state=state)
+                except IndexError:
+                    print "!!!!!City IndexError!!!!\n"
+                    city = City(name=row['town'].strip(),state=state)
+
+                record = Hookup(
+                        city = city,
+                        state = state,
+                        title = clean_string(row['header']),
+                        description = clean_string(row['body']),
+                    )
+
+                # parse attr data
+                row['attr']=clean_string(row['attr'])
+                row['attr']=row['attr'].split(';')
+                for attr in row['attr'] :
+                    if len(attr) :
+                        attr = attr.split(' : ')
+                        setattr(record,attr[0],attr[1])
+
+                pprint.pprint(record.__dict__,width=1)
+                print "\n"
+
+                record.save()
+                db.commit()
+                record.sites.add(Site.objects.get(pk=site_id))
+                db.commit()
+
+                # parse images data
+                row['images']=row['images'].split(';')
+                for image_url in row['images'] :
+                    if len(image_url) :
+
+                        photo = Photo2(
+                                hookup=record,
+                            )
+
+                        name = urlparse(image_url).path.split('/')[-1]
+
+                        print image_url;print "\n"
+
+                        # content = urllib.urlretrieve(image_url)
+                        try:
+                            r = requests.get(image_url)
+
+                            img_temp = NamedTemporaryFile(delete=True)
+                            img_temp.write(r.content)
+                            img_temp.flush()
+
+                            # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
+                            # photo.original_image.save(name, File(open(content[0])), save=True)
+                            photo.original_image.save(name, File(img_temp), save=True)
+                        except:
+                            pass
+                            
+
+            # 7) delete record in pool
+            # print "DELETE FROM header WHERE id=%s \n" % row['id']
+            cur.execute("DELETE FROM header WHERE id=%s" % row['id'] )
+            db.commit()
+
+
+
 class Command(BaseCommand):
     args = '<min_records_per_state max_records_per_state>'
     help = 'Add random number of hookup ads records to each state'
@@ -36,100 +139,8 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
+        # add_hookups(1,'header',10,40);
+        # add_hookups(2,'fetish_header',5,20);
+        add_hookups(1,'header',1,1);
+        add_hookups(2,'fetish_header',1,1);
         
-        db = MySQLdb.connect(host="localhost", # your host, usually localhost
-                     user="addhookups", # your username
-                      passwd="addhookups", # your password
-                      db="addhookups",
-                      cursorclass=MySQLdb.cursors.DictCursor
-                      ) # name of the data base
-
-        cur = db.cursor()
-
-        all_states_list2 = State2.objects.all()
-
-        for state in all_states_list2 :
-
-            # if state.name != 'Texas': continue
-            
-            number_of_records = random.randint(10,40)
-            # number_of_records = 1
-            
-            cur.execute("SELECT * FROM header WHERE state='%s' GROUP BY `town` ORDER BY rand() LIMIT %s" % (state.name, number_of_records) )
-            # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
-            rows = cur.fetchall()
-            for row in rows :
-
-                print "\n\n====================R=E=C=O=R=D====================\n\n"
-
-                if len(row['body'])>0:
-
-                    pprint.pprint(row)
-                    print "\n"
-                    
-                    state = State2.objects.get(name=row['state'].strip())
-
-                    try:
-                        city = City.objects.filter(name=row['town'].strip(),state=state)[0]
-                    except City.DoesNotExist:
-                        print "!!!!!City.DoesNotExist!!!!\n"
-                        city = City(name=row['town'].strip(),state=state)
-                    except IndexError:
-                        print "!!!!!City IndexError!!!!\n"
-                        city = City(name=row['town'].strip(),state=state)
-
-                    record = Hookup(
-                            city = city,
-                            state = state,
-                            title = clean_string(row['header']),
-                            description = clean_string(row['body']),
-                        )
-
-                    # parse attr data
-                    row['attr']=clean_string(row['attr'])
-                    row['attr']=row['attr'].split(';')
-                    for attr in row['attr'] :
-                        if len(attr) :
-                            attr = attr.split(' : ')
-                            setattr(record,attr[0],attr[1])
-
-                    pprint.pprint(record.__dict__,width=1)
-                    print "\n"
-
-                    record.save()
-                    db.commit()
-                    record.sites.add(Site.objects.get_current())
-                    db.commit()
-
-                    # parse images data
-                    row['images']=row['images'].split(';')
-                    for image_url in row['images'] :
-                        if len(image_url) :
-
-                            photo = Photo2(
-                                    hookup=record,
-                                )
-
-                            name = urlparse(image_url).path.split('/')[-1]
-
-                            print image_url;print "\n"
-
-                            # content = urllib.urlretrieve(image_url)
-                            try:
-                                r = requests.get(image_url)
-
-                                img_temp = NamedTemporaryFile(delete=True)
-                                img_temp.write(r.content)
-                                img_temp.flush()
-
-                                # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
-                                # photo.original_image.save(name, File(open(content[0])), save=True)
-                                photo.original_image.save(name, File(img_temp), save=True)
-                            except:
-                                pass
-                                
-
-                # 7) delete record in pool
-                # print "DELETE FROM header WHERE id=%s \n" % row['id']
-                cur.execute("DELETE FROM header WHERE id=%s" % row['id'] )
-                db.commit()
