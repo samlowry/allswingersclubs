@@ -104,7 +104,7 @@
 </div>
 
 {% if all_clubs_for_state %}
-	<h2>Other Clubs from {{club.state.name}}</h2>
+	<h2>Other Hookup Ads from {{club.state.name}}</h2>
 {% load partition %}
 <table class="column">
 {% for row in all_clubs_for_state|columns:3 %}
@@ -118,7 +118,7 @@
 {% endif %}
 
 {% if all_clubs_for_country %}
-	<h2>Other Clubs from {{ club.city.country.name }}</h2>
+	<h2>Other Hookup Ads from {{ club.city.country.name }}</h2>
 {% load partition %}
 <table class="column">
 {% for row in all_clubs_for_country|columns:3 %}

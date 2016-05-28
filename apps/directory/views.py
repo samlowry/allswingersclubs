@@ -98,7 +98,7 @@ def state2(request, state_usps_name):
         region.description = StateDescription2.current_site_only.filter(state=region).get()
     except StateDescription2.DoesNotExist:
         pass
-    clubs = Hookup.objects.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('datetime_of_publish').reverse()
+    clubs = Hookup.current_site_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).order_by('datetime_of_publish').reverse()
 
     cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(clubs__id__in=clubs).values('id')
     empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)    
@@ -186,13 +186,13 @@ def hookup(request, hookup_id, hookup_urlsafe_title):
     else:
         current_hookup.photos = current_hookup.photo2_set.all()
         if current_hookup.state:
-            all_hookups_for_state = Hookup.objects.filter(state__usps_name__exact=current_hookup.state.usps_name).filter(datetime_of_publish__lt=current_hookup.datetime_of_publish)[:20]
+            all_hookups_for_state = Hookup.current_site_only.filter(state__usps_name__exact=current_hookup.state.usps_name).filter(datetime_of_publish__lt=current_hookup.datetime_of_publish)[:20]
         else:
             all_hookups_for_state = None
             
         try:
             if current_hookup.city.country:
-                all_hookups_for_country = Hookup.select_related('state','city').filter(city__country=current_hookup.city.country).exclude(pk=current_hookup.pk)
+                all_hookups_for_country = Hookup.current_site_only.select_related('state','city').filter(city__country=current_hookup.city.country).exclude(pk=current_hookup.pk)
             else:
                 all_hookups_for_country = None
         except AttributeError:
