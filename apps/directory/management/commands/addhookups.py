@@ -98,32 +98,33 @@ def add_hookups(*args):
                 db.commit()
 
                 # parse images data
-                row['images']=row['images'].split(';')
-                for image_url in row['images'] :
-                    if len(image_url) :
+                if row['images'] is not None:
+                    row['images']=row['images'].split(';')
+                    for image_url in row['images'] :
+                        if len(image_url) :
 
-                        photo = Photo2(
-                                hookup=record,
-                            )
+                            photo = Photo2(
+                                    hookup=record,
+                                )
 
-                        name = urlparse(image_url).path.split('/')[-1]
+                            name = urlparse(image_url).path.split('/')[-1]
 
-                        print image_url;print "\n"
+                            print image_url;print "\n"
 
-                        # content = urllib.urlretrieve(image_url)
-                        try:
-                            r = requests.get(image_url)
+                            # content = urllib.urlretrieve(image_url)
+                            try:
+                                r = requests.get(image_url)
 
-                            img_temp = NamedTemporaryFile(delete=True)
-                            img_temp.write(r.content)
-                            img_temp.flush()
+                                img_temp = NamedTemporaryFile(delete=True)
+                                img_temp.write(r.content)
+                                img_temp.flush()
 
-                            # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
-                            # photo.original_image.save(name, File(open(content[0])), save=True)
-                            photo.original_image.save(name, File(img_temp), save=True)
-                        except:
-                            pass
-                            
+                                # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
+                                # photo.original_image.save(name, File(open(content[0])), save=True)
+                                photo.original_image.save(name, File(img_temp), save=True)
+                            except:
+                                pass
+                                
 
             # 7) delete record in pool
             # print "DELETE FROM header WHERE id=%s \n" % row['id']
