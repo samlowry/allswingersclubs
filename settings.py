@@ -4,7 +4,7 @@ import sys
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
-DEBUG = False
+DEBUG = True
 
 from multisite.threadlocals import SiteIDHook
 SITE_ID = SiteIDHook()
@@ -107,7 +107,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.csrf.CsrfResponseMiddleware',
     'keywords.middleware.KeywordMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'urls'
 
@@ -145,6 +148,7 @@ INSTALLED_APPS = (
     'extra_comments',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
 )
 COMMENTS_APP = 'extra_comments'
     
