@@ -48,8 +48,8 @@ DATABASES = {
         'NAME': 'clubs',
         'USER': 'clubs',
         'PASSWORD': 'clubs123',
-        'HOST': '',
-        'PORT': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0,character_set_connection=utf8,collation_connection=utf8_unicode_ci",},
         'STORAGE_ENGINE': 'MyISAM',
     }
@@ -59,8 +59,8 @@ DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysq
 DATABASE_NAME = 'clubs'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'clubs'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'clubs123'         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+DATABASE_HOST = '127.0.0.1'             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = '3306'             # Set to empty string for default. Not used with sqlite3.
 
 
 # Local time zone for this installation. Choices can be found here:

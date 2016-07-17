@@ -1,6 +1,8 @@
 import pprint
+import socket
 
 import random
+import urllib2
 
 import MySQLdb
 
@@ -18,6 +20,11 @@ from directory.models import *
 
 from django.contrib.sites.models import Site
 
+good_proxy = []
+bad_proxy = []
+
+curr_proxy_index = 0
+
 def clean_string(self):
     self=self.strip()
     self=self.replace("\"'", "'")
@@ -29,6 +36,50 @@ def clean_string(self):
     
     return self
 
+def verifyProxy( all_good = False ):
+    global is_verify_proxylist
+    result = ""
+    listhandle = open( "proxylist.txt" ).read( ).split( '\n' )
+
+    for line in listhandle:
+        (phost, pport) = line.split( ":" )
+        #print("host: %s, port: %s" % (phost, pport))
+
+        if all_good == False:
+            try:
+                proxy_handler = urllib2.ProxyHandler( {'http': "http://%s/" % line} )
+                opener = urllib2.build_opener( proxy_handler )
+                opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+                urllib2.install_opener( opener )
+                req = urllib2.Request( "http://www.google.com" )
+                sock = urllib2.urlopen( req, timeout=120 )
+                rs = sock.read( 1000 )
+                if '<title>Google</title>' in rs:
+                    good_proxy.append( line )
+                    print( ('0', line) )
+                else:
+                    raise "Not Google"
+            except:
+                bad_proxy.append( line )
+                print( ('x', line) )
+        else:
+            good_proxy.append( line )
+    is_verify_proxylist = True
+
+def getProxy():
+    global curr_proxy_index
+    result = ""
+    if len( good_proxy ) > 0:
+        result = good_proxy[curr_proxy_index]
+        curr_proxy_index += 1
+        if curr_proxy_index >= len(good_proxy):
+            curr_proxy_index = 0
+    return result
+
+def write_to_log( log_f, msg = "" ):
+    print( msg )
+    log_f.write( msg + "\n" )
+
 def add_hookups(*args):
     help = '<site_id table_name min_records_per_state max_records_per_state>'
     site_id=int(args[0])
@@ -36,100 +87,154 @@ def add_hookups(*args):
     min_records_per_state=int(args[2])
     max_records_per_state=int(args[3])
 
-    db = MySQLdb.connect(host="localhost", # your host, usually localhost
-                     user="addhookups", # your username
-                      passwd="addhookups", # your password
-                      db="addhookups",
-                      cursorclass=MySQLdb.cursors.DictCursor
-                      ) # name of the data base
+    log_f = open( "log_addhookups.txt", "w+" )
 
-    cur = db.cursor()
+    verifyProxy(True)
+    proxy_host = getProxy()
+    if proxy_host == "":
+        write_to_log( log_f, "no find work proxy! script has been stoping!" )
+        return
 
-    all_states_list2 = State2.objects.all()
+    write_to_log( log_f, "proxy: %s" % proxy_host )
 
-    for state in all_states_list2 :
-        
-        number_of_records = random.randint(min_records_per_state,max_records_per_state)
-        
-        cur.execute("SELECT * FROM %s WHERE state='%s' GROUP BY `town` ORDER BY rand() LIMIT %s" % (table_name, state.name, number_of_records) )
-        # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
-        rows = cur.fetchall()
-        for row in rows :
+    write_to_log( log_f, "legend: LR - leave record, # - record number(id), CE - city error, AE - parse attributes error, IE - image error" )
 
-            print "\n\n====================R=E=C=O=R=D====================\n\n"
+    try:
+        db = MySQLdb.connect(
+            host="127.0.0.1", # your host, usually localhost
+            user="root", # your username
+            passwd="74065500",
+            db="addhookups",
+            cursorclass=MySQLdb.cursors.DictCursor
+        ) # name of the data base
+    except MySQLdb.Error:
+        print( MySQLdb.Error )
+    finally:
+        cur = db.cursor()
 
-            if len(row['body'])>0:
+        all_states_list2 = State2.objects.all()
 
-                pprint.pprint(row)
-                print "\n"
-                
-                state = State2.objects.get(name=row['state'].strip())
+        for state in all_states_list2 :
 
-                try:
-                    city = City.objects.filter(name=row['town'].strip(),state=state)[0]
-                except City.DoesNotExist:
-                    print "!!!!!City.DoesNotExist!!!!\n"
-                    city = City(name=row['town'].strip(),state=state)
-                except IndexError:
-                    print "!!!!!City IndexError!!!!\n"
-                    city = City(name=row['town'].strip(),state=state)
+            number_of_records = random.randint(min_records_per_state,max_records_per_state)
 
-                record = Hookup(
-                        city = city,
-                        state = state,
-                        title = clean_string(row['header']),
-                        description = clean_string(row['body']),
-                    )
+            sql = "SELECT * FROM %s WHERE state='%s' GROUP BY `town` ORDER BY rand() LIMIT %s" % (table_name, state.name, number_of_records)
+            write_to_log( log_f, sql )
+            cur.execute(sql)
+            # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
+            rows = cur.fetchall()
+            for row in rows :
 
-                # parse attr data
-                row['attr']=clean_string(row['attr'])
-                row['attr']=row['attr'].split(';')
-                for attr in row['attr'] :
-                    if len(attr) :
-                        attr = attr.split(' : ')
-                        setattr(record,attr[0],attr[1])
+                if len(row['body'])>0:
 
-                pprint.pprint(record.__dict__,width=1)
-                print "\n"
+                    row_id = row['id']
+                    city_error = "pass"
+                    images = []
+                    attributes_error = "pass"
 
-                record.save()
-                db.commit()
-                record.sites.add(Site.objects.get(pk=site_id))
-                db.commit()
+                    state = State2.objects.get(name=row['state'].strip())
 
-                # parse images data
-                if row['images'] is not None:
-                    row['images']=row['images'].split(';')
-                    for image_url in row['images'] :
-                        if len(image_url) :
+                    try:
+                        city = City.objects.filter(name=row['town'].strip(),state=state)[0]
+                    except City.DoesNotExist:
+                        city_error = "!!!!!City.DoesNotExist!!!!"
+                        city = City(name=row['town'].strip(),state=state)
+                    except IndexError:
+                        city_error = "!!!!!City IndexError!!!!"
+                        city = City(name=row['town'].strip(),state=state)
+                    except django.db.utils.DatabaseError, e:
+                        city_error = "!!!!!Database error: %s!!!!" % e
 
-                            photo = Photo2(
-                                    hookup=record,
-                                )
+                    record = Hookup(
+                            city = city,
+                            state = state,
+                            title = clean_string(row['header']),
+                            description = clean_string(row['body']),
+                        )
 
-                            name = urlparse(image_url).path.split('/')[-1]
+                    # parse attr data
+                    row['attr']=clean_string(row['attr'])
+                    row['attr']=row['attr'].split(';')
+                    for attr in row['attr'] :
+                        if len(attr):
+                            attr = attr.split(' : ')
+                            if len( attr ) >= 3:
+                                setattr(record,attr[0],attr[1])
+                            else:
+                                attributes_error = "cannot parse: %s -> %s" % ( row['attr'], attr )
 
-                            print image_url;print "\n"
+                    #pprint.pprint(record.__dict__,width=1)
 
-                            # content = urllib.urlretrieve(image_url)
-                            try:
-                                r = requests.get(image_url)
+                    record.save()
+                    db.commit()
+                    record.sites.add(Site.objects.get(pk=site_id))
+                    db.commit()
 
-                                img_temp = NamedTemporaryFile(delete=True)
-                                img_temp.write(r.content)
-                                img_temp.flush()
+                    # parse images data
+                    if row['images'] is not None:
+                        row['images']=row['images'].split(';')
+                        image_counter = 1
+                        for image_url in row['images'] :
+                            if len(image_url) :
 
-                                # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
-                                # photo.original_image.save(name, File(open(content[0])), save=True)
-                                photo.original_image.save(name, File(img_temp), save=True)
-                            except:
-                                pass
-                                
+                                photo = Photo2(
+                                        hookup=record,
+                                    )
 
-            # 7) delete record in pool
-            # print "DELETE FROM header WHERE id=%s \n" % row['id']
-            cur.execute("DELETE FROM header WHERE id=%s" % row['id'] )
-            db.commit()
+                                name = urlparse(image_url).path.split('/')[-1]
+
+                                # content = urllib.urlretrieve(image_url)
+                                try:
+
+                                    #r = requests.get(image_url)
+
+                                    proxy_handler = urllib2.ProxyHandler( {'http': "http://%s/" % proxy_host} )
+                                    opener = urllib2.build_opener( proxy_handler )
+                                    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+                                    urllib2.install_opener( opener )
+
+
+                                    f = urllib2.urlopen( image_url, timeout=120 )
+
+                                    data = f.read()
+                                    img_temp = NamedTemporaryFile(delete=True)
+                                    img_temp.write(data)
+                                    img_temp.flush()
+
+                                    images.append( (image_counter, image_url, "ok") )
+
+                                    # See also: http://docs.djangoproject.com/en/dev/ref/files/file/
+                                    # photo.original_image.save(name, File(open(content[0])), save=True)
+                                    photo.original_image.save(name, File(img_temp), save=True)
+                                except urllib2.URLError, e:
+                                    if hasattr( e, 'reason' ):
+                                        if hasattr( e, 'code' ):
+                                            images.append( (image_counter, image_url, e.code, e.reason) )
+                                        else:
+                                            images.append( (image_counter, image_url, e.reason) )
+                                    elif hasattr( e, 'code' ):
+                                        images.append( (image_counter, image_url, e.code) )
+                                    else:
+                                        images.append( (image_counter, image_url, e) )
+                                    proxy_host = getProxy()
+                                    write_to_log( log_f, "change proxy: %s" % proxy_host )
+                                except socket.error, e:
+                                    images.append( (image_counter, image_url, ("socket",e)) )
+                                    proxy_host = getProxy( )
+                                    write_to_log( log_f, "change proxy: %s" % proxy_host )
+
+
+
+                # 7) delete record in pool
+                # print "DELETE FROM header WHERE id=%s \n" % row['id']
+                if attributes_error != "pass" or city_error != "pass":
+                    write_to_log( log_f, "!LR #%d CE:%s, AE:%s, IE:%s" % (row_id, city_error, attributes_error, images) )
+                else:
+                    cur.execute("DELETE FROM header WHERE id=%s" % row['id'] )
+                    db.commit()
+                    write_to_log( log_f, "#%d CE:%s, AE:%s, IE:%s" % (row_id,city_error,attributes_error,images) )
+    log_f.close()
+
 
 
 
