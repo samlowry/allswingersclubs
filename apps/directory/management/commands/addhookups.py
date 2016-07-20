@@ -188,8 +188,11 @@ def add_hookups(*args):
 
                                     #r = requests.get(image_url)
 
-                                    proxy_handler = urllib2.ProxyHandler( {'http': "http://%s/" % proxy_host} )
-                                    opener = urllib2.build_opener( proxy_handler )
+                                    # proxy_handler = urllib2.ProxyHandler( {'http': "http://%s/" % proxy_host} )
+                                    # opener = urllib2.build_opener( proxy_handler )
+                                    
+                                    opener = urllib2.build_opener( {'http': "http://%s/" % proxy_host} )
+
                                     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
                                     urllib2.install_opener( opener )
 
