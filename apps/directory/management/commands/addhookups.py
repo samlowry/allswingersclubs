@@ -87,23 +87,23 @@ def add_hookups(*args):
     min_records_per_state=int(args[2])
     max_records_per_state=int(args[3])
 
-    log_f = open( "log_addhookups.txt", "w+" )
+    log_f = open( "/var/log/log_addhookups.txt", "w+" )
 
-    verifyProxy(True)
-    proxy_host = getProxy()
-    if proxy_host == "":
-        write_to_log( log_f, "no find work proxy! script has been stoping!" )
-        return
+    # verifyProxy(True)
+    # proxy_host = getProxy()
+    # if proxy_host == "":
+    #     write_to_log( log_f, "no find work proxy! script has been stoping!" )
+    #     return
 
-    write_to_log( log_f, "proxy: %s" % proxy_host )
+    # write_to_log( log_f, "proxy: %s" % proxy_host )
 
     write_to_log( log_f, "legend: LR - leave record, # - record number(id), CE - city error, AE - parse attributes error, IE - image error" )
 
     try:
         db = MySQLdb.connect(
-            host="127.0.0.1", # your host, usually localhost
-            user="root", # your username
-            passwd="74065500",
+            host="localhost", # your host, usually localhost
+            user="addhookups", # your username
+            passwd="addhookups",
             db="addhookups",
             cursorclass=MySQLdb.cursors.DictCursor
         ) # name of the data base
