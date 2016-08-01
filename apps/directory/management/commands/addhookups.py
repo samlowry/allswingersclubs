@@ -219,12 +219,12 @@ def add_hookups(*args):
                                         images.append( (image_counter, image_url, e.code) )
                                     else:
                                         images.append( (image_counter, image_url, e) )
-                                    proxy_host = getProxy()
-                                    write_to_log( log_f, "change proxy: %s" % proxy_host )
+                                    # proxy_host = getProxy()
+                                    # write_to_log( log_f, "change proxy: %s" % proxy_host )
                                 except socket.error, e:
                                     images.append( (image_counter, image_url, ("socket",e)) )
-                                    proxy_host = getProxy( )
-                                    write_to_log( log_f, "change proxy: %s" % proxy_host )
+                                    # proxy_host = getProxy( )
+                                    # write_to_log( log_f, "change proxy: %s" % proxy_host )
 
 
 
