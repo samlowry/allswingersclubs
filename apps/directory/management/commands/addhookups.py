@@ -248,7 +248,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        add_hookups(1,'header',80,150);
+        add_hookups(1,'header',20,50);
         add_hookups(2,'fetish_header',50,100);
         
         
