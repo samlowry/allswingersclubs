@@ -125,13 +125,11 @@ def add_hookups(*args):
             rows = cur.fetchall()
             for row in rows :
                 attributes_error = "pass"
+                city_error = "pass"
+                row_id = row['id']
+                images = []
 
                 if len(row['body'])>0:
-
-                    row_id = row['id']
-                    city_error = "pass"
-                    images = []
-
                     state = State2.objects.get(name=row['state'].strip())
 
                     try:
