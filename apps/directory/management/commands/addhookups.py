@@ -33,7 +33,7 @@ def clean_string(self):
 
     h = HTMLParser.HTMLParser()
     self = h.unescape(self)
-    
+
     return self
 
 def verifyProxy( all_good = False ):
@@ -124,13 +124,13 @@ def add_hookups(*args):
             # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
             rows = cur.fetchall()
             for row in rows :
+                attributes_error = "pass"
 
                 if len(row['body'])>0:
 
                     row_id = row['id']
                     city_error = "pass"
                     images = []
-                    attributes_error = "pass"
 
                     state = State2.objects.get(name=row['state'].strip())
 
@@ -190,7 +190,7 @@ def add_hookups(*args):
 
                                     # proxy_handler = urllib2.ProxyHandler( {'http': "http://%s/" % proxy_host} )
                                     # opener = urllib2.build_opener( proxy_handler )
-                                    
+
                                     opener = urllib2.build_opener( )
 
                                     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
@@ -250,5 +250,3 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         add_hookups(1,'header',20,50);
         add_hookups(2,'fetish_header',50,100);
-        
-        
