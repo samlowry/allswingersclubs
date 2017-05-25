@@ -18,10 +18,10 @@ CACHE_MIDDLEWARE_KEY_PREFIX = SITE_ID
 
 CACHES = {
     'default': {
-        'BACKEND' : 'django.core.cache.backends.filebased.FileBasedCache',
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/tmp/django_cache/asc',
-        'TIMEOUT' : 60*60*24,
-        'KEY_PREFIX' : SITE_ID,
+        'TIMEOUT': 60*60*24,
+        'KEY_PREFIX': SITE_ID,
     }
 }
 
@@ -88,7 +88,7 @@ TEMPLATE_LOADERS = (
     # 'django.template.loaders.app_directories.load_template_source',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader'
-#     'django.template.loaders.eggs.load_template_source',
+    #  'django.template.loaders.eggs.load_template_source',
 )
 
 
@@ -101,13 +101,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',	
-    
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     # 'django.middleware.csrf.CsrfResponseMiddleware',
     'keywords.middleware.KeywordMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -135,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'linkator',
     'directory',
+    'forum',
     'comments',
     'south',
     'registration',
@@ -144,14 +143,13 @@ INSTALLED_APPS = (
     'imagekit',
     'tagging',
     'keywords',
-    'paging',    
+    'paging',
     'extra_comments',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
 )
 COMMENTS_APP = 'extra_comments'
-    
+
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30 # one months
 SESSION_SAVE_EVERY_REQUEST = False
 # EMAIL_HOST = 'localhost'

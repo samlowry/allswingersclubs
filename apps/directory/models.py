@@ -20,29 +20,29 @@ def rating_random():
     return random.choice([3.0, 3.5, 4.0])
 
 def short_description(self):
-	""" returns slice of desc """
-	try:
-		if len(self.description) > 100:
-			short = "%s..." % self.description[:100]
-		else:
-			short = self.description
-		return short
-	except Exception, err:
-		return ''
+    """ returns slice of desc """
+    try:
+        if len(self.description) > 100:
+            short = "%s..." % self.description[:100]
+        else:
+            short = self.description
+        return short
+    except Exception, err:
+        return ''
 short_description.short_description = 'Desc'
 short_description.admin_order_field = 'description'
 
-    
+
 class Region(models.Model): # Europe, Australia etc
     name = models.CharField('Region name', max_length=50, unique=True)
-    
+
     def __unicode__(self):
         return self.name
-        
+
     class Meta:
         ordering = ('name',)
-        
-        
+
+
 class Country(models.Model): # Germany, UK etc
     name = models.CharField('Country name', max_length=50, unique=True)
     region = models.ForeignKey(Region, related_name='region_countries')
@@ -50,23 +50,23 @@ class Country(models.Model): # Germany, UK etc
 
     def __unicode__(self):
         return self.name
-        
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super(Country, self).save(*args, **kwargs)
-        
+
     @models.permalink
     def get_absolute_url(self):
         return ('directory.views.country', (), {
             'slug': self.slug,
         })
-        
+
     class Meta:
         ordering = ('name',)
         verbose_name_plural = "countries"
-    
-    
+
+
 class CountryDescription(models.Model):
     description = models.TextField(blank=True, null=True)
     short_description = short_description
@@ -83,10 +83,10 @@ class CountryDescription(models.Model):
 class State(models.Model):
     name = models.CharField('state name', max_length=20, unique=True)
     usps_name = models.CharField('USPS 2 letters state codename', max_length=2, unique=True)
-    
+
     def __unicode__(self):
         return '%s (%s)' % (self.name, self.usps_name)
-        
+
     class Meta:
         ordering = ['name']
 
@@ -145,12 +145,12 @@ class City(models.Model):
         if self.country:
             return '%s, %s' % (self.name, self.country.name)
         return self.name
-        
+
     def state_name(self):
         return self.state
     state_name.short_description = 'State'
     state_name.admin_order_field = 'state'
-    
+
     def country_name(self):
         return self.country
     country_name.short_description = 'Country'
@@ -222,8 +222,8 @@ class Hookup(models.Model):
 
     sites = models.ManyToManyField(Site)
 
-    # managers  
-    objects = models.Manager() 
+    # managers
+    objects = models.Manager()
     # objects = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
     current_site_only = CurrentSiteManager('sites')
     short_description = short_description
@@ -232,14 +232,14 @@ class Hookup(models.Model):
     class Meta:
         ordering = ['title']
         # ordering = ['id']
-    
+
     def __unicode__(self):
         return self.title
 
     def description_length(self):
         return len(self.description)
     description_length.short_description = 'Length'
-    
+
     def country_name(self):
         return self.city.country.name
     country_name.short_description = 'Country'
@@ -253,8 +253,8 @@ class Hookup(models.Model):
     def city_name(self):
         return self.city.name
     city_name.short_description = 'City'
-    city_name.admin_order_field = 'city'    
-    
+    city_name.admin_order_field = 'city'
+
     @models.permalink
     def get_absolute_url(self):
         return ('directory.views.hookup', (), {
@@ -262,7 +262,7 @@ class Hookup(models.Model):
             'hookup_urlsafe_title': str(my_slugify(self.title)),
         })
 
-            
+
 
 
 class Club(models.Model):
@@ -293,8 +293,8 @@ class Club(models.Model):
     is_closed = models.BooleanField( default=False )
     sites = models.ManyToManyField(Site)
     owner = models.ForeignKey(User, null=True, blank=True)
-    # managers  
-    objects = models.Manager() 
+    # managers
+    objects = models.Manager()
     # objects = SearchManager(('name', 'description', 'address', 'phone', 'email', 'homepage'))
     current_site_only = CurrentSiteManager('sites')
     open_only = OpenClubsFromCurrentSiteManager()
@@ -304,14 +304,14 @@ class Club(models.Model):
     class Meta:
         ordering = ['name']
         # ordering = ['id']
-    
+
     def __unicode__(self):
         return self.name
 
     def description_length(self):
         return len(self.description)
     description_length.short_description = 'Length'
-    
+
     def country_name(self):
         return self.city.country.name
     country_name.short_description = 'Country'
@@ -325,8 +325,8 @@ class Club(models.Model):
     def city_name(self):
         return self.city.name
     city_name.short_description = 'City'
-    city_name.admin_order_field = 'city'    
-    
+    city_name.admin_order_field = 'city'
+
     @models.permalink
     def get_absolute_url(self):
         return ('directory.views.club', (), {
@@ -340,11 +340,11 @@ class Club(models.Model):
     homepage_url.admin_order_field = 'homepage'
 
     def all_sites(self):
-        sites_ = ",".join([s.name for s in self.sites.all()]) 
+        sites_ = ",".join([s.name for s in self.sites.all()])
         # another way is return site domain. just change s.name with s.domain
         return sites_
     all_sites.short_description = 'Published on'
-    
+
     def save(self, create_revision=False, *args, **kwargs):
         """checks the owner of club, if owner changed saves event to the ClubCapture table"""
 
@@ -360,7 +360,7 @@ class Club(models.Model):
                 # admin removes owner
                 self.email = ''
         super(Club, self).save(*args, **kwargs)
-        
+
         if create_revision:
             from reversion.models import ClubReversion
             # get previous revision
@@ -368,7 +368,7 @@ class Club(models.Model):
             prev_data = ""
             if prev_revisions.count() > 0:
                 prev_data = prev_revisions[0].serialized_data
-                
+
             # get current object serialization data
             current_data = serializers.serialize("json", [self])
             if prev_data != current_data:
@@ -376,9 +376,9 @@ class Club(models.Model):
                 rev = ClubReversion()
                 rev.club = self
                 rev.serialized_data = current_data
-                rev.save()                
-            
-  
+                rev.save()
+
+
 
 class Photo(ImageModel):
     original_image = models.ImageField(upload_to='photos')
@@ -402,11 +402,9 @@ class Photo2(ImageModel):
         image_field = 'original_image'
 
 
-
-
-# full text search for clubs        
-
 class SearchQuerySet(models.query.QuerySet):
+    """full text search for clubs
+    """
     def __init__(self, model=None, fields=None, using=None, query=None):
         super(SearchQuerySet, self).__init__(model=model, using=using, query=query)
         self._search_fields = fields
@@ -417,17 +415,14 @@ class SearchQuerySet(models.query.QuerySet):
         # Get the table name and column names from the model
         # in `table_name`.`column_name` style
         columns = [meta.get_field(name, many_to_many=False).column
-                        for name in self._search_fields]
-        full_names = ["%s.%s" %
-                       (connection.ops.quote_name(meta.db_table),
-                        connection.ops.quote_name(column))
-                        for column in columns]
+                   for name in self._search_fields]
+        full_names = ["%s.%s" % (connection.ops.quote_name(meta.db_table),
+                      connection.ops.quote_name(column))
+                      for column in columns]
 
         # Create the MATCH...AGAINST expressions
         fulltext_columns = ", ".join(full_names)
-        match_expr = ("MATCH(%s) AGAINST (%%s)" %
-                               fulltext_columns)
+        match_expr = ("MATCH(%s) AGAINST (%%s)" % fulltext_columns)
         # only current site clubs
         # Add the extra SELECT and WHERE options
-        return self.filter(sites__id__exact=settings.SITE_ID).extra(where=[match_expr],
-                          params=[query])
+        return self.filter(sites__id__exact=settings.SITE_ID).extra(where=[match_expr], params=[query])

@@ -1,0 +1,12 @@
+<h1>Posts</h1>
+
+<dl>
+{% for group in groups %}
+    <dt><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name }}</a></dt>
+    <dd>{{ group.leader.name }}</dd>
+{% empty %}
+    <dt>No groups.</dt>
+{% endfor %}
+</dl>
+
+{% include 'forum/pagination.html' with items=groups %}

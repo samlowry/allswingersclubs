@@ -1,0 +1,15 @@
+<h1>Group: "{{ group.name }}"</h1>
+
+<dl>
+{% for item in posts %}
+    <dt><a href="{% url forum.views.forum_post group_post_id=item.post.id %}">{{ item.post.title }}</a></dt>
+    <dd>
+      <p>{{ item.post.content }}</p>
+      <b>Author: {% if item.author %}{{ item.author.name }}{% else %}UFO{% endif %}</b>
+      <p>Created: {{ item.post.created_at }}</p>
+      <p>Comments: {{ item.comments }}</p>
+    </dd>
+{% empty %}
+    <dt>No posts in this group.</dt>
+{% endfor %}
+</dl>
