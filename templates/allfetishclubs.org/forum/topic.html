@@ -3,7 +3,7 @@
 <dl>
   <dt>
     <p>{{ post.content }}</p>
-    <p>Author: {% if author %}{{ author.name }}{% else %}UFO{% endif %}</p>
+    <p>Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}</p>
     <p>Created: {{ post.created_at }}</p>
     <div>Comments:</div>
     <ul>
@@ -17,6 +17,10 @@
       </li>
       {% endfor %}
     </ul>
+
+    {% include 'forum/pagination.html' with items=comments %}
+
   </dt>
   <dd></dd>
 </dl>
+

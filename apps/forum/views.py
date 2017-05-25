@@ -28,25 +28,16 @@ def forum_index(request):
 
 def forum_group(request, group_id):
     group = get_object_or_404(Group, pk=group_id, site__id=get_current_site(request).id)
-    posts = [{
-        'post': post,
-        'author': post.author if hasattr(post, 'author') else {},
-        'comments': post.grouppostcomment_set.count(),
-    } for post in group.grouppost_set.all()]
+    posts = _paginate(request, group.grouppost_set.all())
     return render_to_response('forum/board.html', {'group': group, 'posts': posts})
 
 
 def forum_post(request, group_post_id):
     post = get_object_or_404(GroupPost, pk=group_post_id)
-    comments = [{
-        'content': comment.content,
-        'created_at': comment.created_at,
-        'author': comment.author if hasattr(comment, 'author') else {},
-    } for comment in post.grouppostcomment_set.all()]
+    comments = _paginate(request, post.grouppostcomment_set.all())
 
     return render_to_response('forum/topic.html', {
         'post': post,
-        'author': post.author if hasattr(post, 'author') else {},
         'comments': comments
     })
 
