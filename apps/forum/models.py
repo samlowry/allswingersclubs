@@ -1,31 +1,50 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from django.contrib.sites.models import Site
 from django.db import models
 
 
 class PostAuthor(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
-
-
-class GroupCategory(models.Model):
+    orig_user_id = models.IntegerField(blank=False, null=False, unique=True, db_index=True)
     name = models.CharField(max_length=100, blank=False, null=False)
 
 
 class Group(models.Model):
     site = models.ForeignKey(Site, null=False, blank=False, on_delete=models.CASCADE)
-    leader = models.ForeignKey(PostAuthor, null=False, blank=False)
+    orig_group_id = models.IntegerField(blank=False, null=False, unique=True, db_index=True)
     name = models.CharField(max_length=100, blank=False, null=False)
-    category = models.ForeignKey(GroupCategory, blank=False, null=False)
+    description = models.TextField(blank=True, null=True)
+
+    @property
+    def posts(self, all=False):
+        now = datetime.now()
+        query = self.grouppost_set
+
+        if not all:
+            query = query.filter(created_at__lte=now)
+
+        return query.all()
 
 
 class GroupPost(models.Model):
     group = models.ForeignKey(Group, null=False, blank=False, on_delete=models.CASCADE)
     author = models.ForeignKey(PostAuthor, null=False, blank=False)
 
+    orig_post_id = models.IntegerField(blank=False, null=False, unique=True, db_index=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     created_at = models.DateTimeField()
+
+    @property
+    def comments(self, all=False):
+        now = datetime.now()
+        query = self.grouppostcomment_set
+
+        if not all:
+            query = query.filter(created_at__lte=now)
+
+        return query.all()
 
 
 class GroupPostComment(models.Model):
@@ -42,6 +61,16 @@ class UserBlogPost(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     created_at = models.DateTimeField()
+
+    @property
+    def comments(self, all=False):
+        now = datetime.now()
+        query = self.userblogpostcomment_set
+
+        if not all:
+            query = query.filter(created_at__lte=now)
+
+        return query.all()
 
 
 class UserBlogPostComment(models.Model):

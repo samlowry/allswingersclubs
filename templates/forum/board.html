@@ -4,10 +4,10 @@
 {% for post in posts %}
     <dt><a href="{% url forum.views.forum_post group_post_id=post.id %}">{{ post.title }}</a></dt>
     <dd>
-      <p>{{ post.content }}</p>
+      <p>{{ post.content|safe }}</p>
       <b>Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}</b>
       <p>Created: {{ post.created_at }}</p>
-      <p>Comments: {{ post.geouppostcomment_set.count }}</p>
+      <p>Comments: {{ post.comments.count }}</p>
     </dd>
 {% empty %}
     <dt>No posts in this group.</dt>

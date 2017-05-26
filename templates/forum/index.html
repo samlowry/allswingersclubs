@@ -2,7 +2,8 @@
 
 <dl>
 {% for group in groups %}
-    <dt><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name }}</a></dt>
+    <dt><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name }}
+      &lt;{{ group.posts.count }} posts&gt;</a></dt>
     <dd>{{ group.leader.name }}</dd>
 {% empty %}
     <dt>No groups.</dt>

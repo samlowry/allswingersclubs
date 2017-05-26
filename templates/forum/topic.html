@@ -2,7 +2,7 @@
 
 <dl>
   <dt>
-    <p>{{ post.content }}</p>
+    <p>{{ post.content|safe }}</p>
     <p>Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}</p>
     <p>Created: {{ post.created_at }}</p>
     <div>Comments:</div>
@@ -12,7 +12,7 @@
         <b>{% if comment.author %}
           <a href="{% url forum.views.forum_user comment.author.id%}">{{ comment.author.name }}</a>
           {% else %}Anonynous{% endif %}</b>
-        <span>{{ comment.content }}</span>
+        <span>{{ comment.content|safe }}</span>
         <p>Created: {{ comment.created_at }}</p>
       </li>
       {% endfor %}
