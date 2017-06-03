@@ -42,8 +42,6 @@ CREATE TABLE `i_groups` (
     `comments_cnt` INT(10) NOT NULL,
     `started_on` VARCHAR(25) NOT NULL,
     `src_group_leaders_ids` VARCHAR(255) NOT NULL,
-    `category_id` INT(11) NULL DEFAULT NULL,
-    `posts_count` INT(11) NULL DEFAULT NULL,
     PRIMARY KEY (`group_id`),
     UNIQUE INDEX `src_group_id` (`src_group_id`)
 )

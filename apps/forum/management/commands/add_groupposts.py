@@ -31,9 +31,14 @@ class Command(BaseCommand):
 
         try:
             self.source_db = MySQLdb.connect(
-                host="localhost",
-                user="fetlife",
-                passwd="fetlife",
+                #host="localhost",
+                #user="fetlife",
+                #passwd="fetlife",
+                #db="fetlife",
+                #cursorclass=DictCursor
+                host="138.197.211.96",
+                user="fetlife-79d0d24e487711e7a919",
+                passwd="_Wyhr6*?6aJYAqtNb9w2qM+F96UaEE",
                 db="fetlife",
                 cursorclass=DictCursor
             )
@@ -160,7 +165,6 @@ class Command(BaseCommand):
                     content=row['topic_text'].strip(),
                     created_at=self.fix_date(post_date_time)
                 )
-
                 post.save()
             except Exception as ex:
                 self.logger.exception(ex)
