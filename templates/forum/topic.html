@@ -1,0 +1,26 @@
+<h1>Post: "{{ post.title }}"</h1>
+
+<dl>
+  <dt>
+    <p>{{ post.content|safe }}</p>
+    <p>Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}</p>
+    <p>Created: {{ post.created_at }}</p>
+    <div>Comments:</div>
+    <ul>
+      {% for comment in comments %}
+      <li>
+        <b>{% if comment.author %}
+          <a href="{% url forum.views.forum_user comment.author.id%}">{{ comment.author.name }}</a>
+          {% else %}Anonynous{% endif %}</b>
+        <span>{{ comment.content|safe }}</span>
+        <p>Created: {{ comment.created_at }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% include 'forum/pagination.html' with items=comments %}
+
+  </dt>
+  <dd></dd>
+</dl>
+
