@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/loose.dtd">
+    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>{% block title %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
@@ -41,13 +41,15 @@
     {% if user.is_authenticated %}
         Welcome, <a href="/accounts/profile/">{{ user.username }}</a> |
         <a href="/accounts/logout/">Logout</a> |
-        <a href="{% url directory.views.add_club %}">Add club</a>
+        <a href="{% url directory.views.add_club %}">Add club</a> |
+        <a href="{% url forum.views.forum_index %}">Forum</a>
     {% else %}
         <a href="/accounts/login/">Login</a> |
         <a href="{% url registration_register %}">Register</a> |
         <a href="{% url registration_anonymous %}">Add club</a>
+        <a href="{% url forum.views.forum_index %}">Forum</a>
     {% endif %}
-		{% block rss_link %}{% endblock %}
+        {% block rss_link %}{% endblock %}
 </div>
 
 <div id="addthis">
@@ -66,18 +68,18 @@
 {% endblock content %}
 
 {% block links %}
-	{% load linkator_tags %}
-	{% get_tradelinks as tradelinks %}
-	{% if tradelinks %}
-		{% block links_title %}
-			<h2>Related links</h2>
-		{% endblock %}
-			<ul>				
-				{% for tradelink in tradelinks %}
-					<li><a href="{{ tradelink.url }}">{{ tradelink.title }}</a>{% if tradelink.description %} - {{tradelink.description}}{% endif %}</li>						
-				{% endfor %}
-			</ul>
-	{% endif %}
+    {% load linkator_tags %}
+    {% get_tradelinks as tradelinks %}
+    {% if tradelinks %}
+        {% block links_title %}
+            <h2>Related links</h2>
+        {% endblock %}
+            <ul>
+                {% for tradelink in tradelinks %}
+                    <li><a href="{{ tradelink.url }}">{{ tradelink.title }}</a>{% if tradelink.description %} - {{tradelink.description}}{% endif %}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
 {% endblock links %}
 
 {% block recent_searches %}
@@ -85,9 +87,9 @@
 <h2>Recent searches</h2>
 <ul>
 {% for word in keywords %}
-	<li><a href="/search/?q={{ word.query_string }}">
-		{{ word.text }}
-	</a></li>
+    <li><a href="/search/?q={{ word.query_string }}">
+        {{ word.text }}
+    </a></li>
 {% endfor %}
 </ul>
 {% endif %}
