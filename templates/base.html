@@ -46,7 +46,7 @@
     {% else %}
         <a href="/accounts/login/">Login</a> |
         <a href="{% url registration_register %}">Register</a> |
-        <a href="{% url registration_anonymous %}">Add club</a>
+        <a href="{% url registration_anonymous %}">Add club</a> |
         <a href="{% url forum.views.forum_index %}">Forum</a>
     {% endif %}
         {% block rss_link %}{% endblock %}
