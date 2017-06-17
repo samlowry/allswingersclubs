@@ -8,6 +8,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+
+        return
         # Adding field 'Group.group_id'
         db.add_column('forum_group', 'orig_group_id',
                       self.gf('django.db.models.fields.IntegerField')(default=None),

@@ -124,12 +124,26 @@ def add_hookups(*args):
             # cur.execute("SELECT * FROM header WHERE state='%s' and CHAR_LENGTH(images) > 0 LIMIT %s" % (state.name, number_of_records) )
             rows = cur.fetchall()
             for row in rows :
+<<<<<<< HEAD
+                city_error = "pass"
+                attributes_error = "pass"
+                row_id = row['id']
+                images = []
+
+
+                if len(row['body'])>0:
+
+                    row_id = row['id']
+                    images = []
+
+=======
                 attributes_error = "pass"
                 city_error = "pass"
                 row_id = row['id']
                 images = []
 
                 if len(row['body'])>0:
+>>>>>>> ceaa5b4f275c1de814ce6ab833bf41b7218a6f01
                     state = State2.objects.get(name=row['state'].strip())
 
                     try:
