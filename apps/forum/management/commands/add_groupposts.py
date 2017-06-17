@@ -17,7 +17,7 @@ from forum.random_names import get_random_name
 
 
 class Command(BaseCommand):
-    args = '<SITE_ID MIN_RECORDS MAX_RECORDS>'
+    args = '<SITE_ID MIN_RECORDS MAX_RECORDS [LOG_LEVEL]>'
     help = 'Add random number of posts to specific site'
 
     SITE_TO_GROUP_CATEGORY = {
@@ -25,6 +25,12 @@ class Command(BaseCommand):
         2: 4,
         3: 3,
         4: 1,
+    }
+
+    LOG_LEVEL = {
+        'debug': logging.DEBUG,
+        'info': logging.INFO,
+        'warning': logging.WARNING
     }
 
     def __init__(self, *args, **kwargs):
@@ -56,11 +62,11 @@ class Command(BaseCommand):
         formater = logging.Formatter('%(asctime)s | %(levelname)7s | %(funcName)s:%(lineno)4s | %(message)s')
 
         file_handler = logging.FileHandler('/var/log/add_groupposts.log')
-        file_handler.setLevel(logging.INFO)
+        file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(formater)
 
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
+        console_handler.setLevel(logging.DEBUG)
         console_handler.setFormatter(formater)
 
         logger.addHandler(file_handler)
@@ -100,7 +106,7 @@ class Command(BaseCommand):
 
     def _post_group_posts(self, site_id, min_rec, max_rec):
         posts_num = random.randint(min_rec, max_rec)
-        self.logger.debug('Making {posts_num} posts ot each group'.format(posts_num=posts_num))
+        self.logger.debug('Posting {posts_num} posts to each group'.format(posts_num=posts_num))
 
         category = self.SITE_TO_GROUP_CATEGORY.get(site_id)
 
@@ -135,14 +141,14 @@ class Command(BaseCommand):
                 AND g.group_id IS NOT NULL
                 AND u.fake_nickname IS NOT NULL
                 AND g.category_id={category}
-                AND p.unprocessable <> 1
+                AND NOT (p.unprocessable IS NOT NULL AND p.unprocessable <> 1)
             ORDER BY time
             LIMIT {posts_num};
         """.format(category=category, posts_num=posts_num)
 
-        print('>> First sql executing', datetime.utcnow())
+        self.logger.debug('Posts SQL execution started')
         posts_cursor.execute(sql)
-        print('>> First sql executed', datetime.utcnow())
+        self.logger.debug('Posts SQL execution finished')
 
         for row in posts_cursor.fetchall():
             try:
@@ -157,7 +163,9 @@ class Command(BaseCommand):
                     orig_group_id=row['group_id']
                 ))
 
-                print('>> Group created or retrieved', group.orig_group_id, _, datetime.utcnow())
+                self.logger.debug('Group {orig_group_id} {cor} '.format(
+                    orig_group_id=group.orig_group_id, cor='retrieved' if _ else 'created'
+                ))
 
                 author, _ = self._get_or_create(PostAuthor, dict(
                     orig_user_id=row['user_id'],
@@ -166,7 +174,9 @@ class Command(BaseCommand):
                     orig_user_id=row['user_id']
                 ))
 
-                print('>> Author created or retrieved', author.orig_user_id, _, datetime.utcnow())
+                self.logger.debug('Author {orig_user_id} {cor}'.format(
+                    orig_user_id=author.orig_user_id, cor='retrieved' if _ else 'created'
+                ))
 
                 post = GroupPost(
                     group=group,
@@ -177,7 +187,7 @@ class Command(BaseCommand):
                     created_at=self.fix_date(post_date_time)
                 )
 
-                print('>> Created post with original id {orig_post_id} in group id {orig_group_id}'.format(
+                self.logger.info('Created post with original id {orig_post_id} in group id {orig_group_id}'.format(
                     orig_post_id=post.orig_post_id, orig_group_id=row['group_id']
                 ))
                 post.save()
@@ -196,9 +206,9 @@ class Command(BaseCommand):
                         c.src_topic_id={src_topic_id} OR c.topic_id={topic_id};
                 """.format(src_topic_id=row['src_topic_id'], topic_id=row['topic_id'])
 
-                print('>> Comments sql executing', datetime.utcnow())
+                self.logger.debug('>> Comments SQL execution started')
                 comments_cursor.execute(sql)
-                print('>> Comments sql executed', datetime.utcnow())
+                self.logger.debug('>> Comments SQL execution finished')
 
                 for comm in comments_cursor.fetchall():
                     comment_author, _ = self._get_or_create(PostAuthor, dict(
@@ -208,9 +218,11 @@ class Command(BaseCommand):
                         orig_user_id=comm['user_id']
                     ))
 
-                    print('>> Comment author created or retrieved', comment_author.orig_user_id, _, datetime.utcnow())
+                    self.logger.debug('Comment author {orig_user_id} {cor}'.format(
+                        orig_user_id=comment_author.orig_user_id, cor='retrieved' if _ else 'created'
+                    ))
 
-                    comment_date_time = date_parse(row['comment_date_time'].strip())
+                    comment_date_time = date_parse(comm['comment_date_time'].strip())
 
                     comment = GroupPostComment(
                         group_post=post,
@@ -220,7 +232,7 @@ class Command(BaseCommand):
                     )
                     comment.save()
 
-                    print('>> Comment created', post.orig_post_id, datetime.utcnow())
+                    self.logger.debug('Comment to post {orig_post_id} created'.format(orig_post_id=post.orig_post_id))
             except Exception as ex:
                 self.logger.exception(ex)
 
@@ -228,7 +240,10 @@ class Command(BaseCommand):
             posts_cursor.execute(sql)
             self.source_db.commit()
 
-    def run(self, site_id, min_rec, max_rec):
+    def run(self, site_id, min_rec, max_rec, log_level=None):
+        if log_level and log_level.lower() in self.LOG_LEVEL:
+            self.logger.setLevel(self.LOG_LEVEL[log_level.lower()])
+
         self.logger.info('Command "add_groupposts" executing with args: {site_id} {min_rec} {max_rec}'.format(
             site_id=site_id, min_rec=min_rec, max_rec=max_rec
         ))
@@ -239,7 +254,7 @@ class Command(BaseCommand):
         self.logger.info('Command "add_groupposts" finished')
 
     def handle(self, *args, **options):
-        site_id, min_rec, max_rec = (args + (None,) * 3)[:3]
+        site_id, min_rec, max_rec, log_level = (args + (None,) * 4)[:4]
 
         if not site_id:
             raise CommandError('Option SITE_ID is required')
@@ -254,4 +269,4 @@ class Command(BaseCommand):
         min_rec = int(min_rec)
         max_rec = int(max_rec)
 
-        self.run(site_id, min_rec, max_rec)
+        self.run(site_id, min_rec, max_rec, log_level)
