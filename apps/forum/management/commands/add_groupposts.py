@@ -4,6 +4,7 @@ import os
 import random
 import logging
 import MySQLdb
+from datetime import datetime
 from django.contrib.sites.models import Site
 from datetime import datetime, timedelta
 from dateutil.parser import parse as date_parse
@@ -134,12 +135,14 @@ class Command(BaseCommand):
                 AND g.group_id IS NOT NULL
                 AND u.fake_nickname IS NOT NULL
                 AND g.category_id={category}
-                -- AND p.unprocessable <> 1
+                AND p.unprocessable <> 1
             ORDER BY time
             LIMIT {posts_num};
         """.format(category=category, posts_num=posts_num)
 
+        print('>> First sql executing', datetime.utcnow())
         posts_cursor.execute(sql)
+        print('>> First sql executed', datetime.utcnow())
 
         for row in posts_cursor.fetchall():
             try:
@@ -154,12 +157,16 @@ class Command(BaseCommand):
                     orig_group_id=row['group_id']
                 ))
 
+                print('>> Group created or retrieved', group.orig_group_id, _, datetime.utcnow())
+
                 author, _ = self._get_or_create(PostAuthor, dict(
                     orig_user_id=row['user_id'],
                     name=row['user_name'].strip()
                 ), dict(
                     orig_user_id=row['user_id']
                 ))
+
+                print('>> Author created or retrieved', author.orig_user_id, _, datetime.utcnow())
 
                 post = GroupPost(
                     group=group,
@@ -171,7 +178,7 @@ class Command(BaseCommand):
                 )
 
                 print('>> Created post with original id {orig_post_id} in group id {orig_group_id}'.format(
-                    orig_post_id=post.orig_post_id, orig_group_id=orig_group_id
+                    orig_post_id=post.orig_post_id, orig_group_id=row['group_id']
                 ))
                 post.save()
 
@@ -182,14 +189,16 @@ class Command(BaseCommand):
                         c.time AS comment_date_time,
 
                         u.user_id AS user_id,
-                        u.fake_nickname AS user_name,
+                        u.fake_nickname AS user_name
                     FROM group_posts_comments c
                     LEFT JOIN users u ON c.src_commenter_id=u.src_user_id
                     WHERE
                         c.src_topic_id={src_topic_id} OR c.topic_id={topic_id};
                 """.format(src_topic_id=row['src_topic_id'], topic_id=row['topic_id'])
 
+                print('>> Comments sql executing', datetime.utcnow())
                 comments_cursor.execute(sql)
+                print('>> Comments sql executed', datetime.utcnow())
 
                 for comm in comments_cursor.fetchall():
                     comment_author, _ = self._get_or_create(PostAuthor, dict(
@@ -198,6 +207,8 @@ class Command(BaseCommand):
                     ), dict(
                         orig_user_id=comm['user_id']
                     ))
+
+                    print('>> Comment author created or retrieved', comment_author.orig_user_id, _, datetime.utcnow())
 
                     comment_date_time = date_parse(row['comment_date_time'].strip())
 
@@ -208,6 +219,8 @@ class Command(BaseCommand):
                         created_at=self.fix_date(comment_date_time)
                     )
                     comment.save()
+
+                    print('>> Comment created', post.orig_post_id, datetime.utcnow())
             except Exception as ex:
                 self.logger.exception(ex)
 
