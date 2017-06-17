@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import random
 import logging
 import MySQLdb
@@ -10,7 +11,8 @@ from MySQLdb.cursors import DictCursor
 
 from django.core.management.base import BaseCommand, CommandError
 
-from forum.models import PostAuthor, Group, GroupPost
+from forum.models import PostAuthor, Group, GroupPost, GroupPostComment
+from forum.random_names import get_random_name
 
 
 class Command(BaseCommand):
@@ -36,10 +38,10 @@ class Command(BaseCommand):
                 #passwd="fetlife",
                 #db="fetlife",
                 #cursorclass=DictCursor
-                host="138.197.211.96",
-                user="fetlife-79d0d24e487711e7a919",
-                passwd="_Wyhr6*?6aJYAqtNb9w2qM+F96UaEE",
-                db="fetlife",
+                host=os.getenv('DATABASE_HOST', '138.197.211.96'),
+                user=os.getenv('DATABASE_USER', 'fetlife-79d0d24e487711e7a919'),
+                passwd=os.getenv('DATABASE_PASSWORD', '_Wyhr6*?6aJYAqtNb9w2qM+F96UaEE'),
+                db=os.getenv('DATABASE_DBNAME', 'fetlife'),
                 cursorclass=DictCursor
             )
         except MySQLdb.Error as ex:
@@ -93,24 +95,26 @@ class Command(BaseCommand):
 
     def _post_user_posts(self, site_id, min_rec, max_rec):
         posts_num = random.randint(min_rec, max_rec)
-        self.logger.debug('Making {} users posts'.format(posts_num))
+        self.logger.debug('Making {posts_num} users posts'.format(posts_num=posts_num))
 
     def _post_group_posts(self, site_id, min_rec, max_rec):
         posts_num = random.randint(min_rec, max_rec)
-        self.logger.debug('Making {} posts ot each group'.format(posts_num))
+        self.logger.debug('Making {posts_num} posts ot each group'.format(posts_num=posts_num))
 
         category = self.SITE_TO_GROUP_CATEGORY.get(site_id)
 
         if not category:
-            self.logger.error('Unable to find mapping of site {} to category'.format(site_id))
+            self.logger.error('Unable to find mapping of site {site_id} to category'.format(site_id=site_id))
             return
 
-        cursor = self.source_db.cursor()
+        posts_cursor = self.source_db.cursor()
+        comments_cursor = self.source_db.cursor()
         site = Site.objects.get(pk=site_id)
 
         sql = """
             SELECT
                 p.topic_id AS topic_id,
+                p.src_group_post_id AS src_topic_id,
                 p.title AS topic_title,
                 p.post_text as topic_text,
                 p.time as topic_time,
@@ -135,9 +139,9 @@ class Command(BaseCommand):
             LIMIT {posts_num};
         """.format(category=category, posts_num=posts_num)
 
-        cursor.execute(sql)
+        posts_cursor.execute(sql)
 
-        for row in cursor.fetchall():
+        for row in posts_cursor.fetchall():
             try:
                 post_date_time = date_parse(row['topic_time'].strip())
 
@@ -165,16 +169,56 @@ class Command(BaseCommand):
                     content=row['topic_text'].strip(),
                     created_at=self.fix_date(post_date_time)
                 )
+
+                print('>> Created post with original id {orig_post_id} in group id {orig_group_id}'.format(
+                    orig_post_id=post.orig_post_id, orig_group_id=orig_group_id
+                ))
                 post.save()
+
+                sql = """
+                    SELECT
+                        c.topic_comment_id AS comment_id,
+                        c.comment_text AS comment_text,
+                        c.time AS comment_date_time,
+
+                        u.user_id AS user_id,
+                        u.fake_nickname AS user_name,
+                    FROM group_posts_comments c
+                    LEFT JOIN users u ON c.src_commenter_id=u.src_user_id
+                    WHERE
+                        c.src_topic_id={src_topic_id} OR c.topic_id={topic_id};
+                """.format(src_topic_id=row['src_topic_id'], topic_id=row['topic_id'])
+
+                comments_cursor.execute(sql)
+
+                for comm in comments_cursor.fetchall():
+                    comment_author, _ = self._get_or_create(PostAuthor, dict(
+                        orig_user_id=comm['user_id'],
+                        name=comm['user_name'] or get_random_name()
+                    ), dict(
+                        orig_user_id=comm['user_id']
+                    ))
+
+                    comment_date_time = date_parse(row['comment_date_time'].strip())
+
+                    comment = GroupPostComment(
+                        group_post=post,
+                        author=comment_author,
+                        content=comm['comment_text'],
+                        created_at=self.fix_date(comment_date_time)
+                    )
+                    comment.save()
             except Exception as ex:
                 self.logger.exception(ex)
 
-            sql = 'UPDATE group_posts SET processed=1 WHERE topic_id={}'.format(row['topic_id'])
-            cursor.execute(sql)
+            sql = 'UPDATE group_posts SET processed=1 WHERE topic_id={topic_id}'.format(topic_id=row['topic_id'])
+            posts_cursor.execute(sql)
             self.source_db.commit()
 
     def run(self, site_id, min_rec, max_rec):
-        self.logger.info('Command "add_groupposts" executing with args: {} {} {}'.format(site_id, min_rec, max_rec))
+        self.logger.info('Command "add_groupposts" executing with args: {site_id} {min_rec} {max_rec}'.format(
+            site_id=site_id, min_rec=min_rec, max_rec=max_rec
+        ))
 
         # self._post_user_posts(site_id, min_rec, max_rec)
         self._post_group_posts(site_id, min_rec, max_rec)
