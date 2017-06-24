@@ -28,9 +28,9 @@
 <h2>Last posts on {% block index_page_forum_title %}{% endblock %} forum boards</h2>
 
 {% for group in groups %}
-    <dt><h3><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name }} board</a> ({{ group.posts.count }} posts)</h2></dt>
+    <dt><h3><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name|safe }} board</a> ({{ group.posts.count }} posts)</h2></dt>
 
-    <dd>{% autoescape off %}{{ group.description|striptags|truncatewords:50 }}{% endautoescape %}</dd>
+    <dd>{{ group.description|striptags|safe }}</dd>
 {% empty %}
     <dt>No groups.</dt>
 {% endfor %}

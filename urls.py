@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.contrib.sitemaps import FlatPageSitemap, Sitemap
 from directory.models import State, State2, Country, City, Club, Hookup
+from forum.models import Group, GroupPost
 import settings
 
 admin.autodiscover()
@@ -70,8 +71,38 @@ class HookupSitemap(Sitemap):
         return obj.date_of_publish
 
 
+class ForumIndexSitemap(Sitemap):
+    changefreq = "always"
+    priority = 1
+    location = '/forum/'
+
+    def items(self):
+        return ('',)
+
+# class GroupSitemap(Sitemap):
+#     changefreq = "daily"
+#     priority = 0.5
+
+#     def items(self):
+#         return Group.current_site_only.all()
+
+
+# class GroupPostSitemap(Sitemap):
+#     changefreq = "daily"
+#     priority = 0.5
+
+#     def items(self):
+#         return GroupPost.current_site_only.all()
+
+#     def lastmod(self, obj):
+#         return obj.created_at
+
+
 sitemaps = {
     'index': IndexSitemap,
+    'forumindex': ForumIndexSitemap,
+    # 'forumboard': GroupSitemap,
+    # 'forumpost': GroupPostSitemap,
     'state': StateSitemap,
     'state2': State2Sitemap,
     'country': CountrySitemap,

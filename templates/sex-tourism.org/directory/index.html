@@ -7,15 +7,15 @@
 
 			<h1>What is sex tourism?</h1>
 
-<p>Find a perfect sex partner before you travel!<br>
-Find him/her anywhere:<br>
-<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=United%20States">United States</a><br>
-<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Great Britain">Great Britain</a><br>
-<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Vietnam">Vietnam</a><br>
-<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Nicaragua">Nicaragua</a><br>
-<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Spain">Spain</a><br>
+			<p>Find a perfect sex partner before you travel!<br>
+			Find him/her anywhere:<br>
+			<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=United%20States">United States</a><br>
+			<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Great Britain">Great Britain</a><br>
+			<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Vietnam">Vietnam</a><br>
+			<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Nicaragua">Nicaragua</a><br>
+			<a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M&country=Spain">Spain</a><br>
 
-<p>No matter what you're looking for, romance or sex, thousands of people are on Web, placing their profiles on AdultFriendFinder or checking their emails. <a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M">You can meet people anywhere in world - start right now</a>!
+			<p>No matter what you're looking for, romance or sex, thousands of people are on Web, placing their profiles on AdultFriendFinder or checking their emails. <a href="http://www.adultfriendfinder.com/search/g668502-pct.subst?override=1&age=18-28&show=F-M">You can meet people anywhere in world - start right now</a>!
 
 			<p>Sex tourism is travelling for having sex in a foreign country. Sex can be not the only one reason for a trip, but it's a essential part of sex tourism. 
 
@@ -40,6 +40,18 @@ Find him/her anywhere:<br>
 
 			<h1>Is sex tourism good for both parties?</h1>
 			<p>Tourists often think of paid sex as of good opportunity to make a donation into economy of foreign country and help poor inhabitants to earn something. But it's not so sweet, as many sex workers go through violence, sexual abuse, disease and poverty.
+
+<h2>Last posts on sex tourism forum boards</h2>
+
+{% for group in groups %}
+    <dt><h3><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name|safe }} board</a> ({{ group.posts.count }} posts)</h2></dt>
+
+    <dd>{{ group.description|striptags|safe }}</dd>
+{% empty %}
+    <dt>No groups.</dt>
+{% endfor %}
+
+<h3><a href="/forum/">All forum boards…</a></h3>				
 
 {% endblock content %}
 

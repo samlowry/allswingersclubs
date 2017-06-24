@@ -6,7 +6,7 @@
 <div id="main">
 <dl>
 {% for post in posts %}
-    <dt><h3><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title }}{% endautoescape %}</a></h2></dt>
+    <dt><h2><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title }}{% endautoescape %}</a></h2></dt>
     <dd>
     	<p>{{ post.content|safe|striptags|truncatewords:50 }}</p>
       	<small>

@@ -6,9 +6,9 @@
 <div id="main">
 <dl>
 {% for group in groups %}
-    <dt><h2><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name }} board</a> ({{ group.posts.count }} posts)</h2></dt>
+    <dt><h2><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name|safe }} board</a> ({{ group.posts.count }} posts)</h2></dt>
 
-    <dd>{% autoescape off %}{{ group.description|striptags }}{% endautoescape %}</dd>
+    <dd>{{ group.description|striptags|safe }}</dd>
 {% empty %}
     <dt>No groups.</dt>
 {% endfor %}
