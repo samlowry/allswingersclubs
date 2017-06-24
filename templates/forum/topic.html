@@ -1,19 +1,33 @@
-<h1>Post: "{{ post.title }}"</h1>
+{% extends "decorator.html" %}
 
+{% block content %}
+<h1>{{ post.title }}</h1>
+
+<div id="main">
 <dl>
   <dt>
-    <p>{{ post.content|safe }}</p>
-    <p>Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}</p>
-    <p>Created: {{ post.created_at }}</p>
-    <div>Comments:</div>
+    {{ post.content|safe }}
+    <small>
+    Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}
+    &nbsp;|&nbsp;
+    Created: {{ post.created_at }}
+    </small>
+    <p></p>
+    <h2>Comments:</h2>
+
+    {% include 'forum/pagination.html' with items=comments %}
+    
     <ul>
       {% for comment in comments %}
       <li>
-        <b>{% if comment.author %}
-          <a href="{% url forum.views.forum_user comment.author.id%}">{{ comment.author.name }}</a>
-          {% else %}Anonynous{% endif %}</b>
         <span>{{ comment.content|safe }}</span>
-        <p>Created: {{ comment.created_at }}</p>
+        <small>
+          Author: {% if comment.author %}{{ comment.author.name }}{% else %}Anonynous{% endif %}
+          &nbsp;|&nbsp;
+          Created: {{ comment.created_at }}
+        </small>
+        <p></p>
+        <p>&nbsp;</p>
       </li>
       {% endfor %}
     </ul>
@@ -23,4 +37,8 @@
   </dt>
   <dd></dd>
 </dl>
+</div>  
 
+{% endblock content %}
+
+{% block links %}{% endblock links %}

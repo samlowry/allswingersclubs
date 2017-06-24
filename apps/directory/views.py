@@ -24,12 +24,15 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.db.models import Count
 
+from forum.models import Group
+
 @render_to('directory/index.html')
 def index(request):
     all_states_list = State.objects.all()
     all_states_list2 = State2.objects.all()
     flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
-    news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).order_by('-created')[:10]
+    # news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).order_by('-created')[:10]
+    groups = Group.objects.filter(site__id=settings.SITE_ID)[:5]
     regions = Region.objects.all()
     return locals()
 

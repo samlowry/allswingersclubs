@@ -1,13 +1,21 @@
-<h1>Group: "{{ group.name }}"</h1>
+{% extends "decorator.html" %}
 
+{% block content %}
+<h1>{{ group.name }} board</h1>
+
+<div id="main">
 <dl>
 {% for post in posts %}
-    <dt><a href="{% url forum.views.forum_post group_post_id=post.id %}">{{ post.title }}</a></dt>
+    <dt><h3><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title }}{% endautoescape %}</a></h2></dt>
     <dd>
-      <p>{{ post.content|safe|truncatechars:30 }}</p>
-      <b>Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}</b>
-      <p>Created: {{ post.created_at }}</p>
-      <p>Comments: {{ post.comments.count }}</p>
+    	<p>{{ post.content|safe|striptags|truncatewords:50 }}</p>
+      	<small>
+      	Comments: {{ post.comments.count }}
+      	&nbsp;|&nbsp;
+      	Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}
+      	&nbsp;|&nbsp;
+      	Created: {{ post.created_at }}
+  		</small>
     </dd>
 {% empty %}
     <dt>No posts in this group.</dt>
@@ -15,3 +23,9 @@
 </dl>
 
 {% include 'forum/pagination.html' with items=posts %}
+
+</div>
+
+{% endblock content %}
+
+{% block links %}{% endblock links %}
