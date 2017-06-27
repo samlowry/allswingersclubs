@@ -6,7 +6,6 @@
 <meta name="Description" content="{% block description %}{{item.descriptionstriptags|truncatewords:40|force_escape}}{% endblock %}">
 <meta name="GOOGLEBOT" content="NOODP">
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-{% block rss_inheader %}{% endblock %}
 <link rel="stylesheet" href="/main.css" type="text/css" media="screen">
 <script type="text/JavaScript" src="/scripts-min.js"></script>
 {% block inhead %}{% endblock %}
@@ -46,7 +45,6 @@
         <a href="{% url registration_register %}">Register</a> |
         <a href="{% url registration_anonymous %}">Add club</a>
     {% endif %}
-		{% block rss_link %}{% endblock %}
 </div>
 
 <div id="addthis">

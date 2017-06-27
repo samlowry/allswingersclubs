@@ -2,21 +2,6 @@
 {% load comments %}
 {% load tagging_tags %}
 
-{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
-
-{% if club.state %}
-	<link rel="alternate" type="application/rss+xml" title="{{club.state}} clubs news" href="/rss/state/{{club.state.usps_name|lower}}/">
-{% endif %}
-{% if club.city.country %}
-	<link rel="alternate" type="application/rss+xml" title="{{ club.city.country }} clubs news" href="/rss/country/{{ club.city.country.name|lower }}/">
-{% endif %}
-
-<link rel="alternate" type="application/rss+xml" title="{{club}} club news" href="/rss/club/{{club.id}}/">
-{% endblock %}
-
-{% block rss_link %} | <a href="/rss/club/{{club.id}}/">RSS</a>{% endblock %}
-
-
 {% block title_suffix %} in {% if club.state %}{{ club.state }}{% else %}{{ club.city.country.name }}{% endif %}{% endblock %}
 
 {% block inhead %}

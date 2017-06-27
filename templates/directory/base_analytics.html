@@ -1,7 +1,5 @@
 {% extends "decorator.html" %}
 
-{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">{% endblock %}
-
 {% block inhead %}
 <style type="text/css" title="currentStyle">
 	@import "/css/demo_page.css";
@@ -86,8 +84,6 @@
   };
   </script>		
 		{% endblock %}
-
-{% block rss_link %} | <a href="/rss/site/">RSS</a>{% endblock %}
 
 {% block inbodytag %}onclick="return false"{% endblock %}
 

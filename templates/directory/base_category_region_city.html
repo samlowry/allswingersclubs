@@ -1,19 +1,5 @@
 {% extends "decorator.html" %}
 
-{% block rss_inheader %}<link rel="alternate" type="application/rss+xml" title="All clubs news" href="/rss/site/">
-{% ifequal region.kind "state" %}
-<link rel="alternate" type="application/rss+xml" title="{{region.name}} clubs news" href="/rss/state/{{region.usps_name|lower}}/">
-{% else %}
-<link rel="alternate" type="application/rss+xml" title="{{ region.name }} clubs news" href="/rss/country/{{ region.name|lower }}/">
-{% endifequal %}
-{% endblock %}
-
-{% block rss_link %} | {% ifequal region.kind "state" %}
-    <a href="/rss/state/{{region.usps_name|lower}}/" >RSS</a>
-{% else %}
-    <a href="/rss/country/{{ region.name|lower }}/" >RSS</a>
-{% endifequal %}{% endblock %}
-
 {% block inhead %}
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAuLQx8b1INTM69RqgjQC-9QDQsDgr9DK8&sensor=false"></script>
