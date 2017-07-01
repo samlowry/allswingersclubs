@@ -1,6 +1,6 @@
 {% extends "decorator.html" %}
 {% load comments %}
-{% load tagging_tags %}
+
 
 {% block title_suffix %} in {% if club.state %}{{ club.state }}{% else %}{{ club.city.country.name }}{% endif %}{% endblock %}
 
@@ -79,18 +79,6 @@
 		{% endfor %}
 	{% endif %}
 	
-	{# tags #}
-	{% tags_for_object club as club_tags %}
-	{% if club_tags %}
-		Tags: <br>	
-		{% for tag in club_tags %}
-			{% if club.state %}
-				<a href="/tag/usa/{{ club.state.usps_name|lower }}/{{ tag.name }}/">{{ tag.name }}</a>
-			{% else %}
-				<a href="/tag/{{ club.city.country.slug }}/{{ tag.name }}/">{{ tag.name }}</a>
-			{% endif %},&nbsp;
-		{% endfor %}
-	{% endif %}
 <br>
 
 {% if not club.email and not club.owner and not club.is_closed %}

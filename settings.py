@@ -141,7 +141,6 @@ INSTALLED_APPS = (
     'reversion',
     'tapes',
     'imagekit',
-    'tagging',
     'keywords',
     'paging',
     'extra_comments',
