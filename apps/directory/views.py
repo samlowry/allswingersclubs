@@ -32,7 +32,7 @@ def index(request):
     all_states_list2 = State2.objects.all()
     flatpages = FlatPage.objects.filter(sites__id__exact=settings.SITE_ID).all()
     # news = News.objects.filter(club__sites__id__exact=settings.SITE_ID).order_by('-created')[:10]
-    groups = Group.objects.filter(site__id=settings.SITE_ID)[:5]
+    groups = Group.current_site_only.all()[:5]
     regions = Region.objects.all()
     return locals()
 
