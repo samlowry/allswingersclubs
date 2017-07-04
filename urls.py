@@ -79,6 +79,7 @@ class CitySitemap(Sitemap):
 class ClubSitemap(Sitemap):
     changefreq = "daily"
     priority = 0.5
+    limit = 1000
 
     def items(self):
         return Club.current_site_only.all()
@@ -90,6 +91,7 @@ class ClubSitemap(Sitemap):
 class HookupSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.7
+    limit = 1000
 
     def items(self):
         return Hookup.current_site_only.all()
