@@ -24,7 +24,7 @@ def _paginate(request, query):
 
 
 def forum_index(request):
-    groups = Group.objects.filter(site__id=get_current_site(request).id)
+    groups = Group.current_site_only.all()
     groups = _paginate(request, groups)
     return render_to_response('forum/index.html', {'groups': groups})
 
