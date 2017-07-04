@@ -5,7 +5,9 @@ from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page
 from directory.models import State, State2, Country, City, Club, Hookup
 from forum.models import Group, GroupPost
+from django.contrib.sites.models import get_current_site
 import settings
+
 
 admin.autodiscover()
 
@@ -26,23 +28,25 @@ class ForumIndexSitemap(Sitemap):
     def items(self):
         return ('',)
 
-# class GroupSitemap(Sitemap):
-#     changefreq = "always"
-#     priority = 0.8
+class GroupSitemap(Sitemap):
+    changefreq = "always"
+    priority = 0.8
+    limit = 1000
 
-#     def items(self):
-#         return Group.current_site_only.all()
+    def items(self):
+        return Group.current_site_only.all()
 
 
-# class GroupPostSitemap(Sitemap):
-#     changefreq = "daily"
-#     priority = 0.5
+class GroupPostSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.5
+    limit = 1000
 
-#     def items(self):
-#         return GroupPost.current_site_only.all()
+    def items(self):
+        return GroupPost.current_site_only.all()
 
-#     def lastmod(self, obj):
-#         return obj.created_at
+    def lastmod(self, obj):
+        return obj.created_at
 
 class StateSitemap(Sitemap):
     changefreq = "always"
@@ -90,7 +94,7 @@ class ClubSitemap(Sitemap):
 
 class HookupSitemap(Sitemap):
     changefreq = "weekly"
-    priority = 0.7
+    priority = 0.3
     limit = 1000
 
     def items(self):
@@ -104,8 +108,8 @@ class HookupSitemap(Sitemap):
 sitemaps = {
     'index': IndexSitemap,
     'forumindex': ForumIndexSitemap,
-    # 'forumboard': GroupSitemap,
-    # 'forumpost': GroupPostSitemap,
+    'forumboard': GroupSitemap,
+    'forumpost': GroupPostSitemap,
     'state': StateSitemap,
     'state2': State2Sitemap,
     'country': CountrySitemap,
