@@ -8,6 +8,7 @@ DEBUG = False
 
 from multisite.threadlocals import SiteIDHook
 SITE_ID = SiteIDHook()
+SITE_ID = 4
 
 APPEND_SLASH = False
 
