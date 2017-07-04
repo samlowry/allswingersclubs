@@ -10,9 +10,12 @@ class TradelinksNode(template.Node):
 		self.var_name = var_name
 
 	def render(self, context):
-		request = context['request']
-		context[self.var_name] = Tradelink.objects.filter(page__site__id__exact=settings.SITE_ID).filter( Q(page__path__exact=request.path) | Q(page__path__exact='*') ).order_by('id')
-		return ''
+		try:	
+			request = context['request']
+			context[self.var_name] = Tradelink.objects.filter(page__site__id__exact=settings.SITE_ID).filter( Q(page__path__exact=request.path) | Q(page__path__exact='*') ).order_by('id')
+			return ''
+		except:
+			pass
 
 import re
 #@register.tag
