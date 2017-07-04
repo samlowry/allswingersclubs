@@ -259,7 +259,7 @@ class Hookup(models.Model):
     def get_absolute_url(self):
         return ('directory.views.hookup', (), {
             'hookup_id': int(self.id),
-            'hookup_urlsafe_title': str(my_slugify(self.title)),
+            'hookup_urlsafe_title': str(my_slugify(self.title)) if my_slugify(self.title) else 'index',
         })
 
 

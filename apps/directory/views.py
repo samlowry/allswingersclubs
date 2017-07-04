@@ -177,6 +177,8 @@ def hookup(request, hookup_id, hookup_urlsafe_title):
     except Hookup.DoesNotExist:
         raise Http404
     real_hookup_urlsafe_title=my_slugify(current_hookup.title)
+    if(real_hookup_urlsafe_title == ''):
+        real_hookup_urlsafe_title='index'
     # # here we do 301 redirect if hookup is closed
     # if(current_hookup.is_closed):
     #     return HttpResponsePermanentRedirect(
