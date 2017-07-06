@@ -1,29 +1,31 @@
 {% extends "decorator.html" %}
 
+{% load paging_extras %}
+
 {% block content %}
 <h1>{{ group.name }} board</h1>
 
 <div id="main">
-<dl>
-{% for post in posts %}
-    <dt><h2><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title }}{% endautoescape %}</a></h2></dt>
-    <dd>
-    	<p>{{ post.content|safe|striptags|truncatewords:50 }}</p>
-      	<small>
-      	Comments: {{ post.comments.count }}
-      	&nbsp;|&nbsp;
-      	Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}
-      	&nbsp;|&nbsp;
-      	Created: {{ post.created_at }}
-  		</small>
-    </dd>
-{% empty %}
-    <dt>No posts in this group.</dt>
-{% endfor %}
-</dl>
-
-{% include 'forum/pagination.html' with items=posts %}
-
+{% paginate posts from request as posts2 per_page 25 False %}
+{{ posts2.paging }}
+  <dl>
+  {% for post in posts2.objects %}
+      <dt><h2><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title }}{% endautoescape %}</a></h2></dt>
+      <dd>
+          <p>{{ post.content|safe|striptags|truncatewords:50 }}</p>
+          <small>
+          Comments: {{ post.comments.count }}
+          &nbsp;|&nbsp;
+          Author: {% if post.author %}{{ post.author.name }}{% else %}UFO{% endif %}
+          &nbsp;|&nbsp;
+          Created: {{ post.created_at }}
+          </small>
+      </dd>
+  {% empty %}
+      <dt>No posts in this group.</dt>
+  {% endfor %}
+  </dl>
+{{ posts2.paging }}
 </div>
 
 {% endblock content %}

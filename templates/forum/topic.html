@@ -1,5 +1,7 @@
 {% extends "decorator.html" %}
 
+{% load paging_extras %}
+
 {% block content %}
 <h1>{{ post.title }}</h1>
 
@@ -15,29 +17,28 @@
     <p></p>
     <h2>Comments:</h2>
 
-    {% include 'forum/pagination.html' with items=comments %}
-    
-    <ul>
-      {% for comment in comments %}
-      <li>
-        <span>{{ comment.content|safe }}</span>
-        <small>
-          Author: {% if comment.author %}{{ comment.author.name }}{% else %}Anonynous{% endif %}
-          &nbsp;|&nbsp;
-          Created: {{ comment.created_at }}
-        </small>
-        <p></p>
-        <p>&nbsp;</p>
-      </li>
-      {% endfor %}
-    </ul>
-
-    {% include 'forum/pagination.html' with items=comments %}
+    {% paginate comments from request as comments2 per_page 25 False %}
+    {{ comments2.paging }}
+      <ul>
+        {% for comment in comments2.objects %}
+        <li>
+          <span>{{ comment.content|safe }}</span>
+          <small>
+            Author: {% if comment.author %}{{ comment.author.name }}{% else %}Anonynous{% endif %}
+            &nbsp;|&nbsp;
+            Created: {{ comment.created_at }}
+          </small>
+          <p></p>
+          <p>&nbsp;</p>
+        </li>
+        {% endfor %}
+      </ul>
+    {{ comments2.paging }}
 
   </dt>
   <dd></dd>
 </dl>
-</div>  
+</div>
 
 {% endblock content %}
 
