@@ -1,21 +1,23 @@
 {% extends "decorator.html" %}
 
+{% load paging_extras %}
+
 {% block content %}
 <h1>Forum Boards</h1>
 
 <div id="main">
-<dl>
-{% for group in groups %}
-    <dt><h2><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name|safe }} board</a> ({{ group.posts.count }} posts)</h2></dt>
+{% paginate groups from request as groups2 per_page 25 False %}
+{{ groups2.paging }}
+  <dl>
+  {% for group in groups2.objects %}
+      <dt><h2><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name|safe }} board</a> ({{ group.posts.count }} posts)</h2></dt>
 
-    <dd>{{ group.description|striptags|safe }}</dd>
-{% empty %}
-    <dt>No groups.</dt>
-{% endfor %}
-</dl>
-
-{% include 'forum/pagination.html' with items=groups %}
-
+      <dd>{{ group.description|striptags|safe }}</dd>
+  {% empty %}
+      <dt>No groups.</dt>
+  {% endfor %}
+  </dl>
+{{ groups2.paging }}
 </div>
 
 {% endblock content %}

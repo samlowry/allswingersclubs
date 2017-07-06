@@ -35,9 +35,11 @@ class Group(models.Model):
             'group_id': int(self.id),
         })
 
+
 class GroupPostCurrentSiteManager(models.Manager):
     def get_query_set(self):
-        return super(GroupPostCurrentSiteManager, self).get_query_set().filter(group__site=settings.SITE_ID)    
+        return super(GroupPostCurrentSiteManager, self).get_query_set().filter(group__site=settings.SITE_ID)
+
 
 class GroupPost(models.Model):
     group = models.ForeignKey(Group, null=False, blank=False, on_delete=models.CASCADE)
