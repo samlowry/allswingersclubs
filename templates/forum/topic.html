@@ -1,9 +1,13 @@
 {% extends "decorator.html" %}
-
 {% load paging_extras %}
 
+{% block breadcrumbs %}
+&gt; <a href="/forum/">Forum</a> &gt; <a href="{{ post.group.get_absolute_url }}">{{ post.group.name|safe }}</a> board &gt; topic "{{ post.title|safe }}"
+{% endblock %}
+
 {% block content %}
-<h1>{{ post.title }}</h1>
+
+<h1>{{ post.title|safe }}</h1>
 
 <div id="main">
 <dl>

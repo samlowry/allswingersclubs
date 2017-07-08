@@ -2,6 +2,10 @@
 
 {% load paging_extras %}
 
+{% block breadcrumbs %}
+&gt; <a href="/forum/">Forum</a> &gt; {{ group.name|safe }}</a> board
+{% endblock %}
+
 {% block content %}
 <h1>{{ group.name }} board</h1>
 
@@ -10,7 +14,7 @@
 {{ posts2.paging }}
   <dl>
   {% for post in posts2.objects %}
-      <dt><h2><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title }}{% endautoescape %}</a></h2></dt>
+      <dt><h2><a href="{% url forum.views.forum_post group_post_id=post.id %}">{% autoescape off %}{{ post.title|safe }}{% endautoescape %}</a></h2></dt>
       <dd>
           <p>{{ post.content|safe|striptags|truncatewords:50 }}</p>
           <small>
