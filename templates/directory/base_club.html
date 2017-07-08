@@ -102,13 +102,7 @@
 		<div class="comment">
 				<div class="meta">
 					<span class="nickname">
-						{% if comment.user_url %}
-							<a href="{{ comment.user_url }}" rel="nofollow">
-						{% endif %}
 								{{ comment.user_name }}{% if comment.by_owner %}<sup><small>[club owner]</small></sup>{% endif %}
-						{% if comment.user_url %}
-							</a>
-						{% endif %}								
 					</span>
 						{{ comment.submit_date|timesince }} ago said:
 					</div>
