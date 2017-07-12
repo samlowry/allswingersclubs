@@ -1,4 +1,7 @@
 {% extends "decorator.html" %}
+
+{% block title %}{{ post.title|safe }}{% endblock %}
+
 {% load paging_extras %}
 
 {% block breadcrumbs %}

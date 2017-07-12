@@ -1,5 +1,7 @@
 {% extends "decorator.html" %}
 
+{% block title %}{{ group.name|safe }} board{% endblock %}
+
 {% load paging_extras %}
 
 {% block breadcrumbs %}
