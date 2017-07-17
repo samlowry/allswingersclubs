@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.db.models import Max
 from django.shortcuts import get_object_or_404, render
 from django.contrib.sites.models import get_current_site
 
@@ -7,7 +8,9 @@ from forum.models import Group, GroupPost, PostAuthor
 
 
 def forum_index(request):
-    groups = Group.current_site_only.all()
+    groups = Group.current_site_only.annotate().all().annotate(
+        max_post_date=Max('grouppost__created_at')
+    ).order_by('-max_post_date')
     return render(request, 'forum/index.html', {'groups': groups})
 
 
