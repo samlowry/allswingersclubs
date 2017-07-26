@@ -10,7 +10,7 @@ from forum.models import Group, GroupPost, PostAuthor
 def forum_index(request):
     groups = Group.current_site_only.annotate().all().annotate(
         max_post_date=Max('grouppost__created_at')
-    ).order_by('-max_post_date')
+    ).order_by('max_post_date')
     return render(request, 'forum/index.html', {'groups': groups})
 
 
