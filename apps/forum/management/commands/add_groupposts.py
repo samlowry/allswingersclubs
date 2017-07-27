@@ -95,9 +95,9 @@ class Command(BaseCommand):
             manager = getattr(model, 'objects', None)
 
             if not manager:
-                manager = getattr(model, 'current_site_only')
+                manager = getattr(model, '  ')
 
-            if not management:
+            if not manager:
                 raise AttributeError('Unable to find object manager for model %s' % model)
 
             obj = manager.get(**search_fields)
