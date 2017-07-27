@@ -92,7 +92,15 @@ class Command(BaseCommand):
         created = False
 
         try:
-            obj = model.objects.get(**search_fields)
+            manager = getattr(model, 'objects', None)
+
+            if not manager:
+                manager = getattr(model, current_site_only)
+
+            if not management:
+                raise AttributeError('Unable to find object manager for model %s' % model)
+
+            obj = manager.get(**search_fields)
         except model.DoesNotExist:
             obj = model(**fields)
             obj.save()
