@@ -60,7 +60,10 @@ class Accessor(object):
             return
         fp.seek(0)
         fp = StringIO(fp.read())
-        self._img, self._fmt = self.spec.process(Image.open(fp), self._obj)
+        try:
+            self._img, self._fmt = self.spec.process(Image.open(fp), self._obj)
+        except IOError:
+            return
         # save the new image to the cache
         content = ContentFile(self._get_imgfile().read())
         self._obj._storage.save(self.name, content)
