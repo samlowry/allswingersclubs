@@ -5,18 +5,9 @@
 {% block content %}
 <h1>Hmm, sorry, we havent page you requested</h1>
 <div id="main">
-<big>Hello! We can't find content you looking for!!! You can continue to explore the site at <a href="/">the homepage</a> or...</big>
-You can look for some naughty clubs here:
+<big>Hello! We can't find content you looking for!!! You can continue to explore this naughty site at <a href="/">the homepage</a><br />
+</big>
 
-{% load partition %}
-<table>
-{% for row in all_states_list|columns:3 %}
-    <tr>
-    {% for state in row %}
-        <td class="column"><a href="{{ state.get_absolute_url }}">{{ state.name }}</a></td>
-    {% endfor %}
-    </tr>
-{% endfor %}
-</table>
+<img src="/img/404.jpg" />
 </div>
 {% endblock %}
