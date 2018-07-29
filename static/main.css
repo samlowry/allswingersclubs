@@ -3,7 +3,7 @@ body#shorturl{overflow:hidden !important;}
 #content{width:870px;margin:00px 0 0px 50px;padding:20px 10px 10px 10px;}
 #main{font-size:16px}
 #description{margin-bottom:15px;}
-#clubs{width:500px}
+/*#clubs{width:500px}*/
 .club_image{margin-top:10px;padding:3px;border:1px solid gray}
 h1,h2,h3,h4,h5,h6{color:gray;border-bottom:1px dotted #cccccc}
 hr{color:#cccccc;background-color:#cccccc;height:1px;border:0;}
