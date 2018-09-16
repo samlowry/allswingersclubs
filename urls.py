@@ -107,9 +107,9 @@ class HookupSitemap(Sitemap):
 
 sitemaps = {
     'index': IndexSitemap,
-    'forumindex': ForumIndexSitemap,
-    'forumboard': GroupSitemap,
-    'forumpost': GroupPostSitemap,
+    # 'forumindex': ForumIndexSitemap,
+    # 'forumboard': GroupSitemap,
+    # 'forumpost': GroupPostSitemap,
     'state': StateSitemap,
     'state2': State2Sitemap,
     'country': CountrySitemap,
@@ -147,7 +147,7 @@ urlpatterns = patterns(
     (r'^accounts/', include('registration.backends.default.urls')),
     (r'^reversions/', include('reversion.urls')),
     (r'^search/', include('keywords.urls')),
-    # (r'^forum/', include('forum.urls')),
+    (r'^forum/', include('forum.urls')),
 )
 
 if settings.DEBUG:
