@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.contrib.sitemaps import FlatPageSitemap, Sitemap
@@ -98,7 +99,7 @@ class HookupSitemap(Sitemap):
     limit = 1000
 
     def items(self):
-        return Hookup.current_site_only.all()
+        return Hookup.current_site_only.filter(datetime_of_publish__range=[datetime.date(1900, 1, 1),datetime.date.today()]).get()
 
     def lastmod(self, obj):
         return obj.date_of_publish
