@@ -147,7 +147,7 @@ urlpatterns = patterns(
     (r'^accounts/', include('registration.backends.default.urls')),
     (r'^reversions/', include('reversion.urls')),
     (r'^search/', include('keywords.urls')),
-    (r'^forum/', include('forum.urls')),
+    # (r'^forum/', include('forum.urls')),
 )
 
 if settings.DEBUG:
