@@ -184,7 +184,7 @@ class SearchManager(models.Manager):
 
 class OpenHookupsWhichPublishedManager(models.Manager):
     def get_query_set(self):
-        return super(OpenHookupsWhichPublishedManager, self).get_query_set().filter(sites__id__exact=settings.SITE_ID, datetime_of_publish__range=[datetime.date(1900, 1, 1),datetime.date.today])
+        return super(OpenHookupsWhichPublishedManager, self).get_query_set().filter(sites__id__exact=settings.SITE_ID, datetime_of_publish__range=[datetime.date(1900, 1, 1),datetime.date.today()])
 
 class Hookup(models.Model):
     title = models.CharField(max_length=255)
