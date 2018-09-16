@@ -102,7 +102,7 @@ def state2(request, state_usps_name):
         region.description = StateDescription2.current_site_only.filter(state=region).get()
     except StateDescription2.DoesNotExist:
         pass
-    clubs = Hookup.current_site_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).filter(datetime_of_publish__range=[datetime(1900, 1, 1),datetime.today()]).order_by('datetime_of_publish').reverse()
+    clubs = Hookup.current_site_only.select_related('state','city').filter(state__usps_name__exact=state_usps_name).filter(datetime_of_publish__range=[datetime.date(1900, 1, 1),datetime.date.today()]).order_by('datetime_of_publish').reverse()
 
     cities_w_clubs = City.objects.filter(state__usps_name__exact=state_usps_name).filter(clubs__id__in=clubs).values('id')
     empty_cities = City.objects.filter(state__usps_name__exact=state_usps_name).exclude(id__in = cities_w_clubs)    
@@ -174,7 +174,7 @@ def club(request, club_id, club_urlsafe_title):
 @csrf_protect
 def hookup(request, hookup_id, hookup_urlsafe_title):
     try:
-        current_hookup = Hookup.current_site_only.select_related('state','city').filter(id__exact=hookup_id).filter(datetime_of_publish__range=[datetime(1900, 1, 1),datetime.today()]).get()
+        current_hookup = Hookup.current_site_only.select_related('state','city').filter(id__exact=hookup_id).filter(datetime_of_publish__range=[datetime.date(1900, 1, 1),datetime.date.today()]).get()
     except Hookup.DoesNotExist:
         raise Http404
     real_hookup_urlsafe_title=my_slugify(current_hookup.title)
