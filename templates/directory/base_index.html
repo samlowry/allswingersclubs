@@ -19,21 +19,6 @@
 {% endfor %}
 </table>
 
-
-{% block index_page_forum %}
-<h2>Last posts on {% block index_page_forum_title %}{% endblock %} forum boards</h2>
-
-{% for group in groups %}
-    <dt><h3><a href="{% url forum.views.forum_group group_id=group.id %}">{{ group.name|safe }} board</a> ({{ group.posts.count }} posts)</h2></dt>
-
-    <dd>{{ group.description|striptags|safe }}</dd>
-{% empty %}
-    <dt>No groups.</dt>
-{% endfor %}
-
-<h3><a href="/forum/">All forum boards…</a></h3>
-{% endblock %}
-
 {% block index_page_hookups %}
 <h2>{% block index_page_hookuptitle %}{% endblock %}</h2>
 <table>
