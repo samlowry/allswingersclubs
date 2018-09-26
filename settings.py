@@ -133,7 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'linkator',
     'directory',
-    'forum',
+    # 'forum',
     'comments',
     'south',
     'registration',

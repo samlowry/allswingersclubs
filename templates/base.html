@@ -41,12 +41,10 @@
         Welcome, <a href="/accounts/profile/">{{ user.username }}</a> |
         <a href="/accounts/logout/">Logout</a> |
         <a href="{% url directory.views.add_club %}">Add club</a> |
-        <a href="{% url forum.views.forum_index %}">Forum</a>
     {% else %}
         <a href="/accounts/login/">Login</a> |
         <a href="{% url registration_register %}">Register</a> |
         <a href="{% url registration_anonymous %}">Add club</a> |
-        <a href="{% url forum.views.forum_index %}">Forum</a>
     {% endif %}
 </div>
 
