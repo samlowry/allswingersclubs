@@ -150,6 +150,8 @@ urlpatterns = patterns(
     (r'^forum/', include('forum.urls')),
 )
 
+handler404 = 'directory.views.view_404'
+
 if settings.DEBUG:
     urlpatterns += patterns('', (r'^(?P<path>.+\.(?:css|js|jpg|gif|png))$',
                             'django.views.static.serve', {'document_root': 'static'}) )
