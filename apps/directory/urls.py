@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+handler404 = 'directory.views.view_404'
 
 urlpatterns = patterns(
     'directory.views',
