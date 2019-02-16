@@ -30,7 +30,7 @@ from forum.models import Group
 def view_404(request):
     # make a redirect to homepage
     # you can use the name of url or just the plain link
-    return redirect('/') # or redirect('name-of-index-url')
+    return redirect('/', permanent=True) # or redirect('name-of-index-url')
 
 @render_to('directory/index.html')
 def index(request):
