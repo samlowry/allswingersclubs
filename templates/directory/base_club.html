@@ -94,9 +94,6 @@
 {# news div end #}
 <div>
 	{% get_comment_list for club as comment_list %}
-	{% if not comment_list %}
-		<br>
-	{% else %}
 		<h3>Comments</h3>
 		{% for comment in comment_list %}
 		<div class="comment">
