@@ -44,6 +44,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
+        #'ENGINE': 'mysql.connector.django',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'clubs',
         'USER': 'clubs',
