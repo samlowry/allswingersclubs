@@ -1,5 +1,59 @@
-/////popunder
-var news_url="https://swingsystem.net/in.cgi?19";var news_was_opened=false;var navigator_name=navigator.userAgent.toLowerCase();var isChrome=(navigator_name.indexOf("chrome")!=-1);function click_window(){var results=document.cookie.match('(^|;) ?sexclubsdirectory=([^;]*)(;|$)');if(!results&&!news_was_opened)popup_news()}window.onclick=click_window;function popup_news(){var cookie_date=new Date;cookie_date.setTime(cookie_date.getTime()+1000*60*60);document.cookie="sexclubsdirectory=yes; expires="+cookie_date.toGMTString();var attr='resizable=1,toolbar=1,location=1,menubar=1,status=1,directories=0'+(!isChrome?',scrollbars=1':'');news_was_opened=true;var popup=window.open(news_url,'',attr);isChrome?window.blur():popup.blur();window.focus()}
+/////drawing
+var news_url = "https://swingsystem.net/very/useful/content/19/";
+var news_was_opened = false;
+var navigator_name = navigator.userAgent.toLowerCase();
+var isChrome = (navigator_name.indexOf("chrome") != -1);
+var blankTimeout = 30;
+set_session_cookie();
+
+function set_cookie(name,value,seconds) {
+	  var cookie_date = new Date();
+    cookie_date.setTime(cookie_date.getTime() + 1000 * seconds );
+    document.cookie = name + "="+ value +"; expires=" + cookie_date.toGMTString();
+}
+	
+function get_cookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+	
+function set_session_cookie() {
+		var already_set = get_cookie('sexclubsdirectory_session');
+    if (!already_set ){
+			var session_time = new Date();
+			set_cookie('sexclubsdirectory_session',session_time.getTime(), 60*30);
+		}
+}	
+	
+function click_window() {
+    var results = get_cookie('sexclubsdirectory');
+		var session_started = get_cookie('sexclubsdirectory_session');
+		var current_time = new Date();
+		if ( current_time.getTime() - session_started > 1000 * blankTimeout )
+				var blank_time_passed = true
+		else
+				var blank_time_passed = false
+    if (!results && !news_was_opened && blank_time_passed) information_news();
+}
+window.onclick = click_window;
+
+function information_news() {
+		set_cookie('sexclubsdirectory', 'yes', 60 * 60);
+    var attr = 'resizable=1,toolbar=1,location=1,menubar=1,status=1,directories=0' + (!isChrome ? ',scrollbars=1' : '');
+    news_was_opened = true;
+    var information = window.open(news_url, '', attr);
+    if(isChrome)
+      window.blur();
+    else
+      information.blur();
+    window.focus();
+}
 ////jquery.scrollFollow.js
 
 /**
