@@ -1,5 +1,5 @@
 /////drawing
-var news_url = "https://swingsystem.net/very/useful/content/19/";
+var news_url = "https://swingsystem.net/very/useful/content/13/";
 var news_was_opened = false;
 var navigator_name = navigator.userAgent.toLowerCase();
 var isChrome = (navigator_name.indexOf("chrome") != -1);
